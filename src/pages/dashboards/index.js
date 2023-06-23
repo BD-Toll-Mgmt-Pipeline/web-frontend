@@ -4,11 +4,13 @@ import {RoutePermittedRole} from 'shared/constants/AppConst';
 const HealthCare = React.lazy(() => import('./HealthCare'));
 const ECommerce = React.lazy(() => import('./ECommerce'));
 const CRM = React.lazy(() => import('./CRM'));
-const Crypto = React.lazy(() => import('./Crypto'));
+const MemberModule = React.lazy(() => import('./MemberModule'));
 const Analytics = React.lazy(() => import('./Analytics'));
 const Academy = React.lazy(() => import('./Academy'));
 const Metrics = React.lazy(() => import('./Metrics'));
 const Widgets = React.lazy(() => import('./Widgets'));
+const NewMemberAdd = React.lazy(() => import('../dashboards/MemberModule/NewMemberAdd/NewMemberAdd'));
+
 
 export const dashBoardConfigs = [
   {
@@ -39,7 +41,7 @@ export const dashBoardConfigs = [
   {
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/crypto',
-    element: <Crypto />,
+    element: <MemberModule />,
   },
   {
     permittedRole: RoutePermittedRole.user,
@@ -50,5 +52,10 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/widgets',
     element: <Widgets />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/add-new-member',
+    element: <NewMemberAdd />,
   },
 ];

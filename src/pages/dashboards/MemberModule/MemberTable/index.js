@@ -7,22 +7,16 @@ import TableHeading from './TableHeading';
 import TableItem from './TableItem';
 import AppTableContainer from '@crema/core/AppTableContainer';
 
-const PopularCoinsTable = (props) => {
-  const {popularCoins} = props;
-
+const MemberTable = ({orderList}) => {
   return (
     <AppTableContainer>
-      <Table>
-        <TableHead
-          sx={{
-            borderBottom: '0 none',
-          }}
-        >
+      <Table className='table'>
+        <TableHead>
           <TableHeading />
         </TableHead>
         <TableBody>
-          {popularCoins.map((row) => (
-            <TableItem key={row.name} row={row} />
+          {orderList.map((data) => (
+            <TableItem data={data} key={data.customerId} />
           ))}
         </TableBody>
       </Table>
@@ -30,12 +24,14 @@ const PopularCoinsTable = (props) => {
   );
 };
 
-export default PopularCoinsTable;
+export default MemberTable;
 
-PopularCoinsTable.defaultProps = {
-  popularCoins: [],
+MemberTable.defaultProps = {
+  customerList: [],
+  orderList: [],
 };
 
-PopularCoinsTable.propTypes = {
-  popularCoins: PropTypes.array,
+MemberTable.propTypes = {
+  customerList: PropTypes.array,
+  orderList: PropTypes.array,
 };
