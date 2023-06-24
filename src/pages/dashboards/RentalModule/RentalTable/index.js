@@ -7,7 +7,7 @@ import TableHeading from './TableHeading';
 import TableItem from './TableItem';
 import AppTableContainer from '@crema/core/AppTableContainer';
 
-const TransactionTable = ({transactionData}) => {
+const RentalTable = ({orderList}) => {
   return (
     <AppTableContainer>
       <Table className='table'>
@@ -15,8 +15,8 @@ const TransactionTable = ({transactionData}) => {
           <TableHeading />
         </TableHead>
         <TableBody>
-          {transactionData.map((data) => (
-            <TableItem data={data} key={data.id} />
+          {orderList.map((data) => (
+            <TableItem data={data} key={data.customerId} />
           ))}
         </TableBody>
       </Table>
@@ -24,12 +24,14 @@ const TransactionTable = ({transactionData}) => {
   );
 };
 
-export default TransactionTable;
+export default RentalTable;
 
-TransactionTable.defaultProps = {
-  transactionData: [],
+RentalTable.defaultProps = {
+  customerList: [],
+  orderList: [],
 };
 
-TransactionTable.propTypes = {
-  transactionData: PropTypes.array,
+RentalTable.propTypes = {
+  customerList: PropTypes.array,
+  orderList: PropTypes.array,
 };

@@ -1,20 +1,16 @@
 import React from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import {grey} from '@mui/material/colors';
 import {Fonts} from 'shared/constants/AppEnums';
 
 const TableHeading = () => {
   return (
     <TableRow
       sx={{
-        borderBottom: '0 none',
-        color: grey[500],
-        '& .tableCell': {
+        '& th': {
           fontSize: 13,
           padding: 2,
           fontWeight: Fonts.BOLD,
-          backgroundColor: (theme) => theme.palette.background.paper,
           '&:first-of-type': {
             pl: 5,
           },
@@ -24,13 +20,12 @@ const TableHeading = () => {
         },
       }}
     >
-      <TableCell className='tableCell'>Page name</TableCell>
-      <TableCell align='right' className='tableCell'>
-        Page Views
-      </TableCell>
-      <TableCell align='right' className='tableCell'>
-        Unique Visitors
-      </TableCell>
+      <TableCell>তারিখ</TableCell>
+      <TableCell>নাম</TableCell>
+      <TableCell>মোবাইল নাম্বার</TableCell>
+      <TableCell>ভাড়ার ধরণ</TableCell>
+      <TableCell>অগ্রিম পেমেন্ট</TableCell>
+      <TableCell>ব্যবস্থা</TableCell>
     </TableRow>
   );
 };

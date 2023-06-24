@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {
@@ -35,7 +35,47 @@ const validationSchema = Yup.object().shape({
   ),
 });
 
-const NewMemberAdd = () => {
+const EditMember = () => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [memberDetails, setMember] = useState({
+    name: '',
+    memberId: '',
+    fatherName: '',
+    motherName: '',
+    permanentAddress: '',
+    presentAddress: '',
+    age: '',
+    education: '',
+    voterId: '',
+    mobileNumber: '',
+    guardianName: '',
+    relationship: '',
+    nomineeName: '',
+    nomineeAddress: '',
+    identifyingMemberName: '',
+    identifyingMemberAddress: '',
+  });
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('');
+
+  useEffect(() => {
+    getMember();
+  }, [setMember]);
+
+  const getMember = async () => {
+    let id = 1231323143;
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/members/${id}`,
+      );
+      setMember(response.data);
+      console.log('Members:', memberDetails);
+    } catch (error) {
+      console.error('Failed to get members');
+      console.error('Error:', error.message);
+    }
+  };
+
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
       const response = await axios.post(
@@ -64,20 +104,18 @@ const NewMemberAdd = () => {
     setSnackbarOpen(false);
   };
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('');
+  console.log(memberDetails, ' skdj dkn dkn dfkjdn kj');
 
   return (
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
           <Typography variant='h5' mb={4}>
-            Add Member Form
+            Edit Member Form
           </Typography>
           <Formik
             initialValues={{
-              name: '',
+              name: memberDetails.name || '',
               memberId: '',
               fatherName: '',
               motherName: '',
@@ -118,6 +156,7 @@ const NewMemberAdd = () => {
                       fullWidth
                       error={!!errors.memberId}
                       helperText={<ErrorMessage name='memberId' />}
+                      placeholder='Enter member ID'
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -367,4 +406,4 @@ const NewMemberAdd = () => {
   );
 };
 
-export default NewMemberAdd;
+export default EditMember;

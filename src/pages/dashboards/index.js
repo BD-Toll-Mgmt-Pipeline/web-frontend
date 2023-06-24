@@ -1,15 +1,17 @@
 import React from 'react';
 import {RoutePermittedRole} from 'shared/constants/AppConst';
+import EditMember from './MemberModule/EditMember/EditMember';
 
 const HealthCare = React.lazy(() => import('./HealthCare'));
 const ECommerce = React.lazy(() => import('./ECommerce'));
 const CRM = React.lazy(() => import('./CRM'));
 const MemberModule = React.lazy(() => import('./MemberModule'));
-const Analytics = React.lazy(() => import('./Analytics'));
+const RentalModule = React.lazy(() => import('./RentalModule'));
 const Academy = React.lazy(() => import('./Academy'));
 const Metrics = React.lazy(() => import('./Metrics'));
 const Widgets = React.lazy(() => import('./Widgets'));
 const NewMemberAdd = React.lazy(() => import('../dashboards/MemberModule/NewMemberAdd/NewMemberAdd'));
+const NewRentalAdd = React.lazy(() => import('../dashboards/RentalModule/NewRentalAdd/NewRentalAdd'));
 
 
 export const dashBoardConfigs = [
@@ -21,7 +23,7 @@ export const dashBoardConfigs = [
   {
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/analytics',
-    element: <Analytics />,
+    element: <RentalModule />,
   },
   {
     permittedRole: RoutePermittedRole.user,
@@ -57,5 +59,15 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/add-new-member',
     element: <NewMemberAdd />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/edit-member/:id',
+    element: <EditMember />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/add-new-rental',
+    element: <NewRentalAdd />,
   },
 ];
