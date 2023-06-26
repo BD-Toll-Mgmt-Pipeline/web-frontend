@@ -20,13 +20,12 @@ const TableHeading = () => {
         },
       }}
     >
-      <TableCell>Order ID</TableCell>
-      <TableCell>Product</TableCell>
-      <TableCell>Customer</TableCell>
-      <TableCell>Delivery Date</TableCell>
-      <TableCell>Price</TableCell>
-      <TableCell>Status</TableCell>
-      <TableCell>Actions</TableCell>
+      <TableCell>তারিখ</TableCell>
+      <TableCell>নাম</TableCell>
+      <TableCell>মোবাইল নাম্বার</TableCell>
+      <TableCell>ভাড়ার ধরণ</TableCell>
+      <TableCell>অগ্রিম পেমেন্ট</TableCell>
+      <TableCell>ব্যবস্থা</TableCell>
     </TableRow>
   );
 };

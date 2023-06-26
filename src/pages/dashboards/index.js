@@ -1,9 +1,13 @@
 import React from 'react';
 import {RoutePermittedRole} from 'shared/constants/AppConst';
 import EditMember from './MemberModule/EditMember/EditMember';
+import NewRentalTypeAdd from './RentalModule/NewRentalTypeAdd/NewRentalTypeAdd';
+import RentalReport from './RentalModule/RentalReport/RentalReport';
+import PaymentVoucher from './VoucherModule/PaymentVoucher/PaymentVoucher';
+import ReceiveVoucher from './VoucherModule/ReceiveVoucher/ReceiveVoucher';
 
 const HealthCare = React.lazy(() => import('./HealthCare'));
-const ECommerce = React.lazy(() => import('./ECommerce'));
+const VoucherModule = React.lazy(() => import('./VoucherModule'));
 const CRM = React.lazy(() => import('./CRM'));
 const MemberModule = React.lazy(() => import('./MemberModule'));
 const RentalModule = React.lazy(() => import('./RentalModule'));
@@ -28,7 +32,7 @@ export const dashBoardConfigs = [
   {
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/e-commerce',
-    element: <ECommerce />,
+    element: <VoucherModule />,
   },
   {
     permittedRole: RoutePermittedRole.user,
@@ -69,5 +73,25 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/add-new-rental',
     element: <NewRentalAdd />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/add-new-rental-type',
+    element: <NewRentalTypeAdd />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/rental-report',
+    element: <RentalReport />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/add-payment-voucher',
+    element: <PaymentVoucher />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/add-receive-voucher',
+    element: <ReceiveVoucher />,
   },
 ];

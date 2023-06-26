@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
   age: Yup.number().required('Age is required'),
   education: Yup.string().required('Education qualification is required'),
   voterId: Yup.string().required('Voter ID is required'),
-  mobileNumber: Yup.string().required('Mobile Number is required'),
+  phone: Yup.string().required('Mobile Number is required'),
   guardianName: Yup.string().required('Guardian Name is required'),
   relationship: Yup.string().required('Relationship with Guardian is required'),
   nomineeName: Yup.string().required('Nominee Name is required'),
@@ -86,7 +86,7 @@ const NewMemberAdd = () => {
               age: '',
               education: '',
               voterId: '',
-              mobileNumber: '',
+              phone: '',
               guardianName: '',
               relationship: '',
               nomineeName: '',
@@ -254,10 +254,10 @@ const NewMemberAdd = () => {
                     <Field
                       as={TextField}
                       label='মোবাইল নাম্বারঃ'
-                      name='mobileNumber'
+                      name='phone'
                       fullWidth
-                      error={!!errors.mobileNumber}
-                      helperText={<ErrorMessage name='mobileNumber' />}
+                      error={!!errors.phone}
+                      helperText={<ErrorMessage name='phone' />}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -303,7 +303,7 @@ const NewMemberAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='সনাক্তকারি সদস্যঃ   নামঃ'
+                      label='সনাক্তকারি সদস্যর নামঃ'
                       name='identifyingMemberName'
                       fullWidth
                       error={!!errors.identifyingMemberName}

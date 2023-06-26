@@ -7,6 +7,8 @@ import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 
+
+
 const Crypto = () => {
   const [members, setMembers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);

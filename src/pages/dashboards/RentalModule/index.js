@@ -24,7 +24,7 @@ const Analytics = () => {
           <div style={{marginTop: '30px'}}>
             <SearchBar />
           </div>
-          <div style={{display:'flex'}}>
+          <div style={{display: 'flex'}}>
             <div>
               <RouterLink to={`/dashboard/add-new-rental`} underline='none'>
                 <Button
@@ -38,7 +38,19 @@ const Analytics = () => {
               </RouterLink>
             </div>
             <div>
-              <RouterLink to={`/dashboard/add-new-member`} underline='none'>
+              <RouterLink to={`/dashboard/add-new-rental-type`} underline='none'>
+                <Button
+                  variant='outlined'
+                  sx={{float: 'right', margin: '30px'}}
+                  color='primary'
+                  // autoFocus
+                >
+                  নতুন ভাড়ার ধরণ সংযুক্তি
+                </Button>
+              </RouterLink>
+            </div>
+            <div>
+              <RouterLink to={`/dashboard/rental-report`} underline='none'>
                 <Button
                   variant='outlined'
                   sx={{float: 'right', margin: '30px'}}

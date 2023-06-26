@@ -8,44 +8,35 @@ import {
   Paper,
   Typography,
   Snackbar,
+  MenuItem,
 } from '@mui/material';
+import {DatePicker} from '@mui/lab';
 import {Alert} from '@mui/material';
+
 const axios = require('axios');
 
 const validationSchema = Yup.object().shape({
+  date: Yup.date().required('Date is required'),
   name: Yup.string().required('Name is required'),
-  memberId: Yup.string().required('Member Number is required'),
-  fatherName: Yup.string().required("Father's Name is required"),
-  motherName: Yup.string().required("Mother's Name is required"),
   permanentAddress: Yup.string().required('Permanent Address is required'),
   presentAddress: Yup.string().required('Present Address is required'),
-  age: Yup.number().required('Age is required'),
-  education: Yup.string().required('Education qualification is required'),
   voterId: Yup.string().required('Voter ID is required'),
   mobileNumber: Yup.string().required('Mobile Number is required'),
-  guardianName: Yup.string().required('Guardian Name is required'),
-  relationship: Yup.string().required('Relationship with Guardian is required'),
-  nomineeName: Yup.string().required('Nominee Name is required'),
-  nomineeAddress: Yup.string().required('Nominee Address is required'),
-  identifyingMemberName: Yup.string().required(
-    'Identifying Member Name is required',
-  ),
-  identifyingMemberAddress: Yup.string().required(
-    'Identifying Member Address is required',
-  ),
+  advancepayment: Yup.string().required('Advance Payment is required'),
+  rentType: Yup.string().required('Rent Type is required'),
 });
 
 const NewRentalAdd = () => {
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_BASE_URL + '/members',
+        process.env.REACT_APP_BASE_URL + '/rental',
         values,
       );
 
       console.log('Member created successfully');
       console.log('Response:', response.data);
-      setSnackbarMessage('সদস্য সফলভাবে তৈরী হয়েছে ');
+      setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
       resetForm();
@@ -68,6 +59,12 @@ const NewRentalAdd = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
+  const rentTypeOptions = [
+    {value: '1', label: 'হাউস/ফ্লাট'},
+    {value: '2', label: 'দোকান'},
+    {value: '3', label: 'গাড়ি/মাইক্রো '},
+  ];
+
   return (
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
@@ -77,22 +74,14 @@ const NewRentalAdd = () => {
           </Typography>
           <Formik
             initialValues={{
+              date: new Date(),
               name: '',
-              memberId: '',
-              fatherName: '',
-              motherName: '',
               permanentAddress: '',
               presentAddress: '',
-              age: '',
-              education: '',
               voterId: '',
               mobileNumber: '',
-              guardianName: '',
-              relationship: '',
-              nomineeName: '',
-              nomineeAddress: '',
-              identifyingMemberName: '',
-              identifyingMemberAddress: '',
+              advancepayment: '',
+              rentType: '',
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -102,14 +91,22 @@ const NewRentalAdd = () => {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <Field
-                      as={TextField}
+                      as={DatePicker}
                       label='তারিখ'
                       name='date'
                       fullWidth
-                      error={!!errors.identifyingMemberAddress}
-                      helperText={
-                        <ErrorMessage name='identifyingMemberAddress' />
-                      }
+                      renderInput={(props) => (
+                        <TextField {...props} inputFormat='DD/MM/YYYY' />
+                      )}
+                      error={!!errors.date}
+                      helperText={<ErrorMessage name='date' />}
+                      PopperProps={{
+                        onClose: () => {
+                          const field =
+                            document.querySelector('input[name="date"]');
+                          field.blur();
+                        },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -121,6 +118,23 @@ const NewRentalAdd = () => {
                       error={!!errors.name}
                       helperText={<ErrorMessage name='name' />}
                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      select
+                      label='ভাড়ার ধরণঃ'
+                      name='rentType'
+                      fullWidth
+                      error={!!errors.rentType}
+                      helperText={<ErrorMessage name='rentType' />}
+                    >
+                      {rentTypeOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Field>
                   </Grid>
                   <Grid item xs={12}>
                     <Field
@@ -162,19 +176,17 @@ const NewRentalAdd = () => {
                       helperText={<ErrorMessage name='mobileNumber' />}
                     />
                   </Grid>
-
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='অগ্রিম পেমেন্ট '
+                      label='অগ্রিম পেমেন্ট'
                       name='advancepayment'
                       fullWidth
-                      error={!!errors.identifyingMemberAddress}
-                      helperText={
-                        <ErrorMessage name='identifyingMemberAddress' />
-                      }
+                      error={!!errors.advancepayment}
+                      helperText={<ErrorMessage name='advancepayment' />}
                     />
                   </Grid>
+
                   <Grid item xs={12}>
                     <Button type='submit' variant='contained' color='primary'>
                       Submit
