@@ -6,13 +6,7 @@ import {authRouteConfig} from './auth';
 import Error403 from './errorPages/Error403';
 import {errorPagesConfigs} from './errorPages';
 import {dashBoardConfigs} from './dashboards';
-import {extraPagesConfigs} from './extraPages';
-import {ecommerceConfig} from './ecommerce';
-import {userListConfig} from './userList';
-import {userPagesConfig} from './userPages';
-import {muiComponentConfigs} from './muiComponents';
-import {thirdPartyConfigs} from './thirdParty';
-import {appsConfig} from './apps';
+// import {appsConfig} from './apps';
 import {accountPagesConfigs} from './account';
 
 const authorizedStructure = {
@@ -21,13 +15,6 @@ const authorizedStructure = {
   routes: [
     ...dashBoardConfigs,
     ...accountPagesConfigs,
-    ...appsConfig,
-    ...thirdPartyConfigs,
-    ...extraPagesConfigs,
-    ...ecommerceConfig,
-    ...muiComponentConfigs,
-    ...userPagesConfig,
-    ...userListConfig,
   ],
 };
 
