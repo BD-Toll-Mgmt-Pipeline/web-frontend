@@ -90,6 +90,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build && surge ./build ansarul.surge.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.+(js|jsx)\"",
@@ -128,8 +129,5 @@
     "lint-staged": "^11.1.1",
     "prettier": "^2.3.2",
     "surge": "^0.23.1"
-  },
-  "engines": {
-    "node": ">=14.20.1"
   }
 }

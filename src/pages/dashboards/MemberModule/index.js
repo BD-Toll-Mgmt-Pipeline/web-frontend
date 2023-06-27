@@ -6,8 +6,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
-
-
+import {MdCreate} from 'react-icons/md';
 
 const Crypto = () => {
   const [members, setMembers] = useState([]);
@@ -66,7 +65,7 @@ const Crypto = () => {
                 color='primary'
                 // autoFocus
               >
-                নতুন মেম্বার সংযোজন
+                <MdCreate style={{margin:'5px'}} /> নতুন মেম্বার সংযোজন
               </Button>
             </RouterLink>
           </div>

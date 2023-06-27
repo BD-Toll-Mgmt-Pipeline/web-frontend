@@ -27,31 +27,30 @@ const validationSchema = Yup.object().shape({
   relationship: Yup.string().required('Relationship with Guardian is required'),
   nomineeName: Yup.string().required('Nominee Name is required'),
   nomineeAddress: Yup.string().required('Nominee Address is required'),
-  identifyingMemberName: Yup.string().required(
+  identificationMemberName: Yup.string().required(
     'Identifying Member Name is required',
   ),
-  identifyingMemberAddress: Yup.string().required(
+  identificationMemberAddress: Yup.string().required(
     'Identifying Member Address is required',
   ),
 });
 
 const NewMemberAdd = () => {
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
+    const UpdatedValue = {
+      ...values,
+      activeStatus: true,
+    };
     try {
-      const response = await axios.post(
+      await axios.post(
         process.env.REACT_APP_BASE_URL + '/members',
-        values,
+        UpdatedValue,
       );
-
-      console.log('Member created successfully');
-      console.log('Response:', response.data);
       setSnackbarMessage('সদস্য সফলভাবে তৈরী হয়েছে ');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
       resetForm();
     } catch (error) {
-      console.error('Failed to create member');
-      console.error('Error:', error.message);
       setSnackbarMessage('ব্যর্থ হয়েছে ');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
@@ -91,8 +90,8 @@ const NewMemberAdd = () => {
               relationship: '',
               nomineeName: '',
               nomineeAddress: '',
-              identifyingMemberName: '',
-              identifyingMemberAddress: '',
+              identificationMemberName: '',
+              identificationMemberAddress: '',
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -150,36 +149,6 @@ const NewMemberAdd = () => {
                       helperText={<ErrorMessage name='permanentAddress' />}
                     />
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="থানাঃ"
-                      name="permanentThana"
-                      fullWidth
-                      error={!!errors.permanentThana}
-                      helperText={<ErrorMessage name="permanentThana" />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="উপজেলাঃ"
-                      name="permanentUpazila"
-                      fullWidth
-                      error={!!errors.permanentUpazila}
-                      helperText={<ErrorMessage name="permanentUpazila" />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="জেলাঃ"
-                      name="permanentDistrict"
-                      fullWidth
-                      error={!!errors.permanentDistrict}
-                      helperText={<ErrorMessage name="permanentDistrict" />}
-                    />
-                  </Grid> */}
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
@@ -190,40 +159,10 @@ const NewMemberAdd = () => {
                       helperText={<ErrorMessage name='presentAddress' />}
                     />
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="রোড নংঃ"
-                      name="presentRoad"
-                      fullWidth
-                      error={!!errors.presentRoad}
-                      helperText={<ErrorMessage name="presentRoad" />}
-                    />
-                  </Grid>
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label="ব্লক/থানাঃ"
-                      name="presentBlock"
-                      fullWidth
-                      error={!!errors.presentBlock}
-                      helperText={<ErrorMessage name="presentBlock" />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="জেলাঃ"
-                      name="presentDistrict"
-                      fullWidth
-                      error={!!errors.presentDistrict}
-                      helperText={<ErrorMessage name="presentDistrict" />}
-                    />
-                  </Grid> */}
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='বয়স-'
+                      label='বয়স'
                       name='age'
                       fullWidth
                       error={!!errors.age}
@@ -304,44 +243,26 @@ const NewMemberAdd = () => {
                     <Field
                       as={TextField}
                       label='সনাক্তকারি সদস্যর নামঃ'
-                      name='identifyingMemberName'
+                      name='identificationMemberName'
                       fullWidth
-                      error={!!errors.identifyingMemberName}
-                      helperText={<ErrorMessage name='identifyingMemberName' />}
+                      error={!!errors.identificationMemberName}
+                      helperText={
+                        <ErrorMessage name='identificationMemberName' />
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
                       label='ঠিকানাঃ'
-                      name='identifyingMemberAddress'
+                      name='identificationMemberAddress'
                       fullWidth
-                      error={!!errors.identifyingMemberAddress}
+                      error={!!errors.identificationMemberAddress}
                       helperText={
-                        <ErrorMessage name='identifyingMemberAddress' />
+                        <ErrorMessage name='identificationMemberAddress' />
                       }
                     />
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="আবেদনকারী নামঃ"
-                      name="applicantName"
-                      fullWidth
-                      error={!!errors.applicantName}
-                      helperText={<ErrorMessage name="applicantName" />}
-                    />
-                  </Grid> */}
-                  {/* <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="ঠিকানাঃ"
-                      name="applicantAddress"
-                      fullWidth
-                      error={!!errors.applicantAddress}
-                      helperText={<ErrorMessage name="applicantAddress" />}
-                    />
-                  </Grid> */}
                   <Grid item xs={12}>
                     <Button type='submit' variant='contained' color='primary'>
                       Submit

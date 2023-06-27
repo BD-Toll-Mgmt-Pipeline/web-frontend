@@ -1,6 +1,7 @@
 import React from 'react';
 import {RoutePermittedRole} from 'shared/constants/AppConst';
 import EditMember from './MemberModule/EditMember/EditMember';
+import MemberDetails from './MemberModule/MemberDetails/MemberDetails';
 import NewRentalTypeAdd from './RentalModule/NewRentalTypeAdd/NewRentalTypeAdd';
 import RentalReport from './RentalModule/RentalReport/RentalReport';
 import PaymentVoucher from './VoucherModule/PaymentVoucher/PaymentVoucher';
@@ -14,9 +15,12 @@ const RentalModule = React.lazy(() => import('./RentalModule'));
 const Academy = React.lazy(() => import('./Academy'));
 const Metrics = React.lazy(() => import('./Metrics'));
 const Widgets = React.lazy(() => import('./Widgets'));
-const NewMemberAdd = React.lazy(() => import('../dashboards/MemberModule/NewMemberAdd/NewMemberAdd'));
-const NewRentalAdd = React.lazy(() => import('../dashboards/RentalModule/NewRentalAdd/NewRentalAdd'));
-
+const NewMemberAdd = React.lazy(() =>
+  import('../dashboards/MemberModule/NewMemberAdd/NewMemberAdd'),
+);
+const NewRentalAdd = React.lazy(() =>
+  import('../dashboards/RentalModule/NewRentalAdd/NewRentalAdd'),
+);
 
 export const dashBoardConfigs = [
   {
@@ -93,5 +97,10 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/add-receive-voucher',
     element: <ReceiveVoucher />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/member-details/:id',
+    element: <MemberDetails />,
   },
 ];
