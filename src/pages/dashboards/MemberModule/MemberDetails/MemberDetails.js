@@ -20,8 +20,6 @@ export default function MemberDetails() {
       setMember(response.data);
       setLoading(false);
     } catch (error) {
-      console.error('Failed to get members');
-      console.error('Error:', error.message);
       setLoading(false);
     }
   };

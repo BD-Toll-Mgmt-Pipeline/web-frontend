@@ -6,11 +6,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@mui/material/Link';
 import PropTypes from 'prop-types';
+import {BiCreditCardAlt} from 'react-icons/bi';
 
 const options = [
   {
     label: 'বিস্তারিত দেখুন',
-    url: (id) => `/dashboard/edit-member/${id}`,
+    url: (id) => `/dashboard/member-details/${id}`,
   },
   {
     label: 'এডিট করুন',
@@ -49,6 +50,7 @@ const MemberAppMenuList = ({id}) => {
         {options.map((option) => (
           <MenuItem key={option.label} onClick={handleClose}>
             <Link component={RouterLink} to={option.url(id)} underline='none'>
+              <BiCreditCardAlt style={{marginRight:'5px'}}/>
               {option.label}
             </Link>
           </MenuItem>

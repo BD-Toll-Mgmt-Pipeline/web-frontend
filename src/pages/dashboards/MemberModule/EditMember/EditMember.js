@@ -11,6 +11,8 @@ import {
 } from '@mui/material';
 import {Alert} from '@mui/material';
 const axios = require('axios');
+import {useParams} from 'react-router-dom';
+import PhotoUpload from '../PhotoUpload/PhotoUpload';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
@@ -36,45 +38,32 @@ const validationSchema = Yup.object().shape({
 });
 
 const EditMember = () => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [memberDetails, setMember] = useState({
-    name: '',
-    memberId: '',
-    fatherName: '',
-    motherName: '',
-    permanentAddress: '',
-    presentAddress: '',
-    age: '',
-    education: '',
-    voterId: '',
-    mobileNumber: '',
-    guardianName: '',
-    relationship: '',
-    nomineeName: '',
-    nomineeAddress: '',
-    identifyingMemberName: '',
-    identifyingMemberAddress: '',
-  });
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('');
-
+  const {id} = useParams();
+  const [details, setDetails] = useState({});
   useEffect(() => {
     getMember();
-  }, [setMember]);
+  }, []);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const getMember = async () => {
-    let id = 1231323143;
+    let memberid = id;
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/members/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/members/${memberid}`,
       );
-      setMember(response.data);
-      console.log('Members:', memberDetails);
+      setDetails(response.data);
+      console.log(details);
     } catch (error) {
       console.error('Failed to get members');
       console.error('Error:', error.message);
     }
   };
+
+  console.log(details, 'detailsdetailsdetailsdetails');
+
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
@@ -104,33 +93,34 @@ const EditMember = () => {
     setSnackbarOpen(false);
   };
 
-  console.log(memberDetails, ' skdj dkn dkn dfkjdn kj');
-
   return (
     <Grid container justifyContent='center'>
+      <PhotoUpload id={details?.memberId} />
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
           <Typography variant='h5' mb={4}>
             Edit Member Form
           </Typography>
           <Formik
+            enableReinitialize
             initialValues={{
-              name: memberDetails.name || '',
-              memberId: '',
-              fatherName: '',
-              motherName: '',
-              permanentAddress: '',
-              presentAddress: '',
-              age: '',
-              education: '',
-              voterId: '',
-              mobileNumber: '',
-              guardianName: '',
-              relationship: '',
-              nomineeName: '',
-              nomineeAddress: '',
-              identifyingMemberName: '',
-              identifyingMemberAddress: '',
+              name: details?.name || '',
+              memberId: details?.memberId || '',
+              fatherName: details?.fatherName || '',
+              motherName: details?.motherName || '',
+              permanentAddress: details?.permanentAddress || '',
+              presentAddress: details?.currentAddress || '',
+              age: details?.age || '',
+              education: details?.education || '',
+              voterId: details?.voterId || '',
+              mobileNumber: details?.phone || '',
+              guardianName: details?.guardianName || '',
+              relationship: details?.relationship || '',
+              nomineeName: details?.nomineeName || '',
+              nomineeAddress: details?.nomineeAddress || '',
+              identifyingMemberName: details?.identificationMemberName || '',
+              identifyingMemberAddress:
+                details?.identificationMemberAddress || '',
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -189,36 +179,6 @@ const EditMember = () => {
                       helperText={<ErrorMessage name='permanentAddress' />}
                     />
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="থানাঃ"
-                      name="permanentThana"
-                      fullWidth
-                      error={!!errors.permanentThana}
-                      helperText={<ErrorMessage name="permanentThana" />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="উপজেলাঃ"
-                      name="permanentUpazila"
-                      fullWidth
-                      error={!!errors.permanentUpazila}
-                      helperText={<ErrorMessage name="permanentUpazila" />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="জেলাঃ"
-                      name="permanentDistrict"
-                      fullWidth
-                      error={!!errors.permanentDistrict}
-                      helperText={<ErrorMessage name="permanentDistrict" />}
-                    />
-                  </Grid> */}
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
@@ -229,36 +189,6 @@ const EditMember = () => {
                       helperText={<ErrorMessage name='presentAddress' />}
                     />
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="রোড নংঃ"
-                      name="presentRoad"
-                      fullWidth
-                      error={!!errors.presentRoad}
-                      helperText={<ErrorMessage name="presentRoad" />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="ব্লক/থানাঃ"
-                      name="presentBlock"
-                      fullWidth
-                      error={!!errors.presentBlock}
-                      helperText={<ErrorMessage name="presentBlock" />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="জেলাঃ"
-                      name="presentDistrict"
-                      fullWidth
-                      error={!!errors.presentDistrict}
-                      helperText={<ErrorMessage name="presentDistrict" />}
-                    />
-                  </Grid> */}
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
@@ -361,26 +291,7 @@ const EditMember = () => {
                       }
                     />
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="আবেদনকারী নামঃ"
-                      name="applicantName"
-                      fullWidth
-                      error={!!errors.applicantName}
-                      helperText={<ErrorMessage name="applicantName" />}
-                    />
-                  </Grid> */}
-                  {/* <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label="ঠিকানাঃ"
-                      name="applicantAddress"
-                      fullWidth
-                      error={!!errors.applicantAddress}
-                      helperText={<ErrorMessage name="applicantAddress" />}
-                    />
-                  </Grid> */}
+
                   <Grid item xs={12}>
                     <Button type='submit' variant='contained' color='primary'>
                       Submit

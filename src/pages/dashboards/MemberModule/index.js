@@ -33,14 +33,35 @@ const Crypto = () => {
           },
         },
       );
-
-      // const { members, currentPage, totalPages } = response.data;
       const {members} = response.data;
       setMembers(members);
       setTotalPages(totalPages);
-      console.log('Members:', members);
     } catch (error) {
-      console.error('Failed to get members');
+      console.error('Error:', error.message);
+    }
+  };
+
+  const onSearch = async (value) => {
+    console.log(value);
+    try {
+      const query = value;
+      const page = 1;
+      const perPage = 10;
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/members`,
+        {
+          params: {
+            query,
+            page,
+            perPage,
+          },
+        },
+      );
+      const {members} = response.data;
+      setMembers(members);
+      setTotalPages(totalPages);
+    } catch (error) {
       console.error('Error:', error.message);
     }
   };
@@ -55,7 +76,7 @@ const Crypto = () => {
         <Typography variant='h4'>Member Module</Typography>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{marginTop: '30px'}}>
-            <SearchBar />
+            <SearchBar onSearch={onSearch} />
           </div>
           <div>
             <RouterLink to={`/dashboard/add-new-member`} underline='none'>
@@ -65,7 +86,7 @@ const Crypto = () => {
                 color='primary'
                 // autoFocus
               >
-                <MdCreate style={{margin:'5px'}} /> নতুন মেম্বার সংযোজন
+                <MdCreate style={{margin: '5px'}} /> নতুন মেম্বার সংযোজন
               </Button>
             </RouterLink>
           </div>
