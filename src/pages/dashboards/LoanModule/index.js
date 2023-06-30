@@ -1,145 +1,109 @@
-import React, {useEffect} from 'react';
-import Box from '@mui/material/Box';
-import {useDispatch, useSelector} from 'react-redux';
-import {onGetAcademyData} from 'redux/actions';
-import AppAnimate from '@crema/core/AppAnimate';
-import AppGridContainer from '@crema/core/AppGridContainer';
-import {Grid} from '@mui/material';
-import GeneralStats from './GeneralStats';
-import CourseCategories from './CourseCategories';
-import MyProfile from './MyProfile';
-import MyCourses from './MyCourses';
-import Notifications from './Notifications';
-import CourseDetail from './CourseDetail';
-import MyLearning from './MyLearning';
-import LatestResults from './LatestResults';
-import MyClass from './MyClass';
-import StudentRankings from './StudentRankings';
-import PromoCard from './PromoCard';
-import AverageGrades from './AverageGrades';
-import RelatedCourses from './RelatedCourses';
-import VideoPromo from './VideoPromo';
+import AppCard from '@crema/core/AppCard';
+import { Button, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import RentalTable from './RentalTable';
+import { Link as RouterLink } from 'react-router-dom';
+import SearchBar from './SearchBar/SearchBar';
+import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
 
-const Academy = () => {
-  const dispatch = useDispatch();
+const Analytics = () => {
+  const [totalPages, setTotalPages] = useState(1);
+  const [rentalName, setRentals] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(onGetAcademyData());
-  }, [dispatch]);
+    getRentals(currentPage);
+  }, [currentPage]);
 
-  const {academyData} = useSelector(({dashboard}) => dashboard);
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const getRentals = async (page) => {
+    try {
+      const query = ''; // Provide the search query if needed
+      const perPage = 10; // Provide the number of items per page
+
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/rental`, {
+        params: {
+          query,
+          page,
+          perPage,
+        },
+      });
+
+      const { rentalName, totalPages } = response.data;
+      setRentals(rentalName);
+      setTotalPages(totalPages);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const onSearch = async (value) => {
+    try {
+      const query = value;
+      const page = 1;
+      const perPage = 10;
+
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/rental`, {
+        params: {
+          query,
+          page,
+          perPage,
+        },
+      });
+
+      const { rentalName, totalPages } = response.data;
+      setRentals(rentalName);
+      setTotalPages(totalPages);
+      setCurrentPage(1); // Reset the current page to 1 when performing a new search
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
   return (
-    <>
-      {academyData && (
-        <AppAnimate animation='transition.slideUpIn' delay={200}>
-          <Box>
-            <Box
-              sx={{
-                pb: {xs: 5, md: 8},
-              }}
-            >
-              <AppGridContainer>
-                {academyData.academicStats.map((item, index) => (
-                  <Grid item xs={12} sm={6} lg={3} key={index}>
-                    <GeneralStats stats={item} />
-                  </Grid>
-                ))}
-
-                {academyData.courseCategories.map((item, index) => (
-                  <Grid item xs={12} sm={6} lg={3} key={index}>
-                    <CourseCategories course={item} />
-                  </Grid>
-                ))}
-              </AppGridContainer>
-            </Box>
-
-            <Box
-              sx={{
-                pb: {xs: 5, md: 8},
-              }}
-            >
-              <AppGridContainer>
-                <Grid item xs={12} sm={6} lg={3}>
-                  <MyProfile profile={academyData.profile} />
-                </Grid>
-
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  lg={3}
-                  sx={{
-                    order: {lg: 2},
-                  }}
-                >
-                  <Notifications notifications={academyData.notifications} />
-                </Grid>
-
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  lg={6}
-                  sx={{
-                    order: {lg: 1},
-                  }}
-                >
-                  <MyCourses courses={academyData.courses} />
-                </Grid>
-              </AppGridContainer>
-            </Box>
-
-            <AppGridContainer>
-              {academyData.courseDetails.map((item, index) => (
-                <Grid item xs={12} sm={12} md={4} key={index}>
-                  <CourseDetail course={item} />
-                </Grid>
-              ))}
-
-              <Grid item xs={12} sm={12} md={5} xl={6}>
-                <VideoPromo videoPromo={academyData.videoPromo} />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={7} xl={6}>
-                <AppGridContainer>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <MyLearning learningData={academyData.learningData} />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6} xl={6}>
-                    <LatestResults latestResults={academyData.latestResults} />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6} xl={6}>
-                    <MyClass classData={academyData.classData} />
-                  </Grid>
-                </AppGridContainer>
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={9}>
-                <StudentRankings
-                  studentRankings={academyData.studentRankings}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={3}>
-                <PromoCard />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={6}>
-                <AverageGrades grades={academyData.grades} />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={6}>
-                <RelatedCourses relatedCourses={academyData.relatedCourses} />
-              </Grid>
-            </AppGridContainer>
-          </Box>
-        </AppAnimate>
-      )}
-    </>
+    <AppCard>
+      <Typography variant='h4'>Rental Module</Typography>
+      <div style={{ marginTop: '30px' }}>
+        <SearchBar onSearch={onSearch} />
+      </div>
+      <div style={{ display: 'flex' }}>
+        <div>
+          <RouterLink to={`/dashboard/add-new-rental`} underline='none'>
+            <Button variant='outlined' sx={{ float: 'right', margin: '30px' }} color='primary'>
+              নতুন ভাড়া সংযুক্তি
+            </Button>
+          </RouterLink>
+        </div>
+        <div>
+          <RouterLink to={`/dashboard/add-new-rental-type`} underline='none'>
+            <Button variant='outlined' sx={{ float: 'right', margin: '30px' }} color='primary'>
+              নতুন ভাড়ার ধরণ সংযুক্তি
+            </Button>
+          </RouterLink>
+        </div>
+        <div>
+          <RouterLink to={`/dashboard/rental-report`} underline='none'>
+            <Button variant='outlined' sx={{ float: 'right', margin: '30px' }} color='primary'>
+              ভাড়া সংক্রান্ত রিপোর্ট
+            </Button>
+          </RouterLink>
+        </div>
+      </div>
+      <RentalTable orderList={rentalName} />
+      <Pagination
+        sx={{ margin: '20px' }}
+        count={totalPages}
+        page={currentPage}
+        onChange={handlePageChange}
+        variant='outlined'
+        shape='rounded'
+      />
+    </AppCard>
   );
 };
 
-export default Academy;
+export default Analytics;

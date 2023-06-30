@@ -1,86 +1,109 @@
-import React, {useEffect} from 'react';
-import {Grid} from '@mui/material';
-import TotalRevenue from './TotalRevenue';
-import QuickStats from './QuickStats';
-import Statistics from './Statisitcs';
-import MonthlyEarning from './MonthlyEarning';
-import Deals from './Deals';
-import SocialMediaAdvertise from './SocialMediaAdvertise';
-import TodayTasks from './TodayTasks';
-import GoalProgress from './GoalProgress';
-import WebTraffic from './WebTraffic';
-import Reviews from './Reviews';
-import TicketSupport from './TicketSupport';
-import {useDispatch, useSelector} from 'react-redux';
-import {onGetCrmData} from 'redux/actions';
-import AppGridContainer from '@crema/core/AppGridContainer';
-import AppInfoView from '@crema/core/AppInfoView';
-import AppAnimate from '@crema/core/AppAnimate';
+import AppCard from '@crema/core/AppCard';
+import { Button, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import RentalTable from './RentalTable';
+import { Link as RouterLink } from 'react-router-dom';
+import SearchBar from './SearchBar/SearchBar';
+import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
 
-const CRM = () => {
-  const dispatch = useDispatch();
+const Analytics = () => {
+  const [totalPages, setTotalPages] = useState(1);
+  const [rentalName, setRentals] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(onGetCrmData());
-  }, [dispatch]);
+    getRentals(currentPage);
+  }, [currentPage]);
 
-  const crmData = useSelector(({dashboard}) => dashboard.crmData);
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const getRentals = async (page) => {
+    try {
+      const query = ''; // Provide the search query if needed
+      const perPage = 10; // Provide the number of items per page
+
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/rental`, {
+        params: {
+          query,
+          page,
+          perPage,
+        },
+      });
+
+      const { rentalName, totalPages } = response.data;
+      setRentals(rentalName);
+      setTotalPages(totalPages);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const onSearch = async (value) => {
+    try {
+      const query = value;
+      const page = 1;
+      const perPage = 10;
+
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/rental`, {
+        params: {
+          query,
+          page,
+          perPage,
+        },
+      });
+
+      const { rentalName, totalPages } = response.data;
+      setRentals(rentalName);
+      setTotalPages(totalPages);
+      setCurrentPage(1); // Reset the current page to 1 when performing a new search
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
   return (
-    <>
-      {crmData ? (
-        <AppAnimate animation='transition.slideUpIn' delay={200}>
-          <AppGridContainer>
-            <Grid item xs={12} md={5}>
-              <TotalRevenue revenueData={crmData.revenueData} />
-            </Grid>
-            <Grid item xs={12} md={7}>
-              <QuickStats quickStatsData={crmData.quickStatsData} />
-            </Grid>
-
-            <Grid item xs={12} md={8}>
-              <Statistics
-                clientsData={crmData.statisticsGraph.clientsData}
-                incomeData={crmData.statisticsGraph.incomeData}
-                projectData={crmData.statisticsGraph.projectData}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <MonthlyEarning earningGraphData={crmData.earningGraphData} />
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <SocialMediaAdvertise socialMediaData={crmData.socialMediaData} />
-            </Grid>
-
-            <Grid item xs={12} md={8}>
-              <TodayTasks todayTaskData={crmData.todayTaskData} />
-            </Grid>
-
-            <Grid item xs={12} md={8}>
-              <Deals dealsTableData={crmData.dealsTableData} />
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <GoalProgress progressGraphData={crmData.progressGraphData} />
-            </Grid>
-
-            <Grid item xs={12} md={5}>
-              <WebTraffic websiteTrafficData={crmData.websiteTrafficData} />
-              <Reviews reviewGraphData={crmData.reviewGraphData} />
-            </Grid>
-
-            <Grid item xs={12} md={7}>
-              <TicketSupport ticketSupportData={crmData.ticketSupportData} />
-            </Grid>
-          </AppGridContainer>
-        </AppAnimate>
-      ) : null}
-
-      <AppInfoView />
-    </>
+    <AppCard>
+      <Typography variant='h4'>Rental Module</Typography>
+      <div style={{ marginTop: '30px' }}>
+        <SearchBar onSearch={onSearch} />
+      </div>
+      <div style={{ display: 'flex' }}>
+        <div>
+          <RouterLink to={`/dashboard/add-new-rental`} underline='none'>
+            <Button variant='outlined' sx={{ float: 'right', margin: '30px' }} color='primary'>
+              নতুন ভাড়া সংযুক্তি
+            </Button>
+          </RouterLink>
+        </div>
+        <div>
+          <RouterLink to={`/dashboard/add-new-rental-type`} underline='none'>
+            <Button variant='outlined' sx={{ float: 'right', margin: '30px' }} color='primary'>
+              নতুন ভাড়ার ধরণ সংযুক্তি
+            </Button>
+          </RouterLink>
+        </div>
+        <div>
+          <RouterLink to={`/dashboard/rental-report`} underline='none'>
+            <Button variant='outlined' sx={{ float: 'right', margin: '30px' }} color='primary'>
+              ভাড়া সংক্রান্ত রিপোর্ট
+            </Button>
+          </RouterLink>
+        </div>
+      </div>
+      <RentalTable orderList={rentalName} />
+      <Pagination
+        sx={{ margin: '20px' }}
+        count={totalPages}
+        page={currentPage}
+        onChange={handlePageChange}
+        variant='outlined'
+        shape='rounded'
+      />
+    </AppCard>
   );
 };
 
-export default CRM;
+export default Analytics;
