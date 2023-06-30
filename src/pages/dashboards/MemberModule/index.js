@@ -17,10 +17,9 @@ const Crypto = () => {
     setCurrentPage(newPage);
   };
 
-  const getMembers = async () => {
+  const getMembers = async (page) => {
     try {
       const query = ''; // Provide the search query if needed
-      const page = 1; // Provide the current page number
       const perPage = 10; // Provide the number of items per page
 
       const response = await axios.get(
@@ -33,7 +32,8 @@ const Crypto = () => {
           },
         },
       );
-      const {members} = response.data;
+
+      const {members, totalPages} = response.data;
       setMembers(members);
       setTotalPages(totalPages);
     } catch (error) {
@@ -42,7 +42,6 @@ const Crypto = () => {
   };
 
   const onSearch = async (value) => {
-    console.log(value);
     try {
       const query = value;
       const page = 1;
@@ -58,50 +57,49 @@ const Crypto = () => {
           },
         },
       );
-      const {members} = response.data;
+
+      const {members, totalPages} = response.data;
       setMembers(members);
       setTotalPages(totalPages);
+      setCurrentPage(1); // Reset the current page to 1 when performing a new search
     } catch (error) {
       console.error('Error:', error.message);
     }
   };
 
   useEffect(() => {
-    getMembers();
-  }, []);
+    getMembers(currentPage); // Pass the current page to the API call
+  }, [currentPage]);
 
   return (
-    <>
-      <AppCard>
-        <Typography variant='h4'>Member Module</Typography>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          <div style={{marginTop: '30px'}}>
-            <SearchBar onSearch={onSearch} />
-          </div>
-          <div>
-            <RouterLink to={`/dashboard/add-new-member`} underline='none'>
-              <Button
-                variant='outlined'
-                sx={{float: 'right', margin: '30px'}}
-                color='primary'
-                // autoFocus
-              >
-                <MdCreate style={{margin: '5px'}} /> নতুন মেম্বার সংযোজন
-              </Button>
-            </RouterLink>
-          </div>
+    <AppCard>
+      <Typography variant='h4'>Member Module</Typography>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{marginTop: '30px'}}>
+          <SearchBar onSearch={onSearch} />
         </div>
-        <MemberTable orderList={members} />
-        <Pagination
-          sx={{margin: '20px'}}
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-          variant='outlined'
-          shape='rounded'
-        />
-      </AppCard>
-    </>
+        <div>
+          <RouterLink to={`/dashboard/add-new-member`} underline='none'>
+            <Button
+              variant='outlined'
+              sx={{float: 'right', margin: '30px'}}
+              color='primary'
+            >
+              <MdCreate style={{margin: '5px'}} /> নতুন মেম্বার সংযোজন
+            </Button>
+          </RouterLink>
+        </div>
+      </div>
+      <MemberTable orderList={members} />
+      <Pagination
+        sx={{margin: '20px'}}
+        count={totalPages}
+        page={currentPage}
+        onChange={handlePageChange}
+        variant='outlined'
+        shape='rounded'
+      />
+    </AppCard>
   );
 };
 
