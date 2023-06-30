@@ -34,13 +34,13 @@ const BucketMinibar = () => {
           <Logo fill={theme.palette.primary.main} />
         </IconButton>
 
-        <IconButton
+        {/* <IconButton
           className='search-icon-btn'
           aria-label='show 17 new notifications'
         >
           <SearchIcon />
-        </IconButton>
-        <AppLngSwitcher iconOnly={true} tooltipPosition='right' />
+        </IconButton> */}
+        {/* <AppLngSwitcher iconOnly={true} tooltipPosition='right' /> */}
 
         <AppNotifications
           drawerPosition='left'

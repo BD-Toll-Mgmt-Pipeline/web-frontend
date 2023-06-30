@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import ColorLensIcon from '@mui/icons-material/ColorLens';
+// import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+// import ColorLensIcon from '@mui/icons-material/ColorLens';
 
 import IntlMessages from '../../utility/IntlMessages';
 import {LayoutType} from 'shared/constants/AppEnums';
 import {useLayoutContext} from '../../utility/AppContextProvider/LayoutContextProvider';
 import AppScrollbar from '../AppScrollbar';
 import {orange} from '@mui/material/colors';
-import ThemeColors from './ThemeColors';
+// import ThemeColors from './ThemeColors';
 import ThemeFooter from './ThemeFooter';
-import ThemeModes from './ThemeModes';
+// import ThemeModes from './ThemeModes';
 import ThemeDirection from './ThemeDirection';
 import SidebarSettings from './SidebarSettings';
 import NavStyles from './NavStyles';
@@ -50,14 +50,14 @@ const AppThemeSetting = () => {
           },
         }}
       >
-        <IconButton onClick={() => setSettingOpen(!isSettingOpen)}>
+        {/* <IconButton onClick={() => setSettingOpen(!isSettingOpen)}>
           <SettingsOutlinedIcon
             sx={{
               animation: 'rotation 2s infinite linear',
               color: 'white',
             }}
           />
-        </IconButton>
+        </IconButton> */}
       </Box>
 
       <Box
@@ -76,13 +76,13 @@ const AppThemeSetting = () => {
           },
         }}
       >
-        <IconButton onClick={() => setColorSettingOpen(!isSettingOpen)}>
+        {/* <IconButton onClick={() => setColorSettingOpen(!isSettingOpen)}>
           <ColorLensIcon
             sx={{
               color: 'white',
             }}
           />
-        </IconButton>
+        </IconButton> */}
       </Box>
       <Drawer
         anchor='right'
@@ -161,8 +161,8 @@ const AppThemeSetting = () => {
               padding: {xs: '20px', xl: '28px 22px'},
             }}
           >
-            <ThemeModes />
-            <ThemeColors />
+            {/* <ThemeModes /> */}
+            {/* <ThemeColors /> */}
           </Box>
         </AppScrollbar>
       </Drawer>
