@@ -7,14 +7,12 @@ import RentalReport from './RentalModule/RentalReport/RentalReport';
 import PaymentVoucher from './VoucherModule/PaymentVoucher/PaymentVoucher';
 import ReceiveVoucher from './VoucherModule/ReceiveVoucher/ReceiveVoucher';
 
-const HealthCare = React.lazy(() => import('./HealthCare'));
+const HealthCare = React.lazy(() => import('./ProjectModule'));
 const VoucherModule = React.lazy(() => import('./VoucherModule'));
-const CRM = React.lazy(() => import('./CRM'));
+const CRM = React.lazy(() => import('./CompanyModule'));
 const MemberModule = React.lazy(() => import('./MemberModule'));
 const RentalModule = React.lazy(() => import('./RentalModule'));
-const Academy = React.lazy(() => import('./Academy'));
-const Metrics = React.lazy(() => import('./Metrics'));
-const Widgets = React.lazy(() => import('./Widgets'));
+const Academy = React.lazy(() => import('./LoanModule'));
 const NewMemberAdd = React.lazy(() =>
   import('../dashboards/MemberModule/NewMemberAdd/NewMemberAdd'),
 );
@@ -52,16 +50,6 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/crypto',
     element: <MemberModule />,
-  },
-  {
-    permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/metrics',
-    element: <Metrics />,
-  },
-  {
-    permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/widgets',
-    element: <Widgets />,
   },
   {
     permittedRole: RoutePermittedRole.user,
