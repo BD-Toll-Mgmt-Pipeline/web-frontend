@@ -3,15 +3,9 @@ import {HiOutlineAcademicCap} from 'react-icons/hi';
 import {
   RiCustomerService2Line,
   // RiDashboardLine,
-
 } from 'react-icons/ri';
-import {
-  BsCart4,
-  BsCurrencyBitcoin,
-} from 'react-icons/bs';
-import {
-  MdOutlineAnalytics,
-} from 'react-icons/md';
+import {BsCart4, BsCurrencyBitcoin} from 'react-icons/bs';
+import {MdOutlineAnalytics} from 'react-icons/md';
 
 const routesConfig = [
   {
@@ -54,8 +48,8 @@ const routesConfig = [
       },
       {
         id: 'vouchar_module',
-        title: 'ভাউচার ব্যবস্থাপনা ',
-        messageId: 'ভাউচার ব্যবস্থাপনা ',
+        title: 'আয়-ব্যায় ব্যবস্থাপনা ',
+        messageId: 'আয়-ব্যায় ব্যবস্থাপনা ',
         type: 'item',
         icon: <BsCart4 />,
         url: '/dashboards/e-commerce',

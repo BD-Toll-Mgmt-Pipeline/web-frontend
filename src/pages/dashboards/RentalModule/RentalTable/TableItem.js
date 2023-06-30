@@ -8,12 +8,15 @@ import Box from '@mui/material/Box';
 import {Fonts} from 'shared/constants/AppEnums';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@mui/material/Link';
+import ActiveStatus from '@crema/common/ActiveStatus';
+import RentalAppMenuList from '../RentalAppMenuList/RentalAppMenuList';
+import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
 
 const TableItem = ({data}) => {
   return (
     <TableRow
-      key={data.name}
+      key={data.id}
       sx={{
         '& .tableCell': {
           fontSize: 13,
@@ -35,7 +38,7 @@ const TableItem = ({data}) => {
           to={`/dashboard/edit-member/${data.memberId}`}
           underline='none'
         >
-          {data?.memberId}
+          {moment(data?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
         </Link>
       </TableCell>
       <TableCell align='left' className='tableCell'>
@@ -57,16 +60,19 @@ const TableItem = ({data}) => {
         {data.phone}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.fatherName}
+        {data.rentaltype}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.status}
+        {data.advancepay}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.status}
-        {/* <CustomerStatus status={data.status} /> */}
+        <ActiveStatus
+          status={data?.activeStatus === true ? 'active' : 'inactive'}
+        />
       </TableCell>
-      <TableCell>{/* <CustomerAppMenuList id={data.id} /> */}</TableCell>
+      <TableCell>
+        <RentalAppMenuList id={data.memberId} />
+      </TableCell>
     </TableRow>
   );
 };

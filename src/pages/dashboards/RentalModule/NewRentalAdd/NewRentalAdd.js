@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {
@@ -10,8 +10,8 @@ import {
   Snackbar,
   MenuItem,
 } from '@mui/material';
-import {DatePicker} from '@mui/lab';
 import {Alert} from '@mui/material';
+import {DatePicker} from '@mui/lab';
 
 const axios = require('axios');
 
@@ -19,14 +19,38 @@ const validationSchema = Yup.object().shape({
   date: Yup.date().required('Date is required'),
   name: Yup.string().required('Name is required'),
   permanentAddress: Yup.string().required('Permanent Address is required'),
-  presentAddress: Yup.string().required('Present Address is required'),
+  currentAddress: Yup.string().required('Present Address is required'),
   voterId: Yup.string().required('Voter ID is required'),
-  mobileNumber: Yup.string().required('Mobile Number is required'),
-  advancepayment: Yup.string().required('Advance Payment is required'),
-  rentType: Yup.string().required('Rent Type is required'),
+  phone: Yup.string().required('Mobile Number is required'),
+  advancepay: Yup.string().required('Advance Payment is required'),
+  totalpay: Yup.string().required('Total Payment is required'),
+  rentaltype: Yup.string().required('Rent Type is required'),
+  contacttenure: Yup.string().required('Contact Tenure is required'),
 });
 
 const NewRentalAdd = () => {
+  const [types, setTypes] = useState([]);
+
+  useEffect(() => {
+    getRentalTypes();
+  }, []);
+
+  const getRentalTypes = async () => {
+    const response = await axios.get(
+      process.env.REACT_APP_BASE_URL + '/rental/rental-types',
+    );
+    setTypes(response.data.data);
+  };
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('');
+
+  const contact_tenure = [
+    {value: '1', label: 'এককালীন'},
+    {value: '2', label: 'মাসিক'},
+  ];
+
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
       const response = await axios.post(
@@ -35,6 +59,7 @@ const NewRentalAdd = () => {
       );
 
       console.log('Member created successfully');
+      console.log('Form Values:', values); // Log the form values
       console.log('Response:', response.data);
       setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
       setSnackbarSeverity('success');
@@ -55,16 +80,6 @@ const NewRentalAdd = () => {
     setSnackbarOpen(false);
   };
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('');
-
-  const rentTypeOptions = [
-    {value: '1', label: 'হাউস/ফ্লাট'},
-    {value: '2', label: 'দোকান'},
-    {value: '3', label: 'গাড়ি/মাইক্রো '},
-  ];
-
   return (
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
@@ -74,19 +89,21 @@ const NewRentalAdd = () => {
           </Typography>
           <Formik
             initialValues={{
-              date: new Date(),
+              date: new Date().toISOString().split('T')[0],
               name: '',
               permanentAddress: '',
-              presentAddress: '',
+              currentAddress: '',
               voterId: '',
-              mobileNumber: '',
-              advancepayment: '',
-              rentType: '',
+              phone: '',
+              advancepay: '',
+              totalpay: '',
+              rentaltype: '',
+              contacttenure: '',
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({errors}) => (
+            {({values, errors, setFieldValue}) => (
               <Form>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -94,21 +111,19 @@ const NewRentalAdd = () => {
                       as={DatePicker}
                       label='তারিখ'
                       name='date'
-                      fullWidth
-                      renderInput={(props) => (
-                        <TextField {...props} inputFormat='DD/MM/YYYY' />
+                      inputFormat='dd/MM/yyyy'
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={!!errors.date}
+                          helperText={<ErrorMessage name='date' />}
+                        />
                       )}
-                      error={!!errors.date}
-                      helperText={<ErrorMessage name='date' />}
-                      PopperProps={{
-                        onClose: () => {
-                          const field =
-                            document.querySelector('input[name="date"]');
-                          field.blur();
-                        },
-                      }}
+                      value={values.date}
+                      onChange={(value) => setFieldValue('date', value)}
                     />
                   </Grid>
+
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
@@ -124,18 +139,36 @@ const NewRentalAdd = () => {
                       as={TextField}
                       select
                       label='ভাড়ার ধরণঃ'
-                      name='rentType'
+                      name='rentaltype'
                       fullWidth
-                      error={!!errors.rentType}
-                      helperText={<ErrorMessage name='rentType' />}
+                      error={!!errors.rentaltype}
+                      helperText={<ErrorMessage name='rentaltype' />}
                     >
-                      {rentTypeOptions.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
+                      {types.map((option) => (
+                        <MenuItem key={option.value} value={option.label}>
                           {option.label}
                         </MenuItem>
                       ))}
                     </Field>
                   </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      select
+                      label='চুক্তির ধরণ'
+                      name='contacttenure'
+                      fullWidth
+                      error={!!errors.contacttenure}
+                      helperText={<ErrorMessage name='contacttenure' />}
+                    >
+                      {contact_tenure.map((option) => (
+                        <MenuItem key={option.value} value={option.label}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                  </Grid>
+
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
@@ -150,10 +183,10 @@ const NewRentalAdd = () => {
                     <Field
                       as={TextField}
                       label='বর্তমান ঠিকানাঃ  বাড়ি নংঃ রোড নংঃ ব্লক/থানাঃ জেলাঃ'
-                      name='presentAddress'
+                      name='currentAddress'
                       fullWidth
-                      error={!!errors.presentAddress}
-                      helperText={<ErrorMessage name='presentAddress' />}
+                      error={!!errors.currentAddress}
+                      helperText={<ErrorMessage name='currentAddress' />}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -170,23 +203,32 @@ const NewRentalAdd = () => {
                     <Field
                       as={TextField}
                       label='মোবাইল নাম্বারঃ'
-                      name='mobileNumber'
+                      name='phone'
                       fullWidth
-                      error={!!errors.mobileNumber}
-                      helperText={<ErrorMessage name='mobileNumber' />}
+                      error={!!errors.phone}
+                      helperText={<ErrorMessage name='phone' />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='মোট চুক্তির পরিমান টাকায়(এককালীন/মাসিক)'
+                      name='totalpay'
+                      fullWidth
+                      error={!!errors.totalpay}
+                      helperText={<ErrorMessage name='totalpay' />}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
                       label='অগ্রিম পেমেন্ট'
-                      name='advancepayment'
+                      name='advancepay'
                       fullWidth
-                      error={!!errors.advancepayment}
-                      helperText={<ErrorMessage name='advancepayment' />}
+                      error={!!errors.advancepay}
+                      helperText={<ErrorMessage name='advancepay' />}
                     />
                   </Grid>
-
                   <Grid item xs={12}>
                     <Button type='submit' variant='contained' color='primary'>
                       Submit

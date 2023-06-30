@@ -15,6 +15,10 @@ const ActiveStatus = ({status}) => {
     return <CustomChip label={status} type={'success'} />;
   }
 
+  if (status === 'done') {
+    return <CustomChip label={status} type={'success'} />;
+  }
+
   return <CustomChip label={status} />;
 };
 

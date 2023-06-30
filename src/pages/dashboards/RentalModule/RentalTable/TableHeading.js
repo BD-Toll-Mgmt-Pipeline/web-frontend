@@ -25,6 +25,7 @@ const TableHeading = () => {
       <TableCell>মোবাইল নাম্বার</TableCell>
       <TableCell>ভাড়ার ধরণ</TableCell>
       <TableCell>অগ্রিম পেমেন্ট</TableCell>
+      <TableCell>স্টেটাস</TableCell>
       <TableCell>ব্যবস্থা</TableCell>
     </TableRow>
   );

@@ -1,9 +1,8 @@
 import React from 'react';
-import { styled } from '@mui/system';
-import { InputBase, IconButton } from '@mui/material';
+import {styled} from '@mui/system';
+import {InputBase, IconButton} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
-
 
 const Root = styled('div')({
   display: 'flex',
@@ -23,7 +22,7 @@ const IconButtonStyled = styled(IconButton)({
   padding: 8,
 });
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({onSearch}) => {
   const handleSearch = (event) => {
     const query = event.target.value;
     onSearch(query);
@@ -35,7 +34,7 @@ const SearchBar = ({ onSearch }) => {
         <SearchIcon />
       </IconButtonStyled>
       <Input
-        placeholder="Search"
+        placeholder='নাম/ফোন/সদস্য নাম্বার সার্চ '
         onChange={handleSearch}
       />
     </Root>
@@ -43,7 +42,7 @@ const SearchBar = ({ onSearch }) => {
 };
 
 SearchBar.propTypes = {
-    onSearch: PropTypes.func.isRequired,
-  };
+  onSearch: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

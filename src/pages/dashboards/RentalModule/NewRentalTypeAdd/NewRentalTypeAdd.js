@@ -14,17 +14,16 @@ import {Alert} from '@mui/material';
 const axios = require('axios');
 
 const validationSchema = Yup.object().shape({
-  rentaltypeadd: Yup.string().required('Rent Type is required'),
+  label: Yup.string().required('Rent Type is required'),
 });
 
 const NewRentalTypeAdd = () => {
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_BASE_URL + '/rental',
+        process.env.REACT_APP_BASE_URL + '/rental/rental-types',
         values,
       );
-
       console.log('Rental created successfully');
       console.log('Response:', response.data);
       setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
@@ -59,8 +58,7 @@ const NewRentalTypeAdd = () => {
           </Typography>
           <Formik
             initialValues={{
-              date: new Date(),
-              rentType: '',
+              label: '',
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -72,10 +70,10 @@ const NewRentalTypeAdd = () => {
                     <Field
                       as={TextField}
                       label='নতুন ভাড়ার ধরণ'
-                      name='rentaltypeadd'
+                      name='label'
                       fullWidth
-                      error={!!errors.rentaltypeadd}
-                      helperText={<ErrorMessage name='rentaltypeadd' />}
+                      error={!!errors.label}
+                      helperText={<ErrorMessage name='label' />}
                     />
                   </Grid>
                   <Grid item xs={12}>

@@ -1,18 +1,66 @@
 import AppCard from '@crema/core/AppCard';
 import {Button, Typography} from '@mui/material';
-import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {onGetAnalyticsData} from 'redux/actions';
+import React, {useEffect, useState} from 'react';
 import RentalTable from './RentalTable';
 import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
+import axios from 'axios';
 
 const Analytics = () => {
-  const dispatch = useDispatch();
-
+  const [totalPages, setTotalPages] = useState(1);
+  const [rentalName, setRentals] = useState([]);
   useEffect(() => {
-    dispatch(onGetAnalyticsData());
-  }, [dispatch]);
+    getRentals();
+  }, []);
+  const getRentals = async () => {
+    try {
+      const query = ''; // Provide the search query if needed
+      const page = 1; // Provide the current page number
+      const perPage = 10; // Provide the number of items per page
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/rental`,
+        {
+          params: {
+            query,
+            page,
+            perPage,
+          },
+        },
+      );
+      const {rentalName} = response.data;
+      console.log(response.data);
+      setRentals(rentalName);
+      setTotalPages(totalPages);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const onSearch = async (value) => {
+    console.log(value);
+    try {
+      const query = value;
+      const page = 1;
+      const perPage = 10;
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/rental`,
+        {
+          params: {
+            query,
+            page,
+            perPage,
+          },
+        },
+      );
+      const {rentalName} = response.data;
+      setRentals(rentalName);
+      setTotalPages(totalPages);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
   // const analyticsData = useSelector(({dashboard}) => dashboard.analyticsData);
 
@@ -20,9 +68,9 @@ const Analytics = () => {
     <>
       <AppCard>
         <Typography varient='h4'>Rental Module</Typography>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div>
           <div style={{marginTop: '30px'}}>
-            <SearchBar />
+            <SearchBar onSearch={onSearch} />
           </div>
           <div style={{display: 'flex'}}>
             <div>
@@ -38,7 +86,10 @@ const Analytics = () => {
               </RouterLink>
             </div>
             <div>
-              <RouterLink to={`/dashboard/add-new-rental-type`} underline='none'>
+              <RouterLink
+                to={`/dashboard/add-new-rental-type`}
+                underline='none'
+              >
                 <Button
                   variant='outlined'
                   sx={{float: 'right', margin: '30px'}}
@@ -63,7 +114,7 @@ const Analytics = () => {
             </div>
           </div>
         </div>
-        <RentalTable />
+        <RentalTable orderList={rentalName} />
       </AppCard>
     </>
   );

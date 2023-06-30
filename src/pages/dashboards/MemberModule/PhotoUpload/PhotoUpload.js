@@ -9,10 +9,12 @@ const PhotoUpload = ({id}) => {
 
   const handleUserPhotoUpload = (event) => {
     const memberId = id;
+    const imagetype = 'user';
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
     formData.append('memberId', memberId);
+    formData.append('imagetype', imagetype);
 
     axios
       .post('http://localhost:5000/members/upload', formData)
