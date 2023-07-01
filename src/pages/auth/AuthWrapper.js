@@ -66,6 +66,16 @@ const AuthWrapper = ({children}) => {
             >
               ANSARUL MUSLIMIN BAHUMUKHI SOMOBAY SOMITI LTD.
             </Typography>
+            <Typography
+              component='h5'
+              sx={{
+                fontWeight: Fonts.BOLD,
+                fontSize: 16,
+                mb: 4,
+              }}
+            >
+              Developed By - TechWave Limited
+            </Typography>
           </Box>
         </Box>
       </Card>

@@ -118,7 +118,7 @@ const UserInfo = ({color}) => {
               color: 'inherit',
             }}
           >
-            System Manager
+            ADMIN
           </Box>
         </Box>
       </Box>

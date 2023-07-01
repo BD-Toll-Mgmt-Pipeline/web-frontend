@@ -66,7 +66,7 @@ const Analytics = () => {
 
   return (
     <AppCard>
-      <Typography variant='h4'>Rental Module</Typography>
+      <Typography variant='h4'>Loan Managment Module</Typography>
       <div style={{ marginTop: '30px' }}>
         <SearchBar onSearch={onSearch} />
       </div>

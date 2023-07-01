@@ -6,15 +6,15 @@ import {useIntl} from 'react-intl';
 import IntlMessages from '@crema/utility/IntlMessages';
 import Box from '@mui/material/Box';
 import AppTextField from '@crema/core/AppFormComponents/AppTextField';
-import Checkbox from '@mui/material/Checkbox';
+// import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import AppInfoView from '@crema/core/AppInfoView';
 import {useAuthMethod} from '@crema/utility/AuthHooks';
 import {Fonts} from 'shared/constants/AppEnums';
-import {AiOutlineGoogle, AiOutlineTwitter} from 'react-icons/ai';
-import {FaFacebookF} from 'react-icons/fa';
-import {BsGithub} from 'react-icons/bs';
+import { Typography } from '@mui/material';
+// import {FaFacebookF} from 'react-icons/fa';
+// import {BsGithub} from 'react-icons/bs';
 
 const validationSchema = yup.object({
   email: yup
@@ -27,7 +27,7 @@ const validationSchema = yup.object({
 });
 
 const SigninFirebase = () => {
-  const {logInWithEmailAndPassword, logInWithPopup} = useAuthMethod();
+  const {logInWithEmailAndPassword} = useAuthMethod();
   const navigate = useNavigate();
 
   const onGoToForgetPassword = () => {
@@ -96,14 +96,14 @@ const SigninFirebase = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Checkbox sx={{ml: -3}} />
+                  {/* <Checkbox sx={{ml: -3}} /> */}
                   <Box
                     component='span'
                     sx={{
                       color: 'grey.500',
                     }}
                   >
-                    <IntlMessages id='common.rememberMe' />
+                    {/* <IntlMessages id='common.rememberMe' /> */}
                   </Box>
                 </Box>
                 <Box
@@ -117,7 +117,7 @@ const SigninFirebase = () => {
                   }}
                   onClick={onGoToForgetPassword}
                 >
-                  <IntlMessages id='common.forgetPassword' />
+                  {/* <IntlMessages id='common.forgetPassword' /> */}
                 </Box>
               </Box>
 
@@ -149,9 +149,9 @@ const SigninFirebase = () => {
           mb: {xs: 5, md: 7},
         }}
       >
-        <span style={{marginRight: 4}}>
-          <IntlMessages id='common.dontHaveAccount' />
-        </span>
+        {/* <span style={{marginRight: 4}}> */}
+          {/* <IntlMessages id='common.dontHaveAccount' /> */}
+        {/* </span> */}
         <Box
           component='span'
           sx={{
@@ -163,7 +163,7 @@ const SigninFirebase = () => {
           }}
         >
           <Link to='/signup'>
-            <IntlMessages id='common.signup' />
+            {/* <IntlMessages id='common.signup' /> */}
           </Link>
         </Box>
       </Box>
@@ -186,55 +186,15 @@ const SigninFirebase = () => {
             color: (theme) => theme.palette.text.secondary,
           }}
         >
-          <IntlMessages id='common.orLoginWith' />
+          <Typography>All Right Reserved</Typography>
+          {/* <IntlMessages id='common.orLoginWith' /> */}
         </Box>
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
           }}
-        >
-          <IconButton
-            sx={{
-              p: 2,
-              '& svg': {fontSize: 18},
-              color: (theme) => theme.palette.text.secondary,
-            }}
-            onClick={() => logInWithPopup('google')}
-          >
-            <AiOutlineGoogle />
-          </IconButton>
-          <IconButton
-            sx={{
-              p: 1.5,
-              '& svg': {fontSize: 18},
-              color: (theme) => theme.palette.text.secondary,
-            }}
-            onClick={() => logInWithPopup('facebook')}
-          >
-            <FaFacebookF />
-          </IconButton>
-          <IconButton
-            sx={{
-              p: 1.5,
-              '& svg': {fontSize: 18},
-              color: (theme) => theme.palette.text.secondary,
-            }}
-            onClick={() => logInWithPopup('github')}
-          >
-            <BsGithub />
-          </IconButton>
-          <IconButton
-            sx={{
-              p: 1.5,
-              '& svg': {fontSize: 18},
-              color: (theme) => theme.palette.text.secondary,
-            }}
-            onClick={() => logInWithPopup('twitter')}
-          >
-            <AiOutlineTwitter />
-          </IconButton>
-        </Box>
+        ></Box>
       </Box>
 
       <AppInfoView />

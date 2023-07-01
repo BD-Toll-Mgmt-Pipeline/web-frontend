@@ -1,11 +1,11 @@
-import {FaRegHospital} from 'react-icons/fa';
-import {HiOutlineAcademicCap} from 'react-icons/hi';
-import {
-  RiCustomerService2Line,
-  // RiDashboardLine,
-} from 'react-icons/ri';
-import {BsCart4, BsCurrencyBitcoin} from 'react-icons/bs';
-import {MdOutlineAnalytics} from 'react-icons/md';
+import {FaMoneyBill, FaHandHoldingUsd,FaHandshake} from 'react-icons/fa';
+import {HiOfficeBuilding} from 'react-icons/hi';
+import // RiCustomerService2Line,
+// RiDashboardLine,
+'react-icons/ri';
+import {BsPeopleFill} from 'react-icons/bs';
+// import {MdOutlineAnalytics} from 'react-icons/md';
+import {AiFillProject} from 'react-icons/ai';
 
 const routesConfig = [
   {
@@ -19,7 +19,7 @@ const routesConfig = [
         title: 'সদস্য  ব্যবস্থাপনা ',
         messageId: 'সদস্য  ব্যবস্থাপনা',
         type: 'item',
-        icon: <BsCurrencyBitcoin />,
+        icon: <BsPeopleFill />,
         url: '/dashboards/crypto',
       },
       {
@@ -27,7 +27,7 @@ const routesConfig = [
         title: 'কোম্পানি ব্যবস্থাপনা',
         messageId: 'কোম্পানি ব্যবস্থাপনা',
         type: 'item',
-        icon: <RiCustomerService2Line />,
+        icon: <HiOfficeBuilding />,
         url: '/dashboards/crm',
       },
       {
@@ -35,7 +35,7 @@ const routesConfig = [
         title: 'ভাড়া ব্যবস্থাপনা',
         messageId: 'ভাড়া ব্যবস্থাপনা',
         type: 'item',
-        icon: <MdOutlineAnalytics />,
+        icon: <FaHandshake />,
         url: '/dashboards/analytics',
       },
       {
@@ -43,7 +43,7 @@ const routesConfig = [
         title: 'প্রজেক্ট ব্যবস্থাপনা ',
         messageId: 'প্রজেক্ট ব্যবস্থাপনা',
         type: 'item',
-        icon: <FaRegHospital />,
+        icon: <AiFillProject />,
         url: '/dashboards/health-care',
       },
       {
@@ -51,7 +51,7 @@ const routesConfig = [
         title: 'আয়-ব্যায় ব্যবস্থাপনা ',
         messageId: 'আয়-ব্যায় ব্যবস্থাপনা ',
         type: 'item',
-        icon: <BsCart4 />,
+        icon: <FaMoneyBill />,
         url: '/dashboards/e-commerce',
       },
       {
@@ -59,7 +59,7 @@ const routesConfig = [
         title: 'কর্জে হাসনা ব্যবস্থাপনা ',
         messageId: 'কর্জে হাসনা ব্যবস্থাপনা',
         type: 'item',
-        icon: <HiOutlineAcademicCap />,
+        icon: <FaHandHoldingUsd />,
         url: '/dashboards/academy',
       },
       // {

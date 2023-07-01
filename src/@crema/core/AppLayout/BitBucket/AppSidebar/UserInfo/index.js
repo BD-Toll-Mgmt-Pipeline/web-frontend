@@ -88,26 +88,16 @@ const UserInfo = () => {
               mr: 3.5,
             }}
           >
-            {user.photoURL ? (
-              <Avatar
-                sx={{
-                  height: 40,
-                  width: 40,
-                }}
-                src={user.photoURL}
-              />
-            ) : (
-              <Avatar
-                sx={{
-                  height: 40,
-                  width: 40,
-                  fontSize: 20,
-                  backgroundColor: orange[500],
-                }}
-              >
-                {getUserAvatar()}
-              </Avatar>
-            )}
+            <Avatar
+              sx={{
+                height: 40,
+                width: 40,
+                fontSize: 20,
+                backgroundColor: orange[500],
+              }}
+            >
+              {getUserAvatar()}
+            </Avatar>
           </Box>
 
           <Box>
@@ -133,7 +123,7 @@ const UserInfo = () => {
                 color: (theme) => theme.palette.text.secondary,
               }}
             >
-              System Manager
+              ADMIN
             </Box>
           </Box>
         </MenuItem>

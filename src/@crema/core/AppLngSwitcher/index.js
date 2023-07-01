@@ -70,7 +70,7 @@ const AppLngSwitcher = ({iconOnly, tooltipPosition}) => {
           size='large'
         >
           <TranslateOutlinedIcon />
-          <span className='langText'>{locale.name}</span>
+          <span className=' '>{locale.name}</span>
         </IconButton>
       ) : (
         <AppTooltip title='Language' placement={tooltipPosition}>
