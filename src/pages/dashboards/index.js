@@ -3,12 +3,13 @@ import {RoutePermittedRole} from 'shared/constants/AppConst';
 import EditMember from './MemberModule/EditMember/EditMember';
 import MemberDetails from './MemberModule/MemberDetails/MemberDetails';
 import NewRentalTypeAdd from './RentalModule/NewRentalTypeAdd/NewRentalTypeAdd';
+import RentalDetails from './RentalModule/RentalDetails/RentalDetails';
 import RentalReport from './RentalModule/RentalReport/RentalReport';
-import PaymentVoucher from './VoucherModule/PaymentVoucher/PaymentVoucher';
-import ReceiveVoucher from './VoucherModule/ReceiveVoucher/ReceiveVoucher';
+import PaymentVoucher from './IncomeExpenseModule/PaymentVoucher/PaymentVoucher';
+import ReceiveVoucher from './IncomeExpenseModule/ReceiveVoucher/ReceiveVoucher';
 
 const HealthCare = React.lazy(() => import('./ProjectModule'));
-const VoucherModule = React.lazy(() => import('./VoucherModule'));
+const VoucherModule = React.lazy(() => import('./IncomeExpenseModule'));
 const CRM = React.lazy(() => import('./CompanyModule'));
 const MemberModule = React.lazy(() => import('./MemberModule'));
 const RentalModule = React.lazy(() => import('./RentalModule'));
@@ -90,5 +91,10 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/member-details/:id',
     element: <MemberDetails />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/rental-details/:id',
+    element: <RentalDetails />,
   },
 ];

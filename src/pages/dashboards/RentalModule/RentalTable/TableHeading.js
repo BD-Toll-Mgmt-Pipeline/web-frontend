@@ -20,7 +20,7 @@ const TableHeading = () => {
         },
       }}
     >
-      <TableCell>তারিখ</TableCell>
+      <TableCell>আবেদনের তারিখ</TableCell>
       <TableCell>নাম</TableCell>
       <TableCell>মোবাইল নাম্বার</TableCell>
       <TableCell>ভাড়ার ধরণ</TableCell>
