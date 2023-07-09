@@ -1,15 +1,18 @@
-import AppCard from '@crema/core/AppCard';
-import {Typography, Skeleton} from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
-import ActiveStatus from '@crema/common/ActiveStatus';
 import {useParams} from 'react-router-dom';
+import {Typography, Skeleton} from '@mui/material';
+import ActiveStatus from '@crema/common/ActiveStatus';
+import AppCard from '@crema/core/AppCard';
 
 export default function MemberDetails() {
   const {id} = useParams();
   const [member, setMember] = useState({});
   const [loading, setLoading] = useState(true);
-  console.log(member);
+  const [imageLoading, setImageLoading] = useState(true);
+  const [profileImage, setProfileImage] = useState(null);
+  const [nomineeImage, setNomineeImage] = useState(null);
+  const [nomineeImageLoading, setNomineeImageLoading] = useState(true);
 
   const getMember = async () => {
     let memberid = id;
@@ -24,8 +27,46 @@ export default function MemberDetails() {
     }
   };
 
+  const getUserProfileImage = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/members/image/user/${id}`,
+        {responseType: 'arraybuffer'},
+      );
+      const blob = new Blob([response.data], {
+        type: response.headers['content-type'],
+      });
+      const url = URL.createObjectURL(blob);
+      setProfileImage(url);
+      setImageLoading(false);
+    } catch (error) {
+      console.log(error);
+      setImageLoading(false);
+    }
+  };
+
+  const getNomineeProfileImage = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/members/image/nominee/${id}`,
+        {responseType: 'arraybuffer'},
+      );
+      const blob = new Blob([response.data], {
+        type: response.headers['content-type'],
+      });
+      const url = URL.createObjectURL(blob);
+      setNomineeImage(url);
+      setNomineeImageLoading(false);
+    } catch (error) {
+      console.log(error);
+      setNomineeImageLoading(false);
+    }
+  };
+
   useEffect(() => {
     getMember();
+    getUserProfileImage();
+    getNomineeProfileImage();
   }, []);
 
   return (
@@ -39,6 +80,40 @@ export default function MemberDetails() {
           <Skeleton variant='rectangular' width={200} height={30} />
         ) : (
           <>
+            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+              <div>
+                <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
+                  User Photo
+                </Typography>
+                {imageLoading ? (
+                  <Skeleton variant='rectangular' width={200} height={200} />
+                ) : (
+                  profileImage && (
+                    <img
+                      src={profileImage}
+                      alt='Member'
+                      style={{width: 200, height: 200}}
+                    />
+                  )
+                )}
+              </div>
+              <div>
+                <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
+                  Nominee Photo
+                </Typography>
+                {nomineeImageLoading ? (
+                  <Skeleton variant='rectangular' width={200} height={200} />
+                ) : (
+                  nomineeImage && (
+                    <img
+                      src={nomineeImage}
+                      alt='Nominee'
+                      style={{width: 200, height: 200}}
+                    />
+                  )
+                )}
+              </div>
+            </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
                 আবেদনকারীর নাম: {member.name}
@@ -122,7 +197,7 @@ export default function MemberDetails() {
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                সনাক্তকারি সদস্যর ঠিকানাঃ: {member.identificationMemberAddress}
+                সনাক্তকারি সদস্যর ঠিকানাঃ {member.identificationMemberAddress}
               </Typography>
             </div>
           </>

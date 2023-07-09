@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import {Fonts} from 'shared/constants/AppEnums';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@mui/material/Link';
-import ActiveStatus from '@crema/common/ActiveStatus';
+// import ActiveStatus from '@crema/common/ActiveStatus';
 import RentalAppMenuList from '../RentalAppMenuList/RentalAppMenuList';
 import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
@@ -57,18 +57,10 @@ const TableItem = ({data}) => {
         </Box>
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.phone}
+        {data.memberId}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         {data.rentaltype}
-      </TableCell>
-      <TableCell align='left' className='tableCell'>
-        {data.advancepay}
-      </TableCell>
-      <TableCell align='left' className='tableCell'>
-        <ActiveStatus
-          status={data?.activeStatus === true ? 'active' : 'inactive'}
-        />
       </TableCell>
       <TableCell>
         <RentalAppMenuList id={data.memberId} />

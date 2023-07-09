@@ -1,11 +1,11 @@
 import AppCard from '@crema/core/AppCard';
 import {Button, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import RentalTable from './RentalTable';
 import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
+import IncomeExpenseTable from './IncomeExpenseTable';
 
 const Analytics = () => {
   const [totalPages, setTotalPages] = useState(1);
@@ -13,20 +13,20 @@ const Analytics = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    getRentals(currentPage);
+    getIncomeExpense(currentPage);
   }, [currentPage]);
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
-  const getRentals = async (page) => {
+  const getIncomeExpense = async (page) => {
     try {
       const query = ''; // Provide the search query if needed
       const perPage = 10; // Provide the number of items per page
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
+        `${process.env.REACT_APP_BASE_URL}/income-expense`,
         {
           params: {
             query,
@@ -35,9 +35,9 @@ const Analytics = () => {
           },
         },
       );
-
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
+      console.log(response.data,"ndkndkndskosdnlkdsnlksdn sdkjnfoknsfoknsfkfnskl");
+      const {allIncomeExpense, totalPages} = response.data;
+      setRentals(allIncomeExpense);
       setTotalPages(totalPages);
     } catch (error) {
       console.error('Error:', error.message);
@@ -100,7 +100,7 @@ const Analytics = () => {
           </RouterLink>
         </div>
       </div>
-      <RentalTable orderList={rentalName} />
+      <IncomeExpenseTable orderList={rentalName} />
       <Pagination
         sx={{margin: '20px'}}
         count={totalPages}

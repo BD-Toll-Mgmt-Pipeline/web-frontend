@@ -17,9 +17,9 @@ const PhotoUpload = ({id}) => {
     formData.append('imagetype', imagetype);
 
     axios
-      .post('http://localhost:5000/members/upload', formData)
+      .post(`${process.env.REACT_APP_BASE_URL}/members/upload`, formData)
       .then((response) => {
-        const imageUrl = response.data.imageUrl; // Modify this line based on the actual response from the server
+        const imageUrl = response.data.imageUrl;
         setUserPhoto(imageUrl);
       })
       .catch((error) => {
@@ -28,49 +28,64 @@ const PhotoUpload = ({id}) => {
   };
 
   const handleNomineePhotoUpload = (event) => {
+    const memberId = id;
+    const imagetype = 'nominee';
     const file = event.target.files[0];
-    resizeImage(file, setNomineePhoto);
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('memberId', memberId);
+    formData.append('imagetype', imagetype);
+
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/members/upload`, formData)
+      .then((response) => {
+        const imageUrl = response.data.imageUrl;
+        setNomineePhoto(imageUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const resizeImage = (file, setImage) => {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      const img = new Image();
-      img.src = event.target.result;
-      img.onload = function () {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const MAX_SIZE = 2 * 300; // 2 inches at 300 DPI
-        let width = img.width;
-        let height = img.height;
+  // const resizeImage = (file, setImage) => {
+  //   const reader = new FileReader();
+  //   reader.onload = function (event) {
+  //     const img = new Image();
+  //     img.src = event.target.result;
+  //     img.onload = function () {
+  //       const canvas = document.createElement('canvas');
+  //       const ctx = canvas.getContext('2d');
+  //       const MAX_SIZE = 2 * 300; // 2 inches at 300 DPI
+  //       let width = img.width;
+  //       let height = img.height;
 
-        if (width > height) {
-          if (width > MAX_SIZE) {
-            height *= MAX_SIZE / width;
-            width = MAX_SIZE;
-          }
-        } else {
-          if (height > MAX_SIZE) {
-            width *= MAX_SIZE / height;
-            height = MAX_SIZE;
-          }
-        }
+  //       if (width > height) {
+  //         if (width > MAX_SIZE) {
+  //           height *= MAX_SIZE / width;
+  //           width = MAX_SIZE;
+  //         }
+  //       } else {
+  //         if (height > MAX_SIZE) {
+  //           width *= MAX_SIZE / height;
+  //           height = MAX_SIZE;
+  //         }
+  //       }
 
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(img, 0, 0, width, height);
+  //       canvas.width = width;
+  //       canvas.height = height;
+  //       ctx.drawImage(img, 0, 0, width, height);
 
-        canvas.toBlob((blob) => {
-          const resizedFile = new File([blob], file.name, {
-            type: file.type,
-            lastModified: Date.now(),
-          });
-          setImage(URL.createObjectURL(resizedFile));
-        }, file.type);
-      };
-    };
-    reader.readAsDataURL(file);
-  };
+  //       canvas.toBlob((blob) => {
+  //         const resizedFile = new File([blob], file.name, {
+  //           type: file.type,
+  //           lastModified: Date.now(),
+  //         });
+  //         setImage(URL.createObjectURL(resizedFile));
+  //       }, file.type);
+  //     };
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
   return (
     <div className='photo-upload-container'>
@@ -108,7 +123,7 @@ const PhotoUpload = ({id}) => {
 };
 
 PhotoUpload.propTypes = {
-    id: PropTypes.string.isRequired,
-  };
+  id: PropTypes.string.isRequired,
+};
 
 export default PhotoUpload;

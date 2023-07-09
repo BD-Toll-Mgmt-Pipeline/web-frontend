@@ -8,15 +8,18 @@ import {
   Button,
 } from '@mui/material';
 import {Alert} from '@mui/material';
+import axios from 'axios';
 
 const PaymentVoucher = () => {
-  const [rows, setRows] = useState([
-    {number: '1', description: '', amount: ''},
-  ]);
+  const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
+  const [name, setName] = useState('');
+  const [memberId, setMemberId] = useState('');
+  const [currentAddress, setCurrentAddress] = useState('');
+  const [date, setDate] = useState('');
 
   const calculateTotalAmount = () => {
     const sum = rows.reduce((total, row) => {
@@ -24,8 +27,20 @@ const PaymentVoucher = () => {
     }, 0);
     setTotalAmount(sum);
   };
+  const isLastRowDescriptionSelected = () => {
+    const lastRowIndex = rows.length - 1;
+    const lastRow = rows[lastRowIndex];
+    return !!lastRow.description;
+  };
 
   const handleAddRow = () => {
+    if (!isLastRowDescriptionSelected()) {
+      setSnackbarMessage('সর্বশেষ সারির জন্য একটি বিবরণ নির্বাচন করুন');
+      setSnackbarSeverity('warning');
+      setSnackbarOpen(true);
+      return;
+    }
+
     const nextNumber = rows.length + 1;
     setRows([...rows, {number: nextNumber, description: '', amount: ''}]);
   };
@@ -41,17 +56,38 @@ const PaymentVoucher = () => {
   };
 
   const handleSubmit = async () => {
-    // Your submit logic here
     try {
-      // Submit the rows data using axios or other methods
-      console.log('Rows:', rows);
-      setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
+      const dataToSend = {
+        date,
+        name,
+        memberId,
+        currentAddress,
+        myArrayField: rows.map((row) => ({
+          number: row.number,
+          description: row.description,
+          amount: row.amount,
+        })),
+      };
+      console.log(
+        dataToSend,
+        'jadnjadndjndjindjidnjidfnjisdnidjsfndifjndfijndfij',
+      );
+
+      // Send a POST request to your API endpoint using axios
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/income-expense`,
+        dataToSend,
+      );
+
+      // Handle the response
+      console.log('Response:', response.data);
+      setSnackbarMessage('সফলভাবে তৈরী হয়েছে');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
     } catch (error) {
       console.error('Failed to submit');
       console.error('Error:', error.message);
-      setSnackbarMessage('ব্যর্থ হয়েছে ');
+      setSnackbarMessage('ব্যর্থ হয়েছে');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }
@@ -64,7 +100,21 @@ const PaymentVoucher = () => {
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
-          <Typography sx={{textAlign: 'center'}} variant='h2' mb={4}>
+          <Button
+            variant='outlined'
+            color='primary'
+            // href={refUrl}
+            target='_blank'
+            sx={{margin: '10px'}}
+          >
+            নতুন বিবরণ যোগ করুন
+          </Button>
+          <hr />
+          <Typography
+            sx={{textAlign: 'center', margin: '10px'}}
+            variant='h2'
+            mb={4}
+          >
             আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি: <br />
             ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
           </Typography>
@@ -83,11 +133,35 @@ const PaymentVoucher = () => {
             }}
             mb={5}
           >
-            টাকা প্রদানের রসিদ
+            টাকা রসিদ
           </Typography>
+          <Typography>রসিদ নং - 46838</Typography>
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <Typography>রসিদ নং - 46838</Typography>
-            <TextField id='date' label='তারিখ' type='date' />
+            <div style={{margin: '10px'}}>
+              <TextField
+                label='Name'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                label='Member ID'
+                value={memberId}
+                onChange={(e) => setMemberId(e.target.value)}
+              />
+            </div>
+            <div style={{margin: '10px'}}>
+              <TextField
+                label='Address'
+                value={currentAddress}
+                onChange={(e) => setCurrentAddress(e.target.value)}
+              />
+              <TextField
+                label='Date'
+                type='date'
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
           </div>
           <Grid container spacing={2} mb={4} mt={4} sx={{textAlign: 'center'}}>
             <Grid item xs={2}>
@@ -149,19 +223,30 @@ const PaymentVoucher = () => {
               ))}
             </Grid>
           </Grid>
-          <Button variant='contained' onClick={handleAddRow}>
-            যোগ করুন
-          </Button>
-          <div style={{textAlign: 'right', marginTop: '20px'}}>
+          <div style={{textAlign: 'right', margin: '20px'}}>
             <Typography>মোট টাকার পরিমাণ: {totalAmount}</Typography>
           </div>
-          <Button
-            variant='contained'
-            onClick={handleSubmit}
-            sx={{marginTop: '20px'}}
+          <hr />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginTop: '20px',
+            }}
           >
-            সংরক্ষণ করুন
-          </Button>
+            <Button variant='outlined' onClick={handleAddRow}>
+              সারি অ্যাড করুন
+            </Button>
+            <br />
+            <Button
+              variant='outlined'
+              onClick={handleSubmit}
+              sx={{marginTop: '20px'}}
+            >
+              সংরক্ষণ করুন
+            </Button>
+          </div>
+
           <Snackbar
             open={snackbarOpen}
             autoHideDuration={6000}
