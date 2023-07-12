@@ -51,7 +51,7 @@ const Analytics = () => {
       const perPage = 10;
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
+        `${process.env.REACT_APP_BASE_URL}/income-expense`,
         {
           params: {
             query,
@@ -61,10 +61,10 @@ const Analytics = () => {
         },
       );
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
+      const {allIncomeExpense, totalPages} = response.data;
+      setRentals(allIncomeExpense);
       setTotalPages(totalPages);
-      setCurrentPage(1); // Reset the current page to 1 when performing a new search
+      setCurrentPage(1); 
     } catch (error) {
       console.error('Error:', error.message);
     }

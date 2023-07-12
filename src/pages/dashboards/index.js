@@ -7,6 +7,8 @@ import RentalDetails from './RentalModule/RentalDetails/RentalDetails';
 import RentalReport from './RentalModule/RentalReport/RentalReport';
 import PaymentVoucher from './IncomeExpenseModule/PaymentVoucher/PaymentVoucher';
 import ReceiveVoucher from './IncomeExpenseModule/ReceiveVoucher/ReceiveVoucher';
+import EditRoshid from './IncomeExpenseModule/EditRoshid/EditRoshid';
+
 
 const HealthCare = React.lazy(() => import('./ProjectModule'));
 const VoucherModule = React.lazy(() => import('./IncomeExpenseModule'));
@@ -81,6 +83,11 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/add-payment-voucher',
     element: <PaymentVoucher />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/edit-payment-voucher/:id',
+    element: <EditRoshid />,
   },
   {
     permittedRole: RoutePermittedRole.user,

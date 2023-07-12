@@ -34,7 +34,7 @@ const SearchBar = ({onSearch}) => {
   const getRentalTypes = async () => {
     try {
       const response = await axios.get(
-        process.env.REACT_APP_BASE_URL + '/rental/rental-types',
+        process.env.REACT_APP_BASE_URL + '/income-expense',
       );
       setTypes(response.data.data);
     } catch (error) {
