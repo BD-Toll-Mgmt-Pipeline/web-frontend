@@ -11,7 +11,7 @@ import {Alert} from '@mui/material';
 import axios from 'axios';
 const moment = require('moment');
 
-const PaymentVoucher = () => {
+const IncomeVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [voucherno, setVoucherno] = useState(0);
@@ -19,8 +19,9 @@ const PaymentVoucher = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
   const [name, setName] = useState('');
+  const [memberId, setMemberId] = useState('');
+  const [currentAddress, setCurrentAddress] = useState('');
   const [date, setDate] = useState('');
-  const [largeParagraph, setLargeParagraph] = useState('');
 
   const calculateTotalAmount = () => {
     const sum = rows.reduce((total, row) => {
@@ -56,27 +57,27 @@ const PaymentVoucher = () => {
     setSnackbarOpen(false);
   };
 
-  const generateNo = () => {
-    const timestamp = moment().format('YYMMDDHHmmss');
-    const voucherNumber = `V${timestamp}`;
-    setVoucherno(voucherNumber);
-  };
-
   const handleSubmit = async () => {
     try {
       const dataToSend = {
         date,
         name,
+        memberId,
+        currentAddress,
         myArrayField: rows.map((row) => ({
           number: row.number,
           description: row.description,
           amount: row.amount,
         })),
       };
+      console.log(
+        dataToSend,
+        'jadnjadndjndjindjidnjidfnjisdnidjsfndifjndfijndfij',
+      );
 
       // Send a POST request to your API endpoint using axios
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/`,
+        `${process.env.REACT_APP_BASE_URL}/income-expense`,
         dataToSend,
       );
 
@@ -94,14 +95,32 @@ const PaymentVoucher = () => {
     }
   };
 
+  const generateNo = () => {
+    const timestamp = moment().format('YYMMDDHHmmss');
+    const voucherNumber = `R${timestamp}`;
+    setVoucherno(voucherNumber);
+  };
+
   useEffect(() => {
     generateNo();
   }, []);
+
+  // Dropdown options for "বিবরণ"
+  const descriptionOptions = ['Option 1', 'Option 2', 'Option 3'];
 
   return (
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
+          <Button
+            variant='outlined'
+            color='primary'
+            // href={refUrl}
+            target='_blank'
+            sx={{margin: '10px'}}
+          >
+            নতুন বিবরণ যোগ করুন
+          </Button>
           <hr />
           <Typography
             sx={{textAlign: 'center', margin: '10px'}}
@@ -126,37 +145,40 @@ const PaymentVoucher = () => {
             }}
             mb={5}
           >
-            ভাউচার
+            টাকা গ্রহনের রসিদ
           </Typography>
-          <div style={{display: 'flex', justifyContent: 'space-around'}}>
-            <Typography>ভাউচার নং - {voucherno}</Typography>
-            <TextField
-              // label='Date'
-              type='date'
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <div style={{margin: '10px', textAlign: 'center'}}>
+          <Typography>রসিদ নং - {voucherno}</Typography>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <div style={{margin: '10px'}}>
               <TextField
-                label='ভাউচার টাইটেল'
+                label='Name'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                sx={{margin: '10px'}}
+              />
+              <TextField
+                label='Member ID'
+                value={memberId}
+                onChange={(e) => setMemberId(e.target.value)}
+                sx={{margin: '10px'}}
+              />
+            </div>
+            <div style={{margin: '10px'}}>
+              <TextField
+                label='Address'
+                value={currentAddress}
+                onChange={(e) => setCurrentAddress(e.target.value)}
+                sx={{margin: '10px'}}
+              />
+              <TextField
+                // label='Date'
+                type='date'
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                sx={{margin: '10px'}}
               />
             </div>
           </div>
-
-          <TextField
-            label='ভাউচার বিবরণ'
-            multiline
-            rows={6}
-            value={largeParagraph}
-            onChange={(e) => setLargeParagraph(e.target.value)}
-            fullWidth
-          />
-
           <Grid container spacing={2} mb={4} mt={4} sx={{textAlign: 'center'}}>
             <Grid item xs={2}>
               <Typography
@@ -173,32 +195,29 @@ const PaymentVoucher = () => {
             <Grid item xs={6}>
               <Typography
                 variant='h3'
-                component='h3'
+                component='h2'
                 sx={{backgroundColor: 'black', color: 'white'}}
               >
                 বিবরণ
               </Typography>
               {rows.map((row, index) => (
-                <TextField
+                <select
                   key={index}
                   value={row.description}
                   onChange={(e) =>
                     handleRowChange(index, 'description', e.target.value)
                   }
-                  placeholder='বিবরণ লিখুন'
-                  fullWidth
-                  multiline
-                  variant='outlined'
-                  sx={{
-                    marginBottom: '5px',
-                    '& input::placeholder': {
-                      fontSize: '12px',
-                    },
-                  }}
-                />
+                  style={{width: '100%', height: '50px', marginBottom: '5px'}}
+                >
+                  <option value=''>বিবরণ নির্বাচন করুন</option>
+                  {descriptionOptions.map((option, optionIndex) => (
+                    <option key={optionIndex} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
               ))}
             </Grid>
-
             <Grid item xs={4}>
               <Typography
                 variant='h3'
@@ -263,4 +282,4 @@ const PaymentVoucher = () => {
   );
 };
 
-export default PaymentVoucher;
+export default IncomeVoucher;

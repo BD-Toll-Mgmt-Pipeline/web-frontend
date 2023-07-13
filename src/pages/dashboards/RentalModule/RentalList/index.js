@@ -22,7 +22,6 @@ const StyledTable = styled(Table)(() => ({
 }));
 
 const OrderList = ({customerDetails}) => {
-  console.log(customerDetails, "customerDetailscustomerDetailscustomerDetailscustomerDetailscustomerDetails");
   return (
     <AppCard>
       <Typography variant='h3' mb={3}>

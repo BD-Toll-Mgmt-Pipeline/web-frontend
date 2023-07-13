@@ -1,16 +1,21 @@
 import AppCard from '@crema/core/AppCard';
-import {Button, Typography} from '@mui/material';
-import React, {useEffect, useState} from 'react';
-import {Link as RouterLink} from 'react-router-dom';
+import { Button, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
-import IncomeExpenseTable from './IncomeExpenseTable';
+import IncomeTable from './IncomeTable';
+import ExpenseTable from './ExpenseTable';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
 
 const Analytics = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [rentalName, setRentals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTab, setSelectedTab] = useState('income');
 
   useEffect(() => {
     getIncomeExpense(currentPage);
@@ -18,6 +23,10 @@ const Analytics = () => {
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
   };
 
   const getIncomeExpense = async (page) => {
@@ -33,10 +42,10 @@ const Analytics = () => {
             page,
             perPage,
           },
-        },
+        }
       );
-      console.log(response.data,"ndkndkndskosdnlkdsnlksdn sdkjnfoknsfoknsfkfnskl");
-      const {allIncomeExpense, totalPages} = response.data;
+
+      const { allIncomeExpense, totalPages } = response.data;
       setRentals(allIncomeExpense);
       setTotalPages(totalPages);
     } catch (error) {
@@ -58,13 +67,13 @@ const Analytics = () => {
             page,
             perPage,
           },
-        },
+        }
       );
 
-      const {allIncomeExpense, totalPages} = response.data;
+      const { allIncomeExpense, totalPages } = response.data;
       setRentals(allIncomeExpense);
       setTotalPages(totalPages);
-      setCurrentPage(1); 
+      setCurrentPage(1);
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -73,18 +82,18 @@ const Analytics = () => {
   return (
     <AppCard>
       <Typography variant='h4'>Income-Expense Module</Typography>
-      <div style={{marginTop: '30px'}}>
+      <div style={{ marginTop: '30px' }}>
         <SearchBar onSearch={onSearch} />
       </div>
-      <div style={{display: 'flex'}}>
+      <div style={{ display: 'flex' }}>
         <div>
           <RouterLink to={`/dashboard/add-payment-voucher`} underline='none'>
             <Button
               variant='outlined'
-              sx={{float: 'right', margin: '30px'}}
+              sx={{ float: 'right', margin: '30px' }}
               color='primary'
             >
-              টাকা গ্রহনের রশিদ
+              নতুন রশিদ তৈরী  
             </Button>
           </RouterLink>
         </div>
@@ -92,17 +101,27 @@ const Analytics = () => {
           <RouterLink to={`/dashboard/add-receive-voucher`} underline='none'>
             <Button
               variant='outlined'
-              sx={{float: 'right', margin: '30px'}}
+              sx={{ float: 'right', margin: '30px' }}
               color='primary'
             >
-              টাকা প্রদানের ভাউচার
+              নতুন ভাউচার তৈরী  
             </Button>
           </RouterLink>
         </div>
       </div>
-      <IncomeExpenseTable orderList={rentalName} />
+      <TabContext value={selectedTab}>
+        <TabList onChange={handleTabChange}>
+          <Tab label='রশিদ' value='income' />
+          <Tab label='ভাউচার' value='expense' />
+        </TabList>
+        {selectedTab === 'income' ? (
+          <IncomeTable orderList={rentalName} />
+        ) : (
+          <ExpenseTable orderList={rentalName} />
+        )}
+      </TabContext>
       <Pagination
-        sx={{margin: '20px'}}
+        sx={{ margin: '20px' }}
         count={totalPages}
         page={currentPage}
         onChange={handlePageChange}

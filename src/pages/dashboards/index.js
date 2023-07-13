@@ -5,8 +5,8 @@ import MemberDetails from './MemberModule/MemberDetails/MemberDetails';
 import NewRentalTypeAdd from './RentalModule/NewRentalTypeAdd/NewRentalTypeAdd';
 import RentalDetails from './RentalModule/RentalDetails/RentalDetails';
 import RentalReport from './RentalModule/RentalReport/RentalReport';
+import IncomeVoucher from './IncomeExpenseModule/IncomeVoucher/IncomeVoucher';
 import PaymentVoucher from './IncomeExpenseModule/PaymentVoucher/PaymentVoucher';
-import ReceiveVoucher from './IncomeExpenseModule/ReceiveVoucher/ReceiveVoucher';
 import EditRoshid from './IncomeExpenseModule/EditRoshid/EditRoshid';
 
 
@@ -82,7 +82,7 @@ export const dashBoardConfigs = [
   {
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/add-payment-voucher',
-    element: <PaymentVoucher />,
+    element: <IncomeVoucher />,
   },
   {
     permittedRole: RoutePermittedRole.user,
@@ -92,7 +92,7 @@ export const dashBoardConfigs = [
   {
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/add-receive-voucher',
-    element: <ReceiveVoucher />,
+    element: <PaymentVoucher />,
   },
   {
     permittedRole: RoutePermittedRole.user,
