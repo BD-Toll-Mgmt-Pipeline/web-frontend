@@ -52,15 +52,15 @@ const TableItem = ({data}) => {
             to={`/dashboard/edit-member/${data.memberId}`}
             underline='none'
           >
-            {data.name}
+            {data.voucherNo}
           </Link>
         </Box>
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.memberId}
+        {data.total_amount}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.rentaltype}
+        {data.voucher_title}
       </TableCell>
       <TableCell>
         <RentalAppMenuList id={data.memberId} />

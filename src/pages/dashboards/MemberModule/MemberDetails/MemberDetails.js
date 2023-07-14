@@ -1,9 +1,12 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
-import {Typography, Skeleton} from '@mui/material';
+import {Typography, Skeleton, Button} from '@mui/material';
 import ActiveStatus from '@crema/common/ActiveStatus';
 import AppCard from '@crema/core/AppCard';
+import {GrStatusWarning} from 'react-icons/gr';
+import {GoHeart} from 'react-icons/go';
+
 
 export default function MemberDetails() {
   const {id} = useParams();
@@ -24,6 +27,29 @@ export default function MemberDetails() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+    }
+  };
+
+  const handleUpdateMember = async () => {
+    let memberid = id;
+    console.log(id);
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/members/${memberid}`,
+        member?.activeStatus === true
+          ? {
+              activeStatus: 'false',
+            }
+          : {
+              activeStatus: 'true',
+            },
+      );
+      window.location.reload();
+      // Handle successful update
+      console.log(response.data);
+    } catch (error) {
+      // Handle error
+      console.error('Failed to update member:', error);
     }
   };
 
@@ -72,12 +98,34 @@ export default function MemberDetails() {
   return (
     <div>
       <AppCard>
-        <Typography variant='h3' mb={5}>
-          Member Details
-        </Typography>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <Typography variant='h3' mb={5}>
+            Member Details
+          </Typography>
+          {member?.activeStatus == true ? (
+            <Button
+              variant='outlined'
+              color='primary'
+              onClick={handleUpdateMember}
+              sx={{margin: '5px'}}
+            >
+              <GrStatusWarning style={{color:'lightblue', marginRight:'5px'}}/> {'সদস্য বাতিল'}
+            </Button>
+          ) : (
+            <Button
+              variant='outlined'
+              color='primary'
+              onClick={handleUpdateMember}
+              sx={{margin: '5px'}}
+            >
+               <GoHeart style={{color:'lightblue', marginRight:'5px'}}/> {'সদস্য একটিভ'}
+            </Button>
+          )}
+        </div>
+
         <hr />
         {loading ? (
-          <Skeleton variant='rectangular' width={200} height={30} />
+          <Skeleton variant='rectangular' width={700} height={800} />
         ) : (
           <>
             <div style={{display: 'flex', justifyContent: 'space-around'}}>

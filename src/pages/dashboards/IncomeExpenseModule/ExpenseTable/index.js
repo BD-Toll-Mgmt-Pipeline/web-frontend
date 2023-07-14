@@ -8,7 +8,6 @@ import TableItem from './TableItem';
 import AppTableContainer from '@crema/core/AppTableContainer';
 
 const ExpenseTable = ({orderList}) => {
-  console.log(orderList, 'orderList');
   return (
     <AppTableContainer>
       <Table className='table'>

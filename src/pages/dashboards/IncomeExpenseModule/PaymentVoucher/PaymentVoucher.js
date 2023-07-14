@@ -13,14 +13,14 @@ const moment = require('moment');
 
 const PaymentVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [voucherno, setVoucherno] = useState(0);
+  const [total_amount, setTotalAmount] = useState(0);
+  const [voucherNo, setVoucherno] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
-  const [name, setName] = useState('');
+  const [voucher_title, setNameVoucher_title] = useState('');
   const [date, setDate] = useState('');
-  const [largeParagraph, setLargeParagraph] = useState('');
+  const [voucher_details, setLargeParagraph] = useState('');
 
   const calculateTotalAmount = () => {
     const sum = rows.reduce((total, row) => {
@@ -66,7 +66,10 @@ const PaymentVoucher = () => {
     try {
       const dataToSend = {
         date,
-        name,
+        voucher_title,
+        voucherNo, // Include voucherNo in the dataToSend object
+        voucher_details, // Include voucher_details in the dataToSend object
+        total_amount, // Include total_amount in the dataToSend object
         myArrayField: rows.map((row) => ({
           number: row.number,
           description: row.description,
@@ -76,7 +79,7 @@ const PaymentVoucher = () => {
 
       // Send a POST request to your API endpoint using axios
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/`,
+        `${process.env.REACT_APP_BASE_URL}/expense`,
         dataToSend,
       );
 
@@ -129,7 +132,7 @@ const PaymentVoucher = () => {
             ভাউচার
           </Typography>
           <div style={{display: 'flex', justifyContent: 'space-around'}}>
-            <Typography>ভাউচার নং - {voucherno}</Typography>
+            <Typography>ভাউচার নং - {voucherNo}</Typography>
             <TextField
               // label='Date'
               type='date'
@@ -142,8 +145,8 @@ const PaymentVoucher = () => {
             <div style={{margin: '10px', textAlign: 'center'}}>
               <TextField
                 label='ভাউচার টাইটেল'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={voucher_title}
+                onChange={(e) => setNameVoucher_title(e.target.value)}
               />
             </div>
           </div>
@@ -152,7 +155,7 @@ const PaymentVoucher = () => {
             label='ভাউচার বিবরণ'
             multiline
             rows={6}
-            value={largeParagraph}
+            value={voucher_details}
             onChange={(e) => setLargeParagraph(e.target.value)}
             fullWidth
           />
@@ -221,7 +224,7 @@ const PaymentVoucher = () => {
             </Grid>
           </Grid>
           <div style={{textAlign: 'right', margin: '20px'}}>
-            <Typography>মোট টাকার পরিমাণ: {totalAmount}</Typography>
+            <Typography>মোট টাকার পরিমাণ: {total_amount}</Typography>
           </div>
           <hr />
           <div
