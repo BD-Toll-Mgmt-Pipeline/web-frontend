@@ -1,5 +1,5 @@
 import AppCard from '@crema/core/AppCard';
-import {Typography, Skeleton} from '@mui/material';
+import {Typography, Skeleton, Button} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import ActiveStatus from '@crema/common/ActiveStatus';
@@ -29,9 +29,6 @@ export default function RentalDetails() {
   const getRoshidStatus = async (voterId) => {
     try {
       const query = voterId;
-      {
-        console.log(query, 'dklmdfklmdfklmsdfkldfsmplsdfmpdfsmfsdp');
-      }
       const page = 1;
       const perPage = 10;
 
@@ -53,6 +50,24 @@ export default function RentalDetails() {
     }
   };
 
+  const updateRentalInfo = async () => {
+    try {
+      // const query = voterId;
+      // const page = 1;
+      // const perPage = 10;
+
+      const response = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/rental/${id}`,
+        {
+          status: 'false',
+        },
+      );
+      console.error('response:', response);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
   useEffect(() => {
     getMember();
   }, []);
@@ -66,14 +81,43 @@ export default function RentalDetails() {
   return (
     <div>
       <AppCard>
-        <Typography variant='h3' mb={3}>
-          Rental Information
-        </Typography>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '5px',
+          }}
+        >
+          <Typography variant='h3' mb={3}>
+            Rental Information
+          </Typography>
+          <Button
+            type='submit'
+            variant='outlined'
+            color='primary'
+            onClick={updateRentalInfo}
+          >
+            চুক্তি শেষ করুন
+          </Button>
+        </div>
+        <div />
+
         <hr />
         {loading ? (
           <Skeleton variant='rectangular' width={200} height={30} />
         ) : (
           <>
+            <div style={{marginTop: '10px'}}>
+              <Typography variant='h4'>
+                সম্পত্তির পরিচিতি নং : {member?.rentalproperty}
+              </Typography>
+            </div>
+            <div style={{marginTop: '10px'}}>
+              <Typography variant='h4'>
+                ভাড়ার ধরণ :{' '}
+                <span style={{textWeight: '600px'}}>{member?.rentaltype}</span>
+              </Typography>
+            </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
                 আবেদনকারীর নাম: {member?.name}
@@ -89,16 +133,11 @@ export default function RentalDetails() {
               <Typography variant='h4'>
                 স্টেটাস :{' '}
                 <ActiveStatus
-                  status={member?.activeStatus === true ? 'active' : 'inactive'}
+                  status={member?.status === 'true' ? 'active' : 'inactive'}
                 />
               </Typography>
             </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                ভাড়ার ধরণ :{' '}
-                <span style={{textWeight: '600px'}}>{member?.rentaltype}</span>
-              </Typography>
-            </div>
+
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
                 অ্যাডভান্স পে: {member?.advancepay}
@@ -129,7 +168,7 @@ export default function RentalDetails() {
         )}
       </AppCard>
 
-      <div style={{marginTop:'15px'}}>
+      <div style={{marginTop: '15px'}}>
         <OrderList customerDetails={rentals} />
       </div>
 

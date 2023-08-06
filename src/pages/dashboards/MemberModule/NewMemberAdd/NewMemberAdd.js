@@ -15,6 +15,7 @@ const axios = require('axios');
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
   memberId: Yup.string().required('Member Number is required'),
+  date_of_birth: Yup.string().required('Date Number is required'),
   fatherName: Yup.string().required("Father's Name is required"),
   motherName: Yup.string().required("Mother's Name is required"),
   permanentAddress: Yup.string().required('Permanent Address is required'),
@@ -77,6 +78,7 @@ const NewMemberAdd = () => {
           <Formik
             initialValues={{
               name: '',
+              date_of_birth: '',
               memberId: '',
               fatherName: '',
               motherName: '',
@@ -107,6 +109,20 @@ const NewMemberAdd = () => {
                       fullWidth
                       error={!!errors.name}
                       helperText={<ErrorMessage name='name' />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='জন্ম'
+                      name='date_of_birth'
+                      type='date' // Set the type to 'date' to get a normal date field
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true, // Keep the label above the input field even when empty
+                      }}
+                      error={!!errors.date_of_birth}
+                      helperText={<ErrorMessage name='date_of_birth' />}
                     />
                   </Grid>
                   <Grid item xs={12}>

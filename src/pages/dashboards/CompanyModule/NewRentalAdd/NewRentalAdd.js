@@ -52,15 +52,16 @@ const NewRentalAdd = () => {
   ];
 
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
+    const addedStatusValues = {
+      ...values,
+      status: 'true',
+    };
+    console.log(addedStatusValues, 'addedStatusValues');
     try {
-      const response = await axios.post(
+      await axios.post(
         process.env.REACT_APP_BASE_URL + '/rental',
-        values,
+        addedStatusValues,
       );
-
-      console.log('Member created successfully');
-      console.log('Form Values:', values); // Log the form values
-      console.log('Response:', response.data);
       setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);

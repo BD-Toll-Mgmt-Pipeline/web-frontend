@@ -57,10 +57,13 @@ const TableItem = ({data}) => {
         </Box>
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.memberId}
+        {data?.memberId? data?.memberId : "মেম্বার আইডি প্রযোজ্য না"}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.rentaltype}
+        {data.roshidNo}
+      </TableCell>
+      <TableCell align='left' className='tableCell'>
+        {data.totalamount}
       </TableCell>
       <TableCell>
         <RentalAppMenuList id={data.memberId} />

@@ -21,13 +21,13 @@ const StyledTable = styled(Table)(() => ({
     },
 }));
 
-const OrderList = ({customerDetails}) => {
+const MemberPaymentList = ({customerDetails}) => {
   return (
     <AppCard>
       <Typography variant='h3' mb={3}>
-        Payment Information
+        মেম্বার চাদার তথ্য
       </Typography>
-      <hr/>
+      <hr />
       <StyledTable>
         <TableHead>
           <TableHeading />
@@ -53,8 +53,8 @@ const OrderList = ({customerDetails}) => {
   );
 };
 
-export default OrderList;
+export default MemberPaymentList;
 
-OrderList.propTypes = {
+MemberPaymentList.propTypes = {
   customerDetails: PropTypes.object,
 };

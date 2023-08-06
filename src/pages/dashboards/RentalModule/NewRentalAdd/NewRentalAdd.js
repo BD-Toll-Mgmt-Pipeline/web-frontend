@@ -18,6 +18,7 @@ const axios = require('axios');
 const validationSchema = Yup.object().shape({
   date: Yup.date().required('Date is required'),
   name: Yup.string().required('Name is required'),
+  rentalproperty: Yup.string().required('Rental Property is required'),
   permanentAddress: Yup.string().required('Permanent Address is required'),
   currentAddress: Yup.string().required('Present Address is required'),
   voterId: Yup.string().required('Voter ID is required'),
@@ -52,15 +53,16 @@ const NewRentalAdd = () => {
   ];
 
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
+    const addedStatusValues = {
+      ...values,
+      status: 'true',
+    };
+    console.log(addedStatusValues, 'addedStatusValues');
     try {
-      const response = await axios.post(
+      await axios.post(
         process.env.REACT_APP_BASE_URL + '/rental',
-        values,
+        addedStatusValues,
       );
-
-      console.log('Member created successfully');
-      console.log('Form Values:', values); // Log the form values
-      console.log('Response:', response.data);
       setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
@@ -87,9 +89,11 @@ const NewRentalAdd = () => {
           <Typography variant='h5' mb={4}>
             Add Rental Form
           </Typography>
+
           <Formik
             initialValues={{
               date: new Date().toISOString().split('T')[0],
+              rentalproperty: '',
               name: '',
               permanentAddress: '',
               currentAddress: '',
@@ -123,7 +127,6 @@ const NewRentalAdd = () => {
                       onChange={(value) => setFieldValue('date', value)}
                     />
                   </Grid>
-
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
@@ -132,6 +135,19 @@ const NewRentalAdd = () => {
                       fullWidth
                       error={!!errors.name}
                       helperText={<ErrorMessage name='name' />}
+                      InputLabelProps={{
+                        shrink: true, // Keep the label above the input field even when empty
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='ভাড়া সম্পত্তির পরিচিতি'
+                      name='rentalproperty'
+                      fullWidth
+                      error={!!errors.rentalproperty}
+                      helperText={<ErrorMessage name='rentalproperty' />}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -168,7 +184,6 @@ const NewRentalAdd = () => {
                       ))}
                     </Field>
                   </Grid>
-
                   <Grid item xs={12}>
                     <Field
                       as={TextField}

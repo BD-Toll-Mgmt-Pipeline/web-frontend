@@ -6,22 +6,81 @@ import {
   Typography,
   Snackbar,
   Button,
+  Alert,
 } from '@mui/material';
-import {Alert} from '@mui/material';
+import {Link as RouterLink} from 'react-router-dom';
 import axios from 'axios';
+import FromDate from '../FromDate/FromDate';
+import ToDate from '../FromDate/ToDate';
 const moment = require('moment');
+// import { useReactToPrint } from 'react-to-print';
 
 const IncomeVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [voucherno, setVoucherno] = useState(0);
+  const [roshidNo, setRoshidNo] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [voterId, setVoterId] = useState('');
   const [memberId, setMemberId] = useState('');
   const [currentAddress, setCurrentAddress] = useState('');
   const [date, setDate] = useState('');
+  const [memberSearch, setMemberSearch] = useState('');
+  const [incomeTypes, setIncomeTypes] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedToMonth, setToMonth] = useState('');
+  const [selectedToYear, setToYear] = useState('');
+  const [showWarning, setShowWarning] = useState(false);
+
+  const getIncomeTypes = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/income-expense/income-types`,
+    );
+    console.log(response.data.data, 'responseresponseresponse');
+    setIncomeTypes(response.data.data);
+  };
+
+  const isInvalidDateRange = () => {
+    if (
+      !selectedMonth ||
+      !selectedYear ||
+      !selectedToMonth ||
+      !selectedToYear
+    ) {
+      return false;
+    }
+
+    const startDate = new Date(`${selectedYear}-${selectedMonth}-01`);
+    const endDate = new Date(`${selectedToYear}-${selectedToMonth}-01`);
+
+    return startDate >= endDate;
+  };
+
+  const searchMemberbyID = async (memberid) => {
+    try {
+      const query = memberid;
+      const page = 1;
+      const perPage = 10;
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/members/findMember`,
+        {
+          params: {
+            query,
+            page,
+            perPage,
+          },
+        },
+      );
+      setMemberSearch(response.data);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
   const calculateTotalAmount = () => {
     const sum = rows.reduce((total, row) => {
@@ -29,6 +88,7 @@ const IncomeVoucher = () => {
     }, 0);
     setTotalAmount(sum);
   };
+
   const isLastRowDescriptionSelected = () => {
     const lastRowIndex = rows.length - 1;
     const lastRow = rows[lastRowIndex];
@@ -58,6 +118,26 @@ const IncomeVoucher = () => {
   };
 
   const handleSubmit = async () => {
+    if (
+      !selectedMonth ||
+      !selectedYear ||
+      !selectedToMonth ||
+      !selectedToYear ||
+      !date ||
+      !memberId ||
+      rows.some((row) => !row.description || !row.amount)
+    ) {
+      setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
+      setSnackbarSeverity('warning');
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (isInvalidDateRange()) {
+      setShowWarning(true);
+      return;
+    }
+
     try {
       const dataToSend = {
         date,
@@ -69,11 +149,15 @@ const IncomeVoucher = () => {
           description: row.description,
           amount: row.amount,
         })),
+        phone,
+        voterId,
+        total_amount: totalAmount,
+        roshidNo: roshidNo,
+        payment_start_month: selectedMonth,
+        payment_start_year: selectedYear,
+        payment_end_month: selectedToMonth,
+        payment_end_year: selectedToYear,
       };
-      console.log(
-        dataToSend,
-        'jadnjadndjndjindjidnjidfnjisdnidjsfndifjndfijndfij',
-      );
 
       // Send a POST request to your API endpoint using axios
       const response = await axios.post(
@@ -86,6 +170,22 @@ const IncomeVoucher = () => {
       setSnackbarMessage('সফলভাবে তৈরী হয়েছে');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
+
+      // Reset the form after successful submission
+      setRows([{number: 1, description: '', amount: ''}]);
+      setTotalAmount(0);
+      setRoshidNo(0);
+      setName('');
+      setPhone('');
+      setVoterId('');
+      setMemberId('');
+      setCurrentAddress('');
+      setDate('');
+      setSelectedMonth('');
+      setSelectedYear('');
+      setToMonth('');
+      setToYear('');
+      setShowWarning(false);
     } catch (error) {
       console.error('Failed to submit');
       console.error('Error:', error.message);
@@ -98,29 +198,45 @@ const IncomeVoucher = () => {
   const generateNo = () => {
     const timestamp = moment().format('YYMMDDHHmmss');
     const voucherNumber = `R${timestamp}`;
-    setVoucherno(voucherNumber);
+    setRoshidNo(voucherNumber);
   };
+
+  useEffect(() => {
+    getIncomeTypes();
+    if (memberSearch?.members) {
+      setName(memberSearch?.members[0]?.name);
+      setPhone(memberSearch?.members[0]?.phone);
+      setCurrentAddress(memberSearch?.members[0]?.permanentAddress);
+      setVoterId(memberSearch?.members[0]?.voterId);
+    }
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; // Get date in 'YYYY-MM-DD' format
+    setDate(formattedDate);
+  }, [memberSearch]);
 
   useEffect(() => {
     generateNo();
   }, []);
 
-  // Dropdown options for "বিবরণ"
-  const descriptionOptions = ['Option 1', 'Option 2', 'Option 3'];
 
   return (
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
-          <Button
-            variant='outlined'
-            color='primary'
-            // href={refUrl}
-            target='_blank'
-            sx={{margin: '10px'}}
+          <RouterLink
+            to={`/dashboard/add-new-income-type`}
+            style={{textDecoration: 'none'}}
+            underline='none'
           >
-            নতুন বিবরণ যোগ করুন
-          </Button>
+            <Button
+              variant='outlined'
+              color='primary'
+              target='_blank'
+              sx={{margin: '10px'}}
+            >
+              নতুন বিবরণ যোগ করুন
+            </Button>
+          </RouterLink>
           <hr />
           <Typography
             sx={{textAlign: 'center', margin: '10px'}}
@@ -145,27 +261,30 @@ const IncomeVoucher = () => {
             }}
             mb={5}
           >
-            টাকা গ্রহনের রসিদ
+            রসিদ
           </Typography>
-          <Typography>রসিদ নং - {voucherno}</Typography>
+          <Typography>রসিদ নং - {roshidNo}</Typography>
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <div style={{margin: '10px'}}>
               <TextField
-                label='Name'
+                label='নাম'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 sx={{margin: '10px'}}
               />
               <TextField
-                label='Member ID'
+                label='মেম্বার আইডি'
                 value={memberId}
-                onChange={(e) => setMemberId(e.target.value)}
+                onChange={(e) => {
+                  setMemberId(e.target.value);
+                  searchMemberbyID(e.target.value);
+                }}
                 sx={{margin: '10px'}}
               />
             </div>
             <div style={{margin: '10px'}}>
               <TextField
-                label='Address'
+                label='সংক্ষিপ্ত ঠিকানা'
                 value={currentAddress}
                 onChange={(e) => setCurrentAddress(e.target.value)}
                 sx={{margin: '10px'}}
@@ -179,7 +298,39 @@ const IncomeVoucher = () => {
               />
             </div>
           </div>
-          <Grid container spacing={2} mb={4} mt={4} sx={{textAlign: 'center'}}>
+          <div style={{marginLeft: '10px', display: 'flex'}}>
+            <TextField
+              label='ফোন'
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              sx={{margin: '10px'}}
+            />
+            <TextField
+              label='ভোটার আইডি'
+              value={voterId}
+              onChange={(e) => setVoterId(e.target.value)}
+              sx={{margin: '10px'}}
+            />
+          </div>
+          <hr style={{margin: '10px'}} />
+          <Typography>মাস হইতে</Typography>
+          <br />
+          <FromDate
+            setSelectedMonth={setSelectedMonth}
+            setSelectedYear={setSelectedYear}
+          />
+          <br />
+          <Typography>মাস পর্যন্ত</Typography>
+          <br />
+          <ToDate setToYear={setToYear} setToMonth={setToMonth} />
+          <hr style={{margin: '10px'}} />
+          <Grid
+            container
+            spacing={2}
+            mb={4}
+            mt={4}
+            sx={{textAlign: 'center', padding: '10px'}}
+          >
             <Grid item xs={2}>
               <Typography
                 variant='h3'
@@ -210,9 +361,9 @@ const IncomeVoucher = () => {
                   style={{width: '100%', height: '50px', marginBottom: '5px'}}
                 >
                   <option value=''>বিবরণ নির্বাচন করুন</option>
-                  {descriptionOptions.map((option, optionIndex) => (
-                    <option key={optionIndex} value={option}>
-                      {option}
+                  {incomeTypes.map((option, optionIndex) => (
+                    <option key={optionIndex} label={option.label}>
+                      {option.label}
                     </option>
                   ))}
                 </select>
@@ -262,6 +413,15 @@ const IncomeVoucher = () => {
               সংরক্ষণ করুন
             </Button>
           </div>
+          <Snackbar
+            open={showWarning}
+            autoHideDuration={6000}
+            onClose={() => setShowWarning(false)}
+          >
+            <Alert onClose={() => setShowWarning(false)} severity='error'>
+              মাস হইতে এবং মাস পর্যন্ত সঠিক তারিখ নির্বাচন করুন।
+            </Alert>
+          </Snackbar>
 
           <Snackbar
             open={snackbarOpen}

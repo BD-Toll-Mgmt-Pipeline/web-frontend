@@ -24,7 +24,13 @@ const IconButtonStyled = styled(IconButton)({
 });
 
 const SearchBar = ({onSearch}) => {
+  const contact_tenure = [
+    {value: 'true', label: 'Active'},
+    {value: 'false', label: 'Inactive'},
+  ];
   const [selectedValue, setSelectedValue] = useState('');
+  const [, setSelectedStatusValue] = useState('');
+
   const [types, setTypes] = useState([]);
 
   useEffect(() => {
@@ -52,6 +58,12 @@ const SearchBar = ({onSearch}) => {
     setSelectedValue(selectedValue);
     console.log(selectedValue);
     onSearch(selectedValue);
+  };
+
+  const handleDropdowntenureChange = (event) => {
+    const selectedStatusValue = event.target.value;
+    setSelectedStatusValue(selectedStatusValue);
+    onSearch(selectedStatusValue);
   };
 
   return (
@@ -84,15 +96,15 @@ const SearchBar = ({onSearch}) => {
       <div>
         <Select
           value={selectedValue}
-          onChange={handleDropdownChange}
+          onChange={handleDropdowntenureChange}
           style={{marginLeft: '20px', width: '200px'}}
           displayEmpty
         >
           <MenuItem value='' disabled>
             ভাড়ার স্টেটাস
           </MenuItem>
-          {types.map((type) => (
-            <MenuItem key={type.id} value={type.label}>
+          {contact_tenure.map((type) => (
+            <MenuItem key={type.value} value={type.value}>
               {type.label}
             </MenuItem>
           ))}

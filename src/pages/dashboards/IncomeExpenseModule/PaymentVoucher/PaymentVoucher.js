@@ -63,13 +63,27 @@ const PaymentVoucher = () => {
   };
 
   const handleSubmit = async () => {
+    if (
+      !date ||
+      !voucher_title ||
+      !voucherNo ||
+      !voucher_details ||
+      total_amount === 0 ||
+      rows.some((row) => !row.description || !row.amount)
+    ) {
+      setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
+      setSnackbarSeverity('warning');
+      setSnackbarOpen(true);
+      return;
+    }
+
     try {
       const dataToSend = {
         date,
         voucher_title,
-        voucherNo, // Include voucherNo in the dataToSend object
-        voucher_details, // Include voucher_details in the dataToSend object
-        total_amount, // Include total_amount in the dataToSend object
+        voucherNo,
+        voucher_details,
+        total_amount,
         myArrayField: rows.map((row) => ({
           number: row.number,
           description: row.description,

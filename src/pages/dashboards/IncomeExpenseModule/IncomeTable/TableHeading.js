@@ -24,6 +24,7 @@ const TableHeading = () => {
       <TableCell>নাম</TableCell>
       <TableCell>মেম্বার আইডি</TableCell>
       <TableCell>রসিদ নং</TableCell>
+      <TableCell>মোট টাকা </TableCell>
       <TableCell>ব্যবস্থা</TableCell>
     </TableRow>
   );

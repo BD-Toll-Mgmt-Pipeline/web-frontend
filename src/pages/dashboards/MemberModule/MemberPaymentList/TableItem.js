@@ -17,6 +17,10 @@ const TableItem = (props) => {
   const descriptions = product?.myArrayField?.map((x) => x.description) || [];
   const joinedDescriptions = descriptions.join(', ');
 
+  const getMonthName = (monthNumber) => {
+    return moment.months()[monthNumber - 1];
+  };
+
   return (
     <TableRow>
       <TableCell component='th' scope='row'>
@@ -35,6 +39,44 @@ const TableItem = (props) => {
           >
             {moment(product?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
           </Link>
+        </Box>
+      </TableCell>
+
+      <TableCell
+        sx={{
+          verticalAlign: 'top',
+        }}
+      >
+        <Box
+          sx={{
+            mb: 2,
+
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.MEDIUM,
+          }}
+        >
+          {getMonthName(product?.payment_start_month)} -{' '}
+          {product?.payment_start_year}
+        </Box>
+      </TableCell>
+
+      <TableCell
+        sx={{
+          verticalAlign: 'top',
+        }}
+      >
+        <Box
+          sx={{
+            mb: 2,
+
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.MEDIUM,
+          }}
+        >
+          {getMonthName(product?.payment_end_month)} -{' '}
+          {product?.payment_end_year}
         </Box>
       </TableCell>
 

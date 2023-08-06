@@ -6,16 +6,18 @@ import ActiveStatus from '@crema/common/ActiveStatus';
 import AppCard from '@crema/core/AppCard';
 import {GrStatusWarning} from 'react-icons/gr';
 import {GoHeart} from 'react-icons/go';
-
+import MemberPaymentList from '../MemberPaymentList';
 
 export default function MemberDetails() {
   const {id} = useParams();
   const [member, setMember] = useState({});
+  const [totalAmount, setTotalAmount] = useState('');
   const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState(true);
   const [profileImage, setProfileImage] = useState(null);
   const [nomineeImage, setNomineeImage] = useState(null);
   const [nomineeImageLoading, setNomineeImageLoading] = useState(true);
+  const [members, setMembers] = useState([]);
 
   const getMember = async () => {
     let memberid = id;
@@ -32,7 +34,6 @@ export default function MemberDetails() {
 
   const handleUpdateMember = async () => {
     let memberid = id;
-    console.log(id);
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/members/${memberid}`,
@@ -45,10 +46,8 @@ export default function MemberDetails() {
             },
       );
       window.location.reload();
-      // Handle successful update
       console.log(response.data);
     } catch (error) {
-      // Handle error
       console.error('Failed to update member:', error);
     }
   };
@@ -89,6 +88,69 @@ export default function MemberDetails() {
     }
   };
 
+  const getPaymentStatus = async (voterId) => {
+    try {
+      const query = voterId;
+      const page = 1;
+      const perPage = 10000000;
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/income-expense`,
+        {
+          params: {
+            query,
+            page,
+            perPage,
+          },
+        },
+      );
+
+      const {allIncomeExpense} = response.data;
+      const filteredArray = allIncomeExpense.map((x) => x.myArrayField);
+
+      const arr =
+        filteredArray[0] === undefined
+          ? 'dfmndksndf'
+          : filteredArray.map(getValuesOfMemberFee);
+
+      console.log(arr, 'arr');
+
+      // Flatten the array of arrays to get a single array
+      const flattenedArray = arr.flat();
+
+      console.log(flattenedArray, 'flattenedArray');
+
+      // Calculate the total amount from the flattened array
+      const totalAmount = flattenedArray.reduce(
+        (total, item) => total + parseFloat(item?.amount || 0),
+        0,
+      );
+
+      console.log('Total Amount:', totalAmount);
+      setTotalAmount(totalAmount);
+      setMembers(allIncomeExpense);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  // Define a separate function to get the values where description is "মেম্বার ফি"
+  const getValuesOfMemberFee = (array) => {
+    let valuesArray = [];
+    array.forEach((item) => {
+      if (item.description === 'মেম্বার ফি') {
+        valuesArray.push(item); // Push the entire item object if it matches the description
+      }
+    });
+    return valuesArray.length > 0 ? valuesArray : null; // Return null if no matching items found
+  };
+
+  useEffect(() => {
+    if (member?.voterId) {
+      getPaymentStatus(member.voterId);
+    }
+  }, [member]);
+
   useEffect(() => {
     getMember();
     getUserProfileImage();
@@ -109,7 +171,10 @@ export default function MemberDetails() {
               onClick={handleUpdateMember}
               sx={{margin: '5px'}}
             >
-              <GrStatusWarning style={{color:'lightblue', marginRight:'5px'}}/> {'সদস্য বাতিল'}
+              <GrStatusWarning
+                style={{color: 'lightblue', marginRight: '5px'}}
+              />{' '}
+              {'সদস্য বাতিল'}
             </Button>
           ) : (
             <Button
@@ -118,7 +183,8 @@ export default function MemberDetails() {
               onClick={handleUpdateMember}
               sx={{margin: '5px'}}
             >
-               <GoHeart style={{color:'lightblue', marginRight:'5px'}}/> {'সদস্য একটিভ'}
+              <GoHeart style={{color: 'lightblue', marginRight: '5px'}} />{' '}
+              {'সদস্য একটিভ'}
             </Button>
           )}
         </div>
@@ -131,7 +197,7 @@ export default function MemberDetails() {
             <div style={{display: 'flex', justifyContent: 'space-around'}}>
               <div>
                 <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                  User Photo
+                  মেম্বার ছবি
                 </Typography>
                 {imageLoading ? (
                   <Skeleton variant='rectangular' width={200} height={200} />
@@ -147,7 +213,7 @@ export default function MemberDetails() {
               </div>
               <div>
                 <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                  Nominee Photo
+                  নোমিনীর ছবি
                 </Typography>
                 {nomineeImageLoading ? (
                   <Skeleton variant='rectangular' width={200} height={200} />
@@ -169,8 +235,16 @@ export default function MemberDetails() {
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
+                জমাকৃত টাকার পরিমান : {totalAmount} ৳
+              </Typography>
+            </div>
+            <div style={{marginTop: '10px'}}>
+              <Typography variant='h4'>
                 সদস্য নাম্বার: {member.memberId}
               </Typography>
+            </div>
+            <div style={{marginTop: '10px'}}>
+              <Typography variant='h4'>জন্ম: {member.date_of_birth}</Typography>
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
@@ -250,6 +324,10 @@ export default function MemberDetails() {
             </div>
           </>
         )}
+      </AppCard>
+
+      <AppCard style={{marginTop: '20px'}}>
+        <MemberPaymentList customerDetails={members} />
       </AppCard>
     </div>
   );

@@ -29,6 +29,33 @@ const TableHeading = () => {
             fontWeight: Fonts.BOLD,
           }}
         >
+          <IntlMessages id='পেমেন্ট হতে' />
+        </Box>
+      </TableCell>
+
+      
+      <TableCell>
+        <Box
+          sx={{
+            color: 'text.secondary',
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.BOLD,
+          }}
+        >
+          <IntlMessages id='পেমেন্ট পর্যন্ত' />
+        </Box>
+      </TableCell>
+
+      <TableCell>
+        <Box
+          sx={{
+            color: 'text.secondary',
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.BOLD,
+          }}
+        >
           <IntlMessages id='রশিদ নং' />
         </Box>
       </TableCell>

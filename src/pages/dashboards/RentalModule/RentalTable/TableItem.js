@@ -35,7 +35,7 @@ const TableItem = ({data}) => {
       <TableCell align='left' className='tableCell'>
         <Link
           component={RouterLink}
-          to={`/dashboard/rental-details/${data._id}`}
+          to={`/dashboard/rental-details/${data?.voterId}`}
           underline='none'
         >
           {moment(data?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
@@ -49,7 +49,7 @@ const TableItem = ({data}) => {
         >
           <Link
             component={RouterLink}
-            to={`/dashboard/rental-details/${data._id}`}
+            to={`/dashboard/rental-details/${data?.voterId}`}
             underline='none'
           >
             {data.name}
@@ -63,11 +63,11 @@ const TableItem = ({data}) => {
         {data.rentaltype}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.advancepay}
+        {data?.rentalproperty? data?.rentalproperty : "N/A"}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         <ActiveStatus
-          status={data?.activeStatus === true ? 'active' : 'inactive'}
+          status={data?.status === "true" ? 'active' : 'inactive'}
         />
       </TableCell>
       <TableCell>

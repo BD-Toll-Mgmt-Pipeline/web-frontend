@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {TextField, Grid, Paper, Typography} from '@mui/material';
 import axios from 'axios';
-
+import {useParams} from 'react-router-dom';
 
 const EditRoshid = () => {
   const [rows, setRows] = useState([]);
@@ -11,6 +11,7 @@ const EditRoshid = () => {
   const [currentAddress, setCurrentAddress] = useState('');
   const [date, setDate] = useState('');
   const [descriptionOptions, setDescriptionOptions] = useState([]);
+  const {id} = useParams();
 
   const calculateTotalAmount = () => {
     const sum = rows.reduce((total, row) => {
@@ -67,7 +68,7 @@ const EditRoshid = () => {
   };
 
   useEffect(() => {
-    getRoshidStatus('0909430329043');
+    getRoshidStatus(id);
   }, []);
 
   // const handleSubmit = async () => {
@@ -102,7 +103,7 @@ const EditRoshid = () => {
             }}
             mb={5}
           >
-            টাকা রসিদ
+            রসিদ
           </Typography>
           <Typography>রসিদ নং - 46838</Typography>
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
