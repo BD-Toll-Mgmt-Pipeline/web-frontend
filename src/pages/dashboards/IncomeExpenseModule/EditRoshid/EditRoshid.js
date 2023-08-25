@@ -1,17 +1,53 @@
 import React, {useState, useEffect} from 'react';
 import {TextField, Grid, Paper, Typography} from '@mui/material';
 import axios from 'axios';
+import FromDate from '../FromDate/FromDate';
+const moment = require('moment');
 import {useParams} from 'react-router-dom';
 
-const EditRoshid = () => {
-  const [rows, setRows] = useState([]);
+const EditRoshed = () => {
+  const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [roshidNo, setRoshidNo] = useState(0);
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [voterId, setVoterId] = useState('');
   const [memberId, setMemberId] = useState('');
   const [currentAddress, setCurrentAddress] = useState('');
   const [date, setDate] = useState('');
-  const [descriptionOptions, setDescriptionOptions] = useState([]);
+  const [memberSearch, setMemberSearch] = useState('');
+  const [incomeTypes, setIncomeTypes] = useState([]);
+
   const {id} = useParams();
+
+  const getIncomeTypes = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/income-expense/income-types`,
+    );
+    setIncomeTypes(response.data.data);
+  };
+
+  const searchMemberbyID = async (id) => {
+    try {
+      const query = id;
+      const page = 1;
+      const perPage = 10;
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/members/findMember`,
+        {
+          params: {
+            query,
+            page,
+            perPage,
+          },
+        },
+      );
+      setMemberSearch(response.data);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
   const calculateTotalAmount = () => {
     const sum = rows.reduce((total, row) => {
@@ -27,53 +63,32 @@ const EditRoshid = () => {
     calculateTotalAmount();
   };
 
-  const getRoshidStatus = async (voterId) => {
-    try {
-      const query = voterId;
-      const page = 1;
-      const perPage = 10;
-
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/income-expense`,
-        {
-          params: {
-            query,
-            page,
-            perPage,
-          },
-        },
-      );
-
-      const {allIncomeExpense} = response.data;
-      const lastEntry = allIncomeExpense[allIncomeExpense.length - 1];
-
-      setName(lastEntry?.name || '');
-      setMemberId(lastEntry?.memberId || '');
-      setDate(lastEntry?.date || '');
-      setDescriptionOptions(allIncomeExpense || []);
-
-      const rowsArray = allIncomeExpense
-        ?.map((x) => x.myArrayField)
-        ?.map((nestedOption, index) => ({
-          number: index + 1,
-          description:
-            nestedOption.map((option) => option.description).join(', ') || '',
-          amount: nestedOption[0]?.amount || '',
-        }));
-
-      setRows(rowsArray);
-    } catch (error) {
-      console.error('Error:', error.message);
-    }
+  const generateNo = () => {
+    const timestamp = moment().format('YYMMDDHHmmss');
+    const voucherNumber = `R${timestamp}`;
+    setRoshidNo(voucherNumber);
   };
 
   useEffect(() => {
-    getRoshidStatus(id);
-  }, []);
+    getIncomeTypes();
+    if (memberSearch?.members) {
+      setName(memberSearch?.members[0]?.name);
+      setPhone(memberSearch?.members[0]?.phone);
+      setCurrentAddress(memberSearch?.members[0]?.permanentAddress);
+      setVoterId(memberSearch?.members[0]?.voterId);
+      setMemberId(id);
 
-  // const handleSubmit = async () => {
-  //   console.log('Helloooooooooo');
-  // };
+
+    }
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; // Get date in 'YYYY-MM-DD' format
+    setDate(formattedDate);
+  }, [memberSearch]);
+
+  useEffect(() => {
+    generateNo();
+    searchMemberbyID(id);
+  }, []);
 
   return (
     <Grid container justifyContent='center'>
@@ -105,35 +120,69 @@ const EditRoshid = () => {
           >
             রসিদ
           </Typography>
-          <Typography>রসিদ নং - 46838</Typography>
+          <Typography>রসিদ নং - {roshidNo}</Typography>
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <div style={{margin: '10px'}}>
               <TextField
-                label='Name'
+                label='নাম'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                sx={{margin: '10px'}}
               />
               <TextField
-                label='Member ID'
+                label='মেম্বার আইডি'
                 value={memberId}
-                onChange={(e) => setMemberId(e.target.value)}
+                onChange={(e) => {
+                  setMemberId(e.target.value);
+                }}
+                sx={{margin: '10px'}}
               />
             </div>
             <div style={{margin: '10px'}}>
               <TextField
-                label='Address'
+                label='সংক্ষিপ্ত ঠিকানা'
                 value={currentAddress}
                 onChange={(e) => setCurrentAddress(e.target.value)}
+                sx={{margin: '10px'}}
               />
               <TextField
-                label='Date'
+                // label='Date'
                 type='date'
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                sx={{margin: '10px'}}
               />
             </div>
           </div>
-          <Grid container spacing={2} mb={4} mt={4} sx={{textAlign: 'center'}}>
+          <div style={{marginLeft: '10px', display: 'flex'}}>
+            <TextField
+              label='ফোন'
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              sx={{margin: '10px'}}
+            />
+            <TextField
+              label='ভোটার আইডি'
+              value={voterId}
+              onChange={(e) => setVoterId(e.target.value)}
+              sx={{margin: '10px'}}
+            />
+          </div>
+          <hr style={{margin: '10px'}} />
+          <Typography>মাস হইতে</Typography>
+          <br />
+          <FromDate />
+          <br />
+          <Typography>মাস পর্যন্ত</Typography>
+          <br />
+          <hr style={{margin: '10px'}} />
+          <Grid
+            container
+            spacing={2}
+            mb={4}
+            mt={4}
+            sx={{textAlign: 'center', padding: '10px'}}
+          >
             <Grid item xs={2}>
               <Typography
                 variant='h3'
@@ -155,27 +204,21 @@ const EditRoshid = () => {
                 বিবরণ
               </Typography>
               {rows.map((row, index) => (
-                <TextField
+                <select
                   key={index}
                   value={row.description}
                   onChange={(e) =>
                     handleRowChange(index, 'description', e.target.value)
                   }
-                  select
                   style={{width: '100%', height: '50px', marginBottom: '5px'}}
                 >
                   <option value=''>বিবরণ নির্বাচন করুন</option>
-                  {descriptionOptions.flatMap((option, optionIndex) =>
-                    option.myArrayField.map((nestedOption, nestedIndex) => (
-                      <option
-                        key={`${optionIndex}-${nestedIndex}`}
-                        value={nestedOption.description}
-                      >
-                        {nestedOption.description}
-                      </option>
-                    )),
-                  )}
-                </TextField>
+                  {incomeTypes.map((option, optionIndex) => (
+                    <option key={optionIndex} label={option.label}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               ))}
             </Grid>
             <Grid item xs={4}>
@@ -203,10 +246,17 @@ const EditRoshid = () => {
             <Typography>মোট টাকার পরিমাণ: {totalAmount}</Typography>
           </div>
           <hr />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginTop: '20px',
+            }}
+          ></div>
         </Paper>
       </Grid>
     </Grid>
   );
 };
 
-export default EditRoshid;
+export default EditRoshed;

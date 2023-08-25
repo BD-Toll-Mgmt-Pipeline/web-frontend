@@ -6631,7 +6631,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-fbjs@^0.8.1:
+fbjs@^0.8.0, fbjs@^0.8.1:
   version "0.8.18"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.18.tgz#9835e0addb9aca2eff53295cd79ca1cfc7c9662a"
   integrity sha512-EQaWFK+fEPSoibjNy8IxUtaFOMXcWsY0JaVrQoZR9zC8N2Ygf9iDITPWjUTVIax95b6I742JFLqASHfsag/vKA==
@@ -9065,7 +9065,7 @@ oauth-sign@~0.9.0:
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
 
-object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -10376,6 +10376,11 @@ react-dom-factories@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.2.tgz#eb7705c4db36fb501b3aa38ff759616aa0ff96e0"
   integrity sha1-63cFxNs2+1AbOqOP91lhaqD/luA=
 
+react-dom@15.0.1:
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.0.1.tgz#33c67f557b43ab27a6ba3ec3200321681921c48d"
+  integrity sha512-WTAne8Sxpupl4tbhwklKWxyejl791R9x13ZP4kDhFdsElhkwct39hknMkvlGv1LH8Rl5ZAIiSpnkIJcqYgHFcw==
+
 "react-dom@>= 16.3", react-dom@^18.0.0:
   version "18.0.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.0.0.tgz#26b88534f8f1dbb80853e1eabe752f24100d8023"
@@ -10576,6 +10581,14 @@ react-popper@^2.3.0:
   dependencies:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
+
+react-print@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-print/-/react-print-1.3.1.tgz#dc66e4a279e10edc0cc484169aa9e0e1fb285e12"
+  integrity sha512-176MfKc44FB5QGEomieV5IPgCwZ95UiytqgVQDI+irvOiGfBehwxvKiwRW3gw1gnDNWgSmiWnBhyomBcBZARjw==
+  dependencies:
+    react "15.0.1"
+    react-dom "15.0.1"
 
 react-quill@^1.3.5:
   version "1.3.5"
@@ -10855,6 +10868,15 @@ react-window@^1.8.6:
   dependencies:
     "@babel/runtime" "^7.0.0"
     memoize-one ">=3.1.1 <6"
+
+react@15.0.1:
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.0.1.tgz#262d4f073a384c2a0421afb82d97c8f7df581c09"
+  integrity sha512-FXh5P56N4sJkedwYpWb9iD/NKtwyKFxaIP1L2T6gfMxZfOorBXNAP65lM+4sIgdAFskbLkr5onqgOekvGkBaQg==
+  dependencies:
+    fbjs "^0.8.0"
+    loose-envify "^1.1.0"
+    object-assign "^4.0.1"
 
 "react@>= 16.3", react@^18.0.0:
   version "18.0.0"

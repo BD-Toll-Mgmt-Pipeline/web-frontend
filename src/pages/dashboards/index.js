@@ -9,6 +9,7 @@ import IncomeVoucher from './IncomeExpenseModule/IncomeVoucher/IncomeVoucher';
 import PaymentVoucher from './IncomeExpenseModule/PaymentVoucher/PaymentVoucher';
 import EditRoshid from './IncomeExpenseModule/EditRoshid/EditRoshid';
 import AddNewIcomeType from './IncomeExpenseModule/AddnewIconeType/AddnewIncomeType';
+import NewLoanAdd from './LoanModule/NewLoanAdd/NewLoanAdd';
 
 const HealthCare = React.lazy(() => import('./ProjectModule'));
 const VoucherModule = React.lazy(() => import('./IncomeExpenseModule'));
@@ -108,5 +109,10 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/add-new-income-type',
     element: <AddNewIcomeType />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/add-new-loan-request',
+    element: <NewLoanAdd />,
   },
 ];
