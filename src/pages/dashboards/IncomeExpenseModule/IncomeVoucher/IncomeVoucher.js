@@ -13,6 +13,7 @@ import axios from 'axios';
 import FromDate from '../FromDate/FromDate';
 import ToDate from '../FromDate/ToDate';
 const moment = require('moment');
+import PDFGenerator from './PDFGenerator';
 // import { useReactToPrint } from 'react-to-print';
 
 const IncomeVoucher = () => {
@@ -35,6 +36,13 @@ const IncomeVoucher = () => {
   const [selectedToMonth, setToMonth] = useState('');
   const [selectedToYear, setToYear] = useState('');
   const [showWarning, setShowWarning] = useState(false);
+
+  const [showPDF, setShowPDF] = useState(false);
+  const [voucherData] = useState({name: 'John Doe'});
+
+  const handleGeneratePDF = () => {
+    setShowPDF(true);
+  };
 
   const getIncomeTypes = async () => {
     const response = await axios.get(
@@ -218,10 +226,13 @@ const IncomeVoucher = () => {
     generateNo();
   }, []);
 
-
   return (
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
+        <button onClick={handleGeneratePDF}>Generate PDF</button>
+
+        {/* Conditionally render the PDF generator */}
+        {showPDF && <PDFGenerator voucherData={voucherData} />}
         <Paper elevation={3} sx={{p: 4}}>
           <RouterLink
             to={`/dashboard/add-new-income-type`}
