@@ -14,6 +14,7 @@ import FromDate from '../FromDate/FromDate';
 import ToDate from '../FromDate/ToDate';
 const moment = require('moment');
 import PDFGenerator from './PDFGenerator';
+import {BlobProvider} from '@react-pdf/renderer';
 // import { useReactToPrint } from 'react-to-print';
 
 const IncomeVoucher = () => {
@@ -40,9 +41,27 @@ const IncomeVoucher = () => {
   const [showPDF, setShowPDF] = useState(false);
   const [voucherData] = useState({name: 'John Doe'});
 
-  const handleGeneratePDF = () => {
-    setShowPDF(true);
+  const handleGeneratePDF = async () => {
+    try {
+      // Render the PDFGenerator component to generate the PDF content
+      const pdfContent = <PDFGenerator voucherData={voucherData} />;
+  
+      // Convert the PDF content to a string
+      const pdfString = pdfContent.toString();
+  
+      // Create a Blob from the PDF content
+      const pdfBlob = new Blob([pdfString], { type: 'application/pdf' });
+  
+      // Create a blob URL from the PDF blob
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+  
+      // Open the PDF in a new window
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      console.error('Error generating or opening PDF:', error);
+    }
   };
+  
 
   const getIncomeTypes = async () => {
     const response = await axios.get(
@@ -232,7 +251,19 @@ const IncomeVoucher = () => {
         <button onClick={handleGeneratePDF}>Generate PDF</button>
 
         {/* Conditionally render the PDF generator */}
-        {showPDF && <PDFGenerator voucherData={voucherData} />}
+        {showPDF && (
+          // Inside the return statement of the IncomeVoucher component
+          <BlobProvider document={<PDFGenerator voucherData={voucherData} />}>
+            {({blob}) => {
+              if (blob) {
+                const pdfUrl = URL.createObjectURL(blob);
+                window.open(pdfUrl, '_blank');
+                setShowPDF(false); // Close the PDF viewer after opening
+              }
+              return null;
+            }}
+          </BlobProvider>
+        )}
         <Paper elevation={3} sx={{p: 4}}>
           <RouterLink
             to={`/dashboard/add-new-income-type`}
