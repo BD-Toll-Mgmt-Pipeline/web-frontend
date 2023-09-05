@@ -1,26 +1,37 @@
 import AppCard from '@crema/core/AppCard';
 import {Button, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import WelfareTable from './WelfareTable';
 import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
+import IncomeTable from './IncomeTable';
+import ExpenseTable from './ExpenseTable';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
 
 const Welfare = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [rentalName, setRentals] = useState([]);
+  const [expense, setExpense] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTab, setSelectedTab] = useState('income');
 
   useEffect(() => {
-    getRentals(currentPage);
+    getIncomeExpense(currentPage);
+    getExpense(currentPage);
   }, [currentPage]);
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
-  const getRentals = async (page) => {
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
+  const getIncomeExpense = async (page) => {
     try {
       const query = ''; // Provide the search query if needed
       const perPage = 10; // Provide the number of items per page
@@ -36,8 +47,32 @@ const Welfare = () => {
         },
       );
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
+      const {allIncomeExpense, totalPages} = response.data;
+      setRentals(allIncomeExpense);
+      setTotalPages(totalPages);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const getExpense = async (page) => {
+    try {
+      const query = ''; // Provide the search query if needed
+      const perPage = 10; // Provide the number of items per page
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/welfare`,
+        {
+          params: {
+            query,
+            page,
+            perPage,
+          },
+        },
+      );
+
+      const {allExpense, totalPages} = response.data;
+      setExpense(allExpense);
       setTotalPages(totalPages);
     } catch (error) {
       console.error('Error:', error.message);
@@ -61,10 +96,10 @@ const Welfare = () => {
         },
       );
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
+      const {allIncomeExpense, totalPages} = response.data;
+      setRentals(allIncomeExpense);
       setTotalPages(totalPages);
-      setCurrentPage(1); // Reset the current page to 1 when performing a new search
+      setCurrentPage(1);
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -78,29 +113,39 @@ const Welfare = () => {
       </div>
       <div style={{display: 'flex'}}>
         <div>
-          <RouterLink to={`/dashboard/add-new-loan-request`} underline='none'>
+          <RouterLink to={`/dashboard/add-payment-voucher`} underline='none'>
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
-              কল্যান তহবিল রশিদ
+              নতুন রশিদ তৈরী
             </Button>
           </RouterLink>
         </div>
         <div>
-          <RouterLink to={`/dashboard/add-new-loan-request`} underline='none'>
+          <RouterLink to={`/dashboard/add-receive-voucher`} underline='none'>
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
-              কল্যান তহবিল ভাউচার
+              নতুন ভাউচার তৈরী
             </Button>
           </RouterLink>
         </div>
       </div>
-      <WelfareTable orderList={rentalName} />
+      <TabContext value={selectedTab}>
+        <TabList onChange={handleTabChange}>
+          <Tab label='রশিদ' value='income' />
+          <Tab label='ভাউচার' value='expense' />
+        </TabList>
+        {selectedTab === 'income' ? (
+          <IncomeTable orderList={rentalName} />
+        ) : (
+          <ExpenseTable orderList={expense} />
+        )}
+      </TabContext>
       <Pagination
         sx={{margin: '20px'}}
         count={totalPages}

@@ -7,8 +7,7 @@ import TableHeading from './TableHeading';
 import TableItem from './TableItem';
 import AppTableContainer from '@crema/core/AppTableContainer';
 
-const WelfareTable = ({orderList}) => {
-  console.log(orderList, 'orderList');
+const ExpenseTable = ({orderList}) => {
   return (
     <AppTableContainer>
       <Table className='table'>
@@ -25,14 +24,14 @@ const WelfareTable = ({orderList}) => {
   );
 };
 
-export default WelfareTable;
+export default ExpenseTable;
 
-WelfareTable.defaultProps = {
+ExpenseTable.defaultProps = {
   customerList: [],
   orderList: [],
 };
 
-WelfareTable.propTypes = {
+ExpenseTable.propTypes = {
   customerList: PropTypes.array,
   orderList: PropTypes.array,
 };
