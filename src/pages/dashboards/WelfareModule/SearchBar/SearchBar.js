@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {styled} from '@mui/system';
-import {InputBase, IconButton} from '@mui/material';
+import {InputBase, IconButton, MenuItem, Select} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
+import axios from 'axios';
 
 const Root = styled('div')({
   display: 'flex',
@@ -24,35 +24,35 @@ const IconButtonStyled = styled(IconButton)({
 });
 
 const SearchBar = ({onSearch}) => {
-  // const [selectedValue, setSelectedValue] = useState('');
-  // const [types, setTypes] = useState([]);
+  const [selectedValue, setSelectedValue] = useState('');
+  const [types, setTypes] = useState([]);
 
   useEffect(() => {
-    // getRentalTypes();
+    getRentalTypes();
   }, []);
 
-  // const getRentalTypes = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       process.env.REACT_APP_BASE_URL + '/income-expense',
-  //     );
-  //     setTypes(response.data.data);
-  //   } catch (error) {
-  //     console.error('Error fetching rental types:', error);
-  //   }
-  // };
+  const getRentalTypes = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_BASE_URL + '/rental/rental-types',
+      );
+      setTypes(response.data.data);
+    } catch (error) {
+      console.error('Error fetching rental types:', error);
+    }
+  };
 
   const handleSearch = (event) => {
     const query = event.target.value;
     onSearch(query);
   };
 
-  // const handleDropdownChange = (event) => {
-  //   const selectedValue = event.target.value;
-  //   setSelectedValue(selectedValue);
-  //   console.log(selectedValue);
-  //   onSearch(selectedValue);
-  // };
+  const handleDropdownChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedValue(selectedValue);
+    console.log(selectedValue);
+    onSearch(selectedValue);
+  };
 
   return (
     <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -64,7 +64,7 @@ const SearchBar = ({onSearch}) => {
           <Input placeholder='নাম/ফোন সার্চ' onChange={handleSearch} />
         </Root>
       </div>
-      {/* <div>
+      <div>
         <Select
           value={selectedValue}
           onChange={handleDropdownChange}
@@ -97,7 +97,7 @@ const SearchBar = ({onSearch}) => {
             </MenuItem>
           ))}
         </Select>
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import {FaMoneyBill, FaHandHoldingUsd,FaHandshake} from 'react-icons/fa';
+import {FaMoneyBill, FaHandHoldingUsd,FaHandshake,FaLeaf} from 'react-icons/fa';
 import {HiOfficeBuilding} from 'react-icons/hi';
 import // RiCustomerService2Line,
 // RiDashboardLine,
@@ -6,6 +6,7 @@ import // RiCustomerService2Line,
 import {BsPeopleFill} from 'react-icons/bs';
 // import {MdOutlineAnalytics} from 'react-icons/md';
 import {AiFillProject} from 'react-icons/ai';
+
 
 const routesConfig = [
   {
@@ -62,14 +63,14 @@ const routesConfig = [
         icon: <FaHandHoldingUsd />,
         url: '/dashboards/academy',
       },
-      // {
-      //   id: 'metrics',
-      //   title: 'Metrics',
-      //   messageId: 'sidebar.app.metrics',
-      //   type: 'item',
-      //   icon: <HiOutlineChartSquareBar />,
-      //   url: '/dashboards/metrics',
-      // },
+      {
+        id: 'welfare',
+        title: 'কল্যান তহবিল ',
+        messageId: 'কল্যান তহবিল ',
+        type: 'item',
+        icon: <FaLeaf />,
+        url: '/dashboards/welfare',
+      },
       // {
       //   id: 'widgets',
       //   title: 'Widgets',

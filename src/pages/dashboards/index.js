@@ -10,6 +10,7 @@ import PaymentVoucher from './IncomeExpenseModule/PaymentVoucher/PaymentVoucher'
 import EditRoshid from './IncomeExpenseModule/EditRoshid/EditRoshid';
 import AddNewIcomeType from './IncomeExpenseModule/AddnewIconeType/AddnewIncomeType';
 import NewLoanAdd from './LoanModule/NewLoanAdd/NewLoanAdd';
+import Welfare from './WelfareModule';
 
 const HealthCare = React.lazy(() => import('./ProjectModule'));
 const VoucherModule = React.lazy(() => import('./IncomeExpenseModule'));
@@ -114,5 +115,10 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboard/add-new-loan-request',
     element: <NewLoanAdd />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboards/welfare',
+    element: <Welfare />,
   },
 ];
