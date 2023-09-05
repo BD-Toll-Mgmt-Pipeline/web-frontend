@@ -1,7 +1,7 @@
 import AppCard from '@crema/core/AppCard';
 import {Button, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import RentalTable from './RentalTable';
+import LoanTable from './LoanTable';
 import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
@@ -26,7 +26,7 @@ const Analytics = () => {
       const perPage = 10; // Provide the number of items per page
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
+        `${process.env.REACT_APP_BASE_URL}/loan`,
         {
           params: {
             query,
@@ -35,9 +35,9 @@ const Analytics = () => {
           },
         },
       );
-
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
+      console.log(response.data, "fmndndfjkndfkjfdndndfndkfndfnsknsfdk");
+      const {allExpense, totalPages} = response.data;
+      setRentals(allExpense);
       setTotalPages(totalPages);
     } catch (error) {
       console.error('Error:', error.message);
@@ -51,7 +51,7 @@ const Analytics = () => {
       const perPage = 10;
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
+        `${process.env.REACT_APP_BASE_URL}/loan`,
         {
           params: {
             query,
@@ -89,7 +89,7 @@ const Analytics = () => {
           </RouterLink>
         </div>
       </div>
-      <RentalTable orderList={rentalName} />
+      <LoanTable orderList={rentalName} />
       <Pagination
         sx={{margin: '20px'}}
         count={totalPages}

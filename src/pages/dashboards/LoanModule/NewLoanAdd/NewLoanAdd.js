@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import {
   TextField,
   Button,
@@ -14,13 +14,18 @@ import {DatePicker} from '@mui/lab';
 
 const axios = require('axios');
 
-const validationSchema = Yup.object().shape({
-  date: Yup.date().required('Date is required'),
-  name: Yup.string().required('Name is required'),
-  memberID: Yup.string().required('Member Id is required'),
-  reqMoney: Yup.string().required('Advance Payment is required'),
-  // paymentDeadline: Yup.string().required('Payment is required'),
-});
+// const validationSchema = Yup.object().shape({
+//   date: Yup.date().required('Date is required'),
+//   name: Yup.string().required('Name is required'),
+//   rentalproperty: Yup.string().required('Rental Property is required'),
+//   memberId: Yup.string().required('Member Id is required'),
+//   permanentAddress: Yup.string().required('Permanent Address is required'),
+//   currentAddress: Yup.string().required('Present Address is required'),
+//   voterId: Yup.string().required('Voter ID is required'),
+//   phone: Yup.string().required('Mobile Number is required'),
+//   reqMoney: Yup.string().required('Advance Payment is required'),
+//   totalpay: Yup.string().required('Total Payment is required'),
+// });
 
 const NewLoanAdd = () => {
   const [, setTypes] = useState([]);
@@ -37,44 +42,33 @@ const NewLoanAdd = () => {
   };
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage] = useState('');
-  const [snackbarSeverity] = useState('');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
-  const handleSubmit = async (values) => {
-    console.log('Form submitted'); // Add this line
+  const handleSubmit = async (values, {resetForm, setSubmitting}) => {
+    const addedStatusValues = {
+      ...values,
+      status: 'true',
+    };
     try {
-      // Your axios post request here
-      console.log('Loan values', values);
+      await axios.post(
+        process.env.REACT_APP_BASE_URL + '/loan',
+        addedStatusValues,
+      );
+      setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+      resetForm();
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Failed to create member');
+      console.error('Error:', error.message);
+      setSnackbarMessage('ব্যর্থ হয়েছে ');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    } finally {
+      setSubmitting(false);
     }
   };
-  
-
-  // const handleSubmit = async (values) => {
-  //   // const addedStatusValues = {
-  //   //   ...values,
-  //   //   status: 'true',
-  //   // };
-  //   // try {
-  //   //   await axios.post(
-  //   //     process.env.REACT_APP_BASE_URL + '/rental',
-  //   //     addedStatusValues,
-  //   //   );
-  //   //   setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
-  //   //   setSnackbarSeverity('success');
-  //   //   setSnackbarOpen(true);
-  //   //   resetForm();
-  //   // } catch (error) {
-  //   //   console.error('Failed to create member');
-  //   //   console.error('Error:', error.message);
-  //   //   setSnackbarMessage('ব্যর্থ হয়েছে ');
-  //   //   setSnackbarSeverity('error');
-  //   //   setSnackbarOpen(true);
-  //   // } finally {
-  //   //   setSubmitting(false);
-  //   // }
-  // };
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -93,10 +87,10 @@ const NewLoanAdd = () => {
               date: new Date().toISOString().split('T')[0],
               name: '',
               memberID: '',
-              reqMoney: '',
+              rentaltype: '',
               paymentDeadline: '',
             }}
-            validationSchema={validationSchema}
+            // validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             {({values, errors, setFieldValue}) => (
@@ -169,7 +163,9 @@ const NewLoanAdd = () => {
                         />
                       )}
                       value={values.date}
-                      onChange={(value) => setFieldValue('paymentDeadline', value)}
+                      onChange={(value) =>
+                        setFieldValue('paymentDeadline', value)
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>

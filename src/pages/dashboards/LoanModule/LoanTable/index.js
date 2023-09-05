@@ -7,7 +7,7 @@ import TableHeading from './TableHeading';
 import TableItem from './TableItem';
 import AppTableContainer from '@crema/core/AppTableContainer';
 
-const RentalTable = ({orderList}) => {
+const LoanTable = ({orderList}) => {
   console.log(orderList, 'orderList');
   return (
     <AppTableContainer>
@@ -25,14 +25,14 @@ const RentalTable = ({orderList}) => {
   );
 };
 
-export default RentalTable;
+export default LoanTable;
 
-RentalTable.defaultProps = {
+LoanTable.defaultProps = {
   customerList: [],
   orderList: [],
 };
 
-RentalTable.propTypes = {
+LoanTable.propTypes = {
   customerList: PropTypes.array,
   orderList: PropTypes.array,
 };

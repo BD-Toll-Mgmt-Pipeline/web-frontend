@@ -14,6 +14,7 @@ import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
 
 const TableItem = ({data}) => {
+  console.log('data', data);
   return (
     <TableRow
       key={data.id}
@@ -60,14 +61,14 @@ const TableItem = ({data}) => {
         {data.phone}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.rentaltype}
+        {data.reqMoney}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         {data.advancepay}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         <ActiveStatus
-          status={data?.activeStatus === true ? 'active' : 'inactive'}
+          status={data?.status === true ? 'active' : 'inactive'}
         />
       </TableCell>
       <TableCell>

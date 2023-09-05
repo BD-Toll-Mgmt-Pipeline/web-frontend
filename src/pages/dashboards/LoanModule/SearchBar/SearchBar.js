@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {styled} from '@mui/system';
-import {InputBase, IconButton, MenuItem, Select} from '@mui/material';
+import {InputBase, IconButton} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -24,8 +24,8 @@ const IconButtonStyled = styled(IconButton)({
 });
 
 const SearchBar = ({onSearch}) => {
-  const [selectedValue, setSelectedValue] = useState('');
-  const [types, setTypes] = useState([]);
+  // const [, setSelectedValue] = useState('');
+  const [, setTypes] = useState([]);
 
   useEffect(() => {
     getRentalTypes();
@@ -47,12 +47,12 @@ const SearchBar = ({onSearch}) => {
     onSearch(query);
   };
 
-  const handleDropdownChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedValue(selectedValue);
-    console.log(selectedValue);
-    onSearch(selectedValue);
-  };
+  // const handleDropdownChange = (event) => {
+  //   const selectedValue = event.target.value;
+  //   setSelectedValue(selectedValue);
+  //   console.log(selectedValue);
+  //   onSearch(selectedValue);
+  // };
 
   return (
     <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -64,7 +64,7 @@ const SearchBar = ({onSearch}) => {
           <Input placeholder='নাম/ফোন সার্চ' onChange={handleSearch} />
         </Root>
       </div>
-      <div>
+      {/* <div>
         <Select
           value={selectedValue}
           onChange={handleDropdownChange}
@@ -80,8 +80,8 @@ const SearchBar = ({onSearch}) => {
             </MenuItem>
           ))}
         </Select>
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         <Select
           value={selectedValue}
           onChange={handleDropdownChange}
@@ -97,7 +97,7 @@ const SearchBar = ({onSearch}) => {
             </MenuItem>
           ))}
         </Select>
-      </div>
+      </div> */}
     </div>
   );
 };
