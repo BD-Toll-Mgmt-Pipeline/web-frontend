@@ -6,6 +6,7 @@ import axios from 'axios';
 import DailyCharts from './DailyIncomeExpenseCharts';
 import CompanyInExlist from './CompanyInExList';
 import CompanyExpenseList from './CompanyExpenseList';
+import DailyBar from './DailyInExBar';
 
 export default function RentalReport() {
   const [incomeData, setIncomeData] = useState(0);
@@ -76,7 +77,7 @@ export default function RentalReport() {
           <AppCard style={{margin: '20px'}}>
             <Typography variant='h3'>
               <GrMoney style={{marginRight: '10px'}} />
-              আজকের ইনকাম (রশিদ থেকে)
+              আজকের ইনকাম
             </Typography>
             <Typography variant='h3'>
               {loading ? 'Loading...' : incomeData?.totalIncome + ' টাকা'}
@@ -85,7 +86,7 @@ export default function RentalReport() {
           <AppCard>
             <Typography variant='h3'>
               <GrMoney style={{marginRight: '10px'}} />
-              আজকের খরচ (ভাউচার থেকে)
+              আজকের খরচ
             </Typography>
             <Typography variant='h3'>
               {loading ? 'Loading...' : expenseData?.totalExpense + ' টাকা'}
@@ -94,6 +95,9 @@ export default function RentalReport() {
         </div>
         <div>
           <DailyCharts income={incomeData} expense={expenseData} />
+        </div>
+        <div>
+          <DailyBar income={incomeData} expense={expenseData} />
         </div>
       </div>
       <CompanyInExlist income={incomeData} />
