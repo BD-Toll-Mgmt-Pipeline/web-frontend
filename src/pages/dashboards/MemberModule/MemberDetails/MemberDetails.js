@@ -235,7 +235,7 @@ export default function MemberDetails() {
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                জমাকৃত টাকার পরিমান : {totalAmount} ৳
+                জমাকৃত টাকার পরিমান : {totalAmount} টাকা
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>

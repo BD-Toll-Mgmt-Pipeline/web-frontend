@@ -1,8 +1,8 @@
 import AppCard from '@crema/core/AppCard';
-import {Button, Typography} from '@mui/material';
+import {Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 // import RentalTable from './RentalTable';
-import {Link as RouterLink} from 'react-router-dom';
+// import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import RentalReport from './RentalReport/RentalReport';
@@ -77,7 +77,7 @@ const Analytics = () => {
       <div style={{marginTop: '30px'}}>
         <SearchBar onSearch={onSearch} />
       </div>
-      <div style={{display: 'flex'}}>
+      {/* <div style={{display: 'flex'}}>
         <div>
           <RouterLink to={`/dashboard/add-new-rental`} underline='none'>
             <Button
@@ -111,8 +111,10 @@ const Analytics = () => {
             </Button>
           </RouterLink>
         </div>
+      </div> */}
+      <div style={{marginTop: '20px'}}>
+        <RentalReport />
       </div>
-      <RentalReport />
       {/* <RentalTable orderList={rentalName} />
       <Pagination
         sx={{ margin: '20px' }}

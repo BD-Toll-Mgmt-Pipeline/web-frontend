@@ -10,15 +10,12 @@ import {BiCreditCardAlt} from 'react-icons/bi';
 
 const options = [
   {
-    label: 'বিস্তারিত দেখুন',
-    url: (id) => `/dashboard/member-details/${id}`,
-  },
-  {
-    label: 'এডিট করুন',
-    url: (id) => `/dashboard/edit-member/${id}`,
+    label: 'পারমিশন দিন',
+    url: () => `${process.env.REACT_APP_BASE_URL}/loan/64f99cbdd2a4cb70321a9b00/updateStatus`,
   },
 ];
 const RentalAppMenuList = ({id}) => {
+  console.log(id, 'dakndkndskndsfknfsdksfdnkdsnfk');
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
-// import * as Yup from 'yup';
 import {
   TextField,
   Button,
@@ -11,58 +10,59 @@ import {
 } from '@mui/material';
 import {Alert} from '@mui/material';
 import {DatePicker} from '@mui/lab';
-
-const axios = require('axios');
-
-// const validationSchema = Yup.object().shape({
-//   date: Yup.date().required('Date is required'),
-//   name: Yup.string().required('Name is required'),
-//   rentalproperty: Yup.string().required('Rental Property is required'),
-//   memberId: Yup.string().required('Member Id is required'),
-//   permanentAddress: Yup.string().required('Permanent Address is required'),
-//   currentAddress: Yup.string().required('Present Address is required'),
-//   voterId: Yup.string().required('Voter ID is required'),
-//   phone: Yup.string().required('Mobile Number is required'),
-//   reqMoney: Yup.string().required('Advance Payment is required'),
-//   totalpay: Yup.string().required('Total Payment is required'),
-// });
+import axios from 'axios';
 
 const NewLoanAdd = () => {
-  const [, setTypes] = useState([]);
-
-  useEffect(() => {
-    getRentalTypes();
-  }, []);
-
-  const getRentalTypes = async () => {
-    const response = await axios.get(
-      process.env.REACT_APP_BASE_URL + '/rental/rental-types',
-    );
-    setTypes(response.data.data);
-  };
-
+  const [memberSearch, setMemberSearch] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
+  const searchMemberbyID = async (memberid) => {
+    try {
+      const query = memberid;
+      const page = 1;
+      const perPage = 10;
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/members/findMember`,
+        {params: {query, page, perPage}},
+      );
+      const memberData = response.data[0];
+      setMemberSearch(memberData);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    setMemberSearch({});
+  }, [snackbarOpen]);
+
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
+    if (!values.memberID || !values.name || !values.reqMoney) {
+      setSnackbarMessage('ফর্ম পূরণ করুন');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+
     const addedStatusValues = {
       ...values,
-      status: 'true',
+      status: 'false',
     };
     try {
       await axios.post(
         process.env.REACT_APP_BASE_URL + '/loan',
         addedStatusValues,
       );
-      setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
+      setSnackbarMessage('সফলভাবে তৈরী হয়েছে');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
       resetForm();
     } catch (error) {
       console.error('Failed to create member');
       console.error('Error:', error.message);
-      setSnackbarMessage('ব্যর্থ হয়েছে ');
+      setSnackbarMessage('ব্যর্থ হয়েছে');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     } finally {
@@ -79,29 +79,30 @@ const NewLoanAdd = () => {
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
           <Typography variant='h5' mb={4}>
-            Add Loan Request Form
+            ঋণের অনুরোধ ফর্ম যোগ করুন
           </Typography>
 
           <Formik
             initialValues={{
               date: new Date().toISOString().split('T')[0],
-              name: '',
+              name: memberSearch?.name || '',
               memberID: '',
               rentaltype: '',
               paymentDeadline: '',
+              reqMoney: '',
             }}
-            // validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({values, errors, setFieldValue}) => (
+            {({values, errors, setFieldValue, isSubmitting}) => (
               <Form>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
-                    <Field
-                      as={DatePicker}
+                    <DatePicker
                       label='আবেদনের তারিখ'
                       name='date'
                       inputFormat='dd/MM/yyyy'
+                      value={values.date}
+                      onChange={(value) => setFieldValue('date', value)}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -109,20 +110,21 @@ const NewLoanAdd = () => {
                           helperText={<ErrorMessage name='date' />}
                         />
                       )}
-                      value={values.date}
-                      onChange={(value) => setFieldValue('date', value)}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='মেম্বার আইডি:'
+                      label='সদস্য নম্বর'
                       name='memberID'
                       fullWidth
                       error={!!errors.memberID}
                       helperText={<ErrorMessage name='memberID' />}
                       InputLabelProps={{
                         shrink: true,
+                      }}
+                      onBlur={(e) => {
+                        searchMemberbyID(e.target.value);
                       }}
                     />
                   </Grid>
@@ -135,14 +137,14 @@ const NewLoanAdd = () => {
                       error={!!errors.name}
                       helperText={<ErrorMessage name='name' />}
                       InputLabelProps={{
-                        shrink: true, // Keep the label above the input field even when empty
+                        shrink: true,
                       }}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='কর্জে হাসনার পরিমান (টাকা)'
+                      label='কর্জে হাসনার আবেদনের পরিমান (টাকা)'
                       name='reqMoney'
                       fullWidth
                       error={!!errors.reqMoney}
@@ -150,27 +152,31 @@ const NewLoanAdd = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Field
-                      as={DatePicker}
+                    <DatePicker
                       label='পরিশোধের সময়কাল'
                       name='paymentDeadline'
                       inputFormat='dd/MM/yyyy'
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          error={!!errors.date}
-                          helperText={<ErrorMessage name='paymentDeadline' />}
-                        />
-                      )}
-                      value={values.date}
+                      value={values.paymentDeadline}
                       onChange={(value) =>
                         setFieldValue('paymentDeadline', value)
                       }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={!!errors.paymentDeadline}
+                          helperText={<ErrorMessage name='paymentDeadline' />}
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Button type='submit' variant='contained' color='primary'>
-                      Submit
+                    <Button
+                      type='submit'
+                      variant='contained'
+                      color='primary'
+                      disabled={isSubmitting}
+                    >
+                      জমা দিন
                     </Button>
                   </Grid>
                 </Grid>

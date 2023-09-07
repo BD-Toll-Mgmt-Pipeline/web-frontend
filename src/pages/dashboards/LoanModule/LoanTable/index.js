@@ -17,7 +17,7 @@ const LoanTable = ({orderList}) => {
         </TableHead>
         <TableBody>
           {orderList.map((data) => (
-            <TableItem data={data} key={data.customerId} />
+            <TableItem data={data} key={data?.customerId} />
           ))}
         </TableBody>
       </Table>
