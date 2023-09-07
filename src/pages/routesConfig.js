@@ -1,4 +1,9 @@
-import {FaMoneyBill, FaHandHoldingUsd,FaHandshake,FaLeaf} from 'react-icons/fa';
+import {
+  FaMoneyBill,
+  FaHandHoldingUsd,
+  FaHandshake,
+  FaLeaf,
+} from 'react-icons/fa';
 import {HiOfficeBuilding} from 'react-icons/hi';
 import // RiCustomerService2Line,
 // RiDashboardLine,
@@ -6,7 +11,6 @@ import // RiCustomerService2Line,
 import {BsPeopleFill} from 'react-icons/bs';
 // import {MdOutlineAnalytics} from 'react-icons/md';
 import {AiFillProject} from 'react-icons/ai';
-
 
 const routesConfig = [
   {
@@ -16,20 +20,20 @@ const routesConfig = [
     type: 'group',
     children: [
       {
-        id: 'member_module',
-        title: 'সদস্য  ব্যবস্থাপনা ',
-        messageId: 'সদস্য  ব্যবস্থাপনা',
-        type: 'item',
-        icon: <BsPeopleFill />,
-        url: '/dashboards/crypto',
-      },
-      {
         id: 'company_module',
         title: 'কোম্পানি ব্যবস্থাপনা',
         messageId: 'কোম্পানি ব্যবস্থাপনা',
         type: 'item',
         icon: <HiOfficeBuilding />,
         url: '/dashboards/crm',
+      },
+      {
+        id: 'member_module',
+        title: 'সদস্য  ব্যবস্থাপনা ',
+        messageId: 'সদস্য  ব্যবস্থাপনা',
+        type: 'item',
+        icon: <BsPeopleFill />,
+        url: '/dashboards/crypto',
       },
       {
         id: 'rental_module',

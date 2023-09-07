@@ -28,7 +28,7 @@ const validationSchema = Yup.object().shape({
   contacttenure: Yup.string().required('Contact Tenure is required'),
 });
 
-const NewRentalAdd = () => {
+const NewProjectAdd = () => {
   const [types, setTypes] = useState([]);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const NewRentalAdd = () => {
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
           <Typography variant='h5' mb={4}>
-            Add Rental Form
+            Add New Project Form
           </Typography>
           <Formik
             initialValues={{
@@ -254,4 +254,4 @@ const NewRentalAdd = () => {
   );
 };
 
-export default NewRentalAdd;
+export default NewProjectAdd;
