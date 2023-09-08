@@ -8,53 +8,30 @@ import {
   Paper,
   Typography,
   Snackbar,
-  MenuItem,
 } from '@mui/material';
 import {Alert} from '@mui/material';
 import {DatePicker} from '@mui/lab';
-
 const axios = require('axios');
 
 const validationSchema = Yup.object().shape({
-  date: Yup.date().required('Date is required'),
-  name: Yup.string().required('Name is required'),
-  permanentAddress: Yup.string().required('Permanent Address is required'),
-  currentAddress: Yup.string().required('Present Address is required'),
-  voterId: Yup.string().required('Voter ID is required'),
-  phone: Yup.string().required('Mobile Number is required'),
-  advancepay: Yup.string().required('Advance Payment is required'),
-  totalpay: Yup.string().required('Total Payment is required'),
-  rentaltype: Yup.string().required('Rent Type is required'),
-  contacttenure: Yup.string().required('Contact Tenure is required'),
+  openDate: Yup.date().required('Date is required'),
+  projectName: Yup.string().required('Project Name is required'),
+  projectAddress: Yup.string().required('Address is required'),
+  // plotNumbers: Yup.string().required('Plot Number is required'),
+  // plotSharePrice: Yup.string().required('Share Price is required'),
 });
 
 const NewProjectAdd = () => {
-  const [types, setTypes] = useState([]);
-
-  useEffect(() => {
-    getRentalTypes();
-  }, []);
-
-  const getRentalTypes = async () => {
-    const response = await axios.get(
-      process.env.REACT_APP_BASE_URL + '/rental/rental-types',
-    );
-    setTypes(response.data.data);
-  };
+  useEffect(() => {}, []);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
-  const contact_tenure = [
-    {value: '1', label: 'এককালীন'},
-    {value: '2', label: 'মাসিক'},
-  ];
-
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_BASE_URL + '/rental',
+        process.env.REACT_APP_BASE_URL + '/project',
         values,
       );
 
@@ -89,16 +66,11 @@ const NewProjectAdd = () => {
           </Typography>
           <Formik
             initialValues={{
-              date: new Date().toISOString().split('T')[0],
-              name: '',
-              permanentAddress: '',
-              currentAddress: '',
-              voterId: '',
-              phone: '',
-              advancepay: '',
-              totalpay: '',
-              rentaltype: '',
-              contacttenure: '',
+              openDate: new Date().toISOString().split('T')[0],
+              projectName: '',
+              projectAddress: '',
+              plotNumbers: '',
+              plotSharePrice: '',
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -109,8 +81,8 @@ const NewProjectAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={DatePicker}
-                      label='তারিখ'
-                      name='date'
+                      label='প্রজেক্ট অনুমোদনের তারিখ '
+                      name='openDate'
                       inputFormat='dd/MM/yyyy'
                       renderInput={(params) => (
                         <TextField
@@ -123,12 +95,11 @@ const NewProjectAdd = () => {
                       onChange={(value) => setFieldValue('date', value)}
                     />
                   </Grid>
-
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='আবেদনকারীর নামঃ'
-                      name='name'
+                      label='প্রজেক্টের নাম'
+                      name='projectName'
                       fullWidth
                       error={!!errors.name}
                       helperText={<ErrorMessage name='name' />}
@@ -137,96 +108,32 @@ const NewProjectAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      select
-                      label='ভাড়ার ধরণঃ'
-                      name='rentaltype'
+                      label='প্রজেক্টের ঠিকানা'
+                      name='projectAddress'
                       fullWidth
-                      error={!!errors.rentaltype}
-                      helperText={<ErrorMessage name='rentaltype' />}
-                    >
-                      {types.map((option) => (
-                        <MenuItem key={option.value} value={option.label}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Field>
+                      error={!!errors.projectAddress}
+                      helperText={<ErrorMessage name='projectAddress' />}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      select
-                      label='চুক্তির ধরণ'
-                      name='contacttenure'
+                      label='অনুমোদিত প্লট সংখ্যা'
+                      name='plotNumbers'
                       fullWidth
-                      error={!!errors.contacttenure}
-                      helperText={<ErrorMessage name='contacttenure' />}
-                    >
-                      {contact_tenure.map((option) => (
-                        <MenuItem key={option.value} value={option.label}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Field>
+                      error={!!errors.plotNumbers}
+                      helperText={<ErrorMessage name='plotNumbers' />}
+                    />
                   </Grid>
 
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='স্থায়ী ঠিকানাঃ  গ্রামঃ থানাঃ উপজেলাঃ জেলাঃ'
-                      name='permanentAddress'
+                      label='প্রত্যেক প্লট শেয়ার মূল্য (আনুমানিক)'
+                      name='plotSharePrice'
                       fullWidth
-                      error={!!errors.permanentAddress}
-                      helperText={<ErrorMessage name='permanentAddress' />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='বর্তমান ঠিকানাঃ  বাড়ি নংঃ রোড নংঃ ব্লক/থানাঃ জেলাঃ'
-                      name='currentAddress'
-                      fullWidth
-                      error={!!errors.currentAddress}
-                      helperText={<ErrorMessage name='currentAddress' />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='ভোটার নাম্বারঃ'
-                      name='voterId'
-                      fullWidth
-                      error={!!errors.voterId}
-                      helperText={<ErrorMessage name='voterId' />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='মোবাইল নাম্বারঃ'
-                      name='phone'
-                      fullWidth
-                      error={!!errors.phone}
-                      helperText={<ErrorMessage name='phone' />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='মোট চুক্তির পরিমান টাকায়(এককালীন/মাসিক)'
-                      name='totalpay'
-                      fullWidth
-                      error={!!errors.totalpay}
-                      helperText={<ErrorMessage name='totalpay' />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='অগ্রিম পেমেন্ট'
-                      name='advancepay'
-                      fullWidth
-                      error={!!errors.advancepay}
-                      helperText={<ErrorMessage name='advancepay' />}
+                      error={!!errors.plotSharePrice}
+                      helperText={<ErrorMessage name='plotSharePrice' />}
                     />
                   </Grid>
                   <Grid item xs={12}>

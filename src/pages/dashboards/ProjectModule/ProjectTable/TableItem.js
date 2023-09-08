@@ -14,6 +14,7 @@ import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
 
 const TableItem = ({data}) => {
+  console.log(data, 'data table');
   return (
     <TableRow
       key={data.id}
@@ -38,7 +39,7 @@ const TableItem = ({data}) => {
           to={`/dashboard/edit-member/${data.memberId}`}
           underline='none'
         >
-          {moment(data?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
+          {moment(data?.openDate, 'YYYY-MM-DD').format('DD-MM-YYYY')}
         </Link>
       </TableCell>
       <TableCell align='left' className='tableCell'>
@@ -52,22 +53,22 @@ const TableItem = ({data}) => {
             to={`/dashboard/edit-member/${data.memberId}`}
             underline='none'
           >
-            {data.name}
+            {data?.projectName}
           </Link>
         </Box>
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.phone}
+        {data?.projectAddress}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.rentaltype}
+        {data.plotNumbers}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.advancepay}
+        {data.plotSharePrice}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         <ActiveStatus
-          status={data?.activeStatus === true ? 'active' : 'inactive'}
+          status={data?.activeStatus === "true" ? 'active' : 'inactive'}
         />
       </TableCell>
       <TableCell>

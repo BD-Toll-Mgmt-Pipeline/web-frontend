@@ -26,7 +26,7 @@ const Analytics = () => {
       const perPage = 10; // Provide the number of items per page
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
+        `${process.env.REACT_APP_BASE_URL}/project`,
         {
           params: {
             query,
@@ -36,8 +36,8 @@ const Analytics = () => {
         },
       );
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
+      const {projects, totalPages} = response.data;
+      setRentals(projects);
       setTotalPages(totalPages);
     } catch (error) {
       console.error('Error:', error.message);
@@ -51,7 +51,7 @@ const Analytics = () => {
       const perPage = 10;
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
+        `${process.env.REACT_APP_BASE_URL}/project`,
         {
           params: {
             query,
@@ -78,7 +78,7 @@ const Analytics = () => {
       </div>
       <div style={{display: 'flex'}}>
         <div>
-          <RouterLink to={`/dashboard/add-new-rental`} underline='none'>
+          <RouterLink to={`/dashboards/add-new-project`} underline='none'>
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}

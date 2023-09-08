@@ -11,6 +11,7 @@ import EditRoshid from './IncomeExpenseModule/EditRoshid/EditRoshid';
 import AddNewIcomeType from './IncomeExpenseModule/AddnewIconeType/AddnewIncomeType';
 import NewLoanAdd from './LoanModule/NewLoanAdd/NewLoanAdd';
 import Welfare from './WelfareModule';
+import NewProjectAdd from './ProjectModule/NewProjectAdd/NewProjectAdd';
 
 const HealthCare = React.lazy(() => import('./ProjectModule'));
 const VoucherModule = React.lazy(() => import('./IncomeExpenseModule'));
@@ -120,5 +121,10 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/welfare',
     element: <Welfare />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboards/add-new-project',
+    element: <NewProjectAdd />,
   },
 ];

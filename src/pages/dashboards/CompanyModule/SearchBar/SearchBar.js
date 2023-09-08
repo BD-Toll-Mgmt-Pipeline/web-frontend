@@ -21,7 +21,7 @@ const IconButtonStyled = styled(IconButton)({
 const SearchBar = ({onSearch}) => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
-  // const [totalIncome, setTotalIncome] = useState([]);
+  const [totalIncome, setTotalIncome] = useState([]);
 
   const handleSearch = (event) => {
     const query = event.target.value;
@@ -45,8 +45,11 @@ const SearchBar = ({onSearch}) => {
       axios
         .get(apiUrl)
         .then((response) => {
-          console.log(response?.data, "nfdasfnnfndfkndfkndfkndfknfdkdnfkfdnkfdnkfdnk");
-          // setTotalIncome(response?.data);
+          console.log(
+            response?.data,
+            'nfdasfnnfndfkndfkndfkndfknfdkdnfkfdnkfdnkfdnk',
+          );
+          setTotalIncome(response?.data);
         })
         .catch((error) => {
           console.error(error);
@@ -54,7 +57,7 @@ const SearchBar = ({onSearch}) => {
     }
   };
 
-  // console.error(totalIncome, "totalIncome");
+  console.error(totalIncome, 'totalIncome');
 
   return (
     <div style={{display: 'flex', justifyContent: 'space-between'}}>
