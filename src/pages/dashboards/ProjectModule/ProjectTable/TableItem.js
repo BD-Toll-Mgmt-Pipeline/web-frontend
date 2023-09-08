@@ -36,7 +36,7 @@ const TableItem = ({data}) => {
       <TableCell align='left' className='tableCell'>
         <Link
           component={RouterLink}
-          to={`/dashboard/edit-member/${data.memberId}`}
+          to={`/dashboards/project-details/${data?._id}`}
           underline='none'
         >
           {moment(data?.openDate, 'YYYY-MM-DD').format('DD-MM-YYYY')}
@@ -50,7 +50,7 @@ const TableItem = ({data}) => {
         >
           <Link
             component={RouterLink}
-            to={`/dashboard/edit-member/${data.memberId}`}
+            to={`/dashboards/project-details/${data?._id}`}
             underline='none'
           >
             {data?.projectName}
@@ -68,11 +68,11 @@ const TableItem = ({data}) => {
       </TableCell>
       <TableCell align='left' className='tableCell'>
         <ActiveStatus
-          status={data?.activeStatus === "true" ? 'active' : 'inactive'}
+          status={data?.status === "true" ? 'running' : 'done'}
         />
       </TableCell>
       <TableCell>
-        <RentalAppMenuList id={data.memberId} />
+        <RentalAppMenuList id={data._id} />
       </TableCell>
     </TableRow>
   );

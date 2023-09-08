@@ -17,7 +17,7 @@ const validationSchema = Yup.object().shape({
   openDate: Yup.date().required('Date is required'),
   projectName: Yup.string().required('Project Name is required'),
   projectAddress: Yup.string().required('Address is required'),
-  // plotNumbers: Yup.string().required('Plot Number is required'),
+  plotNumbers: Yup.string().required('Plot Number is required'),
   // plotSharePrice: Yup.string().required('Share Price is required'),
 });
 
@@ -30,13 +30,15 @@ const NewProjectAdd = () => {
 
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
+      values.status = 'true';
+
       const response = await axios.post(
         process.env.REACT_APP_BASE_URL + '/project',
         values,
       );
 
       console.log('Member created successfully');
-      console.log('Form Values:', values); // Log the form values
+      console.log('Form Values:', values);
       console.log('Response:', response.data);
       setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
       setSnackbarSeverity('success');

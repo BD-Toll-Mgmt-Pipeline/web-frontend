@@ -61,10 +61,10 @@ const Analytics = () => {
         },
       );
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
+      const {projects, totalPages} = response.data;
+      setRentals(projects);
       setTotalPages(totalPages);
-      setCurrentPage(1); // Reset the current page to 1 when performing a new search
+      setCurrentPage(1); 
     } catch (error) {
       console.error('Error:', error.message);
     }

@@ -162,7 +162,7 @@ export default function MemberDetails() {
       <AppCard>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <Typography variant='h3' mb={5}>
-            Member Details
+            Member Details : {member?.name}
           </Typography>
           {member?.activeStatus == true ? (
             <Button

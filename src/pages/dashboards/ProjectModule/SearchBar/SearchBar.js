@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {styled} from '@mui/system';
 import {InputBase, IconButton, MenuItem, Select} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 const Root = styled('div')({
   display: 'flex',
@@ -25,22 +24,6 @@ const IconButtonStyled = styled(IconButton)({
 
 const SearchBar = ({onSearch}) => {
   const [selectedValue, setSelectedValue] = useState('');
-  const [types, setTypes] = useState([]);
-
-  useEffect(() => {
-    getRentalTypes();
-  }, []);
-
-  const getRentalTypes = async () => {
-    try {
-      const response = await axios.get(
-        process.env.REACT_APP_BASE_URL + '/rental/rental-types',
-      );
-      setTypes(response.data.data);
-    } catch (error) {
-      console.error('Error fetching rental types:', error);
-    }
-  };
 
   const handleSearch = (event) => {
     const query = event.target.value;
@@ -53,6 +36,8 @@ const SearchBar = ({onSearch}) => {
     console.log(selectedValue);
     onSearch(selectedValue);
   };
+
+  const types = [{value: 'true', label:"true"}, {value: 'false', label:"false"}];
 
   return (
     <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -72,7 +57,7 @@ const SearchBar = ({onSearch}) => {
           displayEmpty
         >
           <MenuItem value='' disabled>
-            ভাড়ার ধরণ সার্চ
+            প্রজেক্ট স্টেটাস খুজুন
           </MenuItem>
           {types.map((type) => (
             <MenuItem key={type.id} value={type.label}>
@@ -81,7 +66,7 @@ const SearchBar = ({onSearch}) => {
           ))}
         </Select>
       </div>
-      <div>
+      {/* <div>
         <Select
           value={selectedValue}
           onChange={handleDropdownChange}
@@ -97,7 +82,7 @@ const SearchBar = ({onSearch}) => {
             </MenuItem>
           ))}
         </Select>
-      </div>
+      </div> */}
     </div>
   );
 };
