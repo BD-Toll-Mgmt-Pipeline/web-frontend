@@ -10,6 +10,7 @@ import {
 import {Alert} from '@mui/material';
 import axios from 'axios';
 const moment = require('moment');
+import Autocomplete from '@mui/material/Autocomplete';
 
 const PaymentVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -115,6 +116,8 @@ const PaymentVoucher = () => {
     generateNo();
   }, []);
 
+  const possibleDescriptions = ['কল্যাণ তহবিল সাহায্য'];
+
   return (
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
@@ -196,22 +199,28 @@ const PaymentVoucher = () => {
                 বিবরণ
               </Typography>
               {rows.map((row, index) => (
-                <TextField
+                <Autocomplete
                   key={index}
                   value={row.description}
-                  onChange={(e) =>
-                    handleRowChange(index, 'description', e.target.value)
+                  onChange={(_, newValue) =>
+                    handleRowChange(index, 'description', newValue)
                   }
-                  placeholder='বিবরণ লিখুন'
-                  fullWidth
-                  multiline
-                  variant='outlined'
-                  sx={{
-                    marginBottom: '5px',
-                    '& input::placeholder': {
-                      fontSize: '12px',
-                    },
-                  }}
+                  options={possibleDescriptions}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='বিবরণ'
+                      fullWidth
+                      multiline
+                      variant='outlined'
+                      sx={{
+                        marginBottom: '5px',
+                        '& input::placeholder': {
+                          fontSize: '12px',
+                        },
+                      }}
+                    />
+                  )}
                 />
               ))}
             </Grid>

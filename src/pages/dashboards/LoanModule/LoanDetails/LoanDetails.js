@@ -6,12 +6,31 @@ import ActiveStatus from '@crema/common/ActiveStatus';
 import AppCard from '@crema/core/AppCard';
 import {GrStatusWarning} from 'react-icons/gr';
 import {GoHeart} from 'react-icons/go';
+import moment from 'moment';
+
 // import MemberPaymentList from '../MemberPaymentList';
 
 export default function LoanDetails() {
   const {id} = useParams();
   const [member, setMember] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const paymentDeadline = moment(member?.paymentDeadline, 'YYYY-MM-DD');
+  const today = moment();
+  const daysDifference = paymentDeadline.diff(today, 'days');
+
+  let statusText = '';
+  if (daysDifference < 0) {
+    statusText = (
+      <span style={{color: 'red'}}>
+        {`Overdue by ${Math.abs(daysDifference)} days`}
+      </span>
+    );
+  } else if (daysDifference === 0) {
+    statusText = 'Due Today';
+  } else {
+    statusText = `Due in ${daysDifference} days`;
+  }
 
   const getMember = async () => {
     let memberid = id;
@@ -31,12 +50,12 @@ export default function LoanDetails() {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/loan/${memberid}`,
-        member?.status === 'true'
+        member?.status === 'pending'
           ? {
-              status: 'false',
+              status: 'permitted',
             }
           : {
-              status: 'true',
+              status: 'done',
             },
       );
       window.location.reload();
@@ -59,7 +78,7 @@ export default function LoanDetails() {
           <Typography variant='h3' mb={5}>
             Loan Details : {member?.name}
           </Typography>
-          {member?.status == 'true' ? (
+          {member?.status == 'permitted' ? (
             <Button
               variant='outlined'
               color='primary'
@@ -69,7 +88,7 @@ export default function LoanDetails() {
               <GrStatusWarning
                 style={{color: 'lightblue', marginRight: '5px'}}
               />{' '}
-              {'পারমিশন তুলে ফেলুন'}
+              {'লেনদেন শেষ করুন'}
             </Button>
           ) : (
             <Button
@@ -90,7 +109,10 @@ export default function LoanDetails() {
         ) : (
           <>
             <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>আবেদনের তারিখ: {member.date}</Typography>
+              <Typography variant='h4'>
+                আবেদনের তারিখ:{' '}
+                {moment(member.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
+              </Typography>
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>সদস্যের নাম: {member.name}</Typography>
@@ -104,21 +126,29 @@ export default function LoanDetails() {
               <Typography variant='h4'>
                 স্টেটাস :{' '}
                 <ActiveStatus
-                  status={member?.status === 'false' ? 'pending' : 'permitted'}
+                  status={
+                    member?.status === 'pending' ? 'pending' : 'permitted'
+                  }
                 />
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                {member?.status === 'false'
+                {member?.status === 'true'
                   ? `আবেদনকৃত টাকার পরিমাণ: ${member.reqMoney} টাকা`
                   : `কর্জে হাসনাকৃত টাকার পরিমাণ: ${member.reqMoney} টাকা`}
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                পরিশোধ তারিখ: {member.paymentDeadline}
+                পরিশোধ তারিখ:{' '}
+                {moment(member?.paymentDeadline, 'YYYY-MM-DD').format(
+                  'DD-MM-YYYY',
+                )}
               </Typography>
+            </div>
+            <div style={{marginTop: '10px'}}>
+              <Typography variant='h4'>{`সময় বাকি (দিন): ${statusText}`}</Typography>
             </div>
           </>
         )}

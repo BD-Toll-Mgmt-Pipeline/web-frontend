@@ -13,7 +13,7 @@ import TabList from '@mui/lab/TabList';
 
 const Welfare = () => {
   const [totalPages, setTotalPages] = useState(1);
-  const [rentalName, setRentals] = useState([]);
+  const [transaction, setTransaction] = useState([]);
   const [expense, setExpense] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState('income');
@@ -31,25 +31,16 @@ const Welfare = () => {
     setSelectedTab(newValue);
   };
 
-  const getIncomeExpense = async (page) => {
+  const getIncomeExpense = async () => {
     try {
-      const query = ''; // Provide the search query if needed
-      const perPage = 10; // Provide the number of items per page
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/welfare`,
-        {
-          params: {
-            query,
-            page,
-            perPage,
-          },
-        },
+        `${process.env.REACT_APP_BASE_URL}/income-expense/roshid-transactions?description=কল্যান তহবিল`,
+      
       );
 
-      const {allIncomeExpense, totalPages} = response.data;
-      setRentals(allIncomeExpense);
-      setTotalPages(totalPages);
+      const {transactions} = response.data;
+      setTransaction(transactions);
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -97,7 +88,7 @@ const Welfare = () => {
       );
 
       const {allIncomeExpense, totalPages} = response.data;
-      setRentals(allIncomeExpense);
+      setTransaction(allIncomeExpense);
       setTotalPages(totalPages);
       setCurrentPage(1);
     } catch (error) {
@@ -141,7 +132,7 @@ const Welfare = () => {
           <Tab label='ভাউচার' value='expense' />
         </TabList>
         {selectedTab === 'income' ? (
-          <IncomeTable orderList={rentalName} />
+          <IncomeTable orderList={transaction} />
         ) : (
           <ExpenseTable orderList={expense} />
         )}

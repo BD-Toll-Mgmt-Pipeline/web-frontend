@@ -14,22 +14,31 @@ import axios from 'axios';
 import * as Yup from 'yup';
 
 const NewLoanAdd = () => {
-  const [memberSearch, setMemberSearch] = useState({});
+  const [memberSearch, setMemberSearch] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
+
+  console.log(memberSearch, 'memberSearch');
 
   const searchMemberbyID = async (memberid) => {
     try {
       const query = memberid;
       const page = 1;
       const perPage = 10;
+
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/members/findMember`,
-        {params: {query, page, perPage}},
+        {
+          params: {
+            query,
+            page,
+            perPage,
+          },
+        },
       );
-      const memberData = response.data[0];
-      setMemberSearch(memberData);
+      setMemberSearch(response.data.members);
+      console.log(response.data.members);
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -57,7 +66,7 @@ const NewLoanAdd = () => {
 
     const addedStatusValues = {
       ...values,
-      status: 'false',
+      status: 'pending',
     };
     try {
       await axios.post(
@@ -95,8 +104,8 @@ const NewLoanAdd = () => {
             validationSchema={validationSchema}
             initialValues={{
               date: new Date().toISOString().split('T')[0],
-              name: memberSearch?.name || '',
-              memberID: '',
+              name: memberSearch.length > 0 ? memberSearch[0].name : '',
+              memberID: memberSearch.length > 0 ? memberSearch[0].memberId : '',
               rentaltype: '',
               paymentDeadline: '',
               reqMoney: '',
@@ -123,21 +132,25 @@ const NewLoanAdd = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='সদস্য নম্বর'
-                      name='memberID'
-                      fullWidth
-                      error={!!errors.memberID}
-                      helperText={<ErrorMessage name='memberID' />}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onBlur={(e) => {
-                        searchMemberbyID(e.target.value);
-                      }}
-                    />
+                    <Grid item xs={12}>
+                      <Field
+                        as={TextField}
+                        label='সদস্য নম্বর'
+                        name='memberID'
+                        fullWidth
+                        error={!!errors.memberID}
+                        helperText={<ErrorMessage name='memberID' />}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        onChange={(e) => {
+                          setFieldValue('memberID', e.target.value); // Add this line to update the form's value
+                          searchMemberbyID(e.target.value);
+                        }}
+                      />
+                    </Grid>
                   </Grid>
+
                   <Grid item xs={12}>
                     <Field
                       as={TextField}

@@ -10,6 +10,7 @@ import {
 import {Alert} from '@mui/material';
 import axios from 'axios';
 const moment = require('moment');
+import Autocomplete from '@mui/material/Autocomplete';
 
 const PaymentVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -21,6 +22,8 @@ const PaymentVoucher = () => {
   const [voucher_title, setNameVoucher_title] = useState('');
   const [date, setDate] = useState('');
   const [voucher_details, setLargeParagraph] = useState('');
+
+  // const voucherTitles = ['Title 1', 'Title 2', 'Title 3'];
 
   const calculateTotalAmount = () => {
     const sum = rows.reduce((total, row) => {
@@ -157,10 +160,16 @@ const PaymentVoucher = () => {
 
           <div>
             <div style={{margin: '10px', textAlign: 'center'}}>
-              <TextField
-                label='ভাউচার টাইটেল'
-                value={voucher_title}
-                onChange={(e) => setNameVoucher_title(e.target.value)}
+              <Autocomplete
+                options={voucherTitles}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label='ভাউচার টাইটেল'
+                    value={voucher_title}
+                    onChange={(e) => setNameVoucher_title(e.target.value)}
+                  />
+                )}
               />
             </div>
           </div>

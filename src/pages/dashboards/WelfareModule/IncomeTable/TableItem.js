@@ -63,7 +63,7 @@ const TableItem = ({data}) => {
         {data.roshidNo}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.totalamount}
+        {data.total_amount}
       </TableCell>
       <TableCell>
         <RentalAppMenuList id={data.memberId} />

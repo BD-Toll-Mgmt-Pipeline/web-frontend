@@ -33,7 +33,6 @@ const TableHeading = () => {
         </Box>
       </TableCell>
 
-      
       <TableCell>
         <Box
           sx={{
@@ -83,6 +82,18 @@ const TableHeading = () => {
           }}
         >
           <IntlMessages id='পেমেন্ট বিবরণ' />
+        </Box>
+      </TableCell>
+      <TableCell>
+        <Box
+          sx={{
+            color: 'text.secondary',
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.BOLD,
+          }}
+        >
+          <IntlMessages id='পেমেন্ট বিস্তারিত' />
         </Box>
       </TableCell>
     </TableRow>

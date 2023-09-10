@@ -14,7 +14,6 @@ import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
 
 const TableItem = ({data}) => {
-  console.log('data', data);
   return (
     <TableRow
       key={data.id}
@@ -64,11 +63,11 @@ const TableItem = ({data}) => {
         {data.reqMoney}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.advancepay}
+        {moment(data.paymentDeadline, 'YYYY-MM-DD').format('DD-MM-YYYY')}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         <ActiveStatus
-          status={data?.status === 'false' ? 'pending' : 'permitted'}
+          status={data?.status === 'pending' ? 'pending' : 'permitted'}
         />
       </TableCell>
       <TableCell>

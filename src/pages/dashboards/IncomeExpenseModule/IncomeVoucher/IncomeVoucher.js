@@ -45,23 +45,22 @@ const IncomeVoucher = () => {
     try {
       // Render the PDFGenerator component to generate the PDF content
       const pdfContent = <PDFGenerator voucherData={voucherData} />;
-  
+
       // Convert the PDF content to a string
       const pdfString = pdfContent.toString();
-  
+
       // Create a Blob from the PDF content
-      const pdfBlob = new Blob([pdfString], { type: 'application/pdf' });
-  
+      const pdfBlob = new Blob([pdfString], {type: 'application/pdf'});
+
       // Create a blob URL from the PDF blob
       const pdfUrl = URL.createObjectURL(pdfBlob);
-  
+
       // Open the PDF in a new window
       window.open(pdfUrl, '_blank');
     } catch (error) {
       console.error('Error generating or opening PDF:', error);
     }
   };
-  
 
   const getIncomeTypes = async () => {
     const response = await axios.get(
@@ -174,6 +173,7 @@ const IncomeVoucher = () => {
         myArrayField: rows.map((row) => ({
           number: row.number,
           description: row.description,
+          additionaldescription: row.additionaldescription,
           amount: row.amount,
         })),
         phone,
@@ -199,7 +199,9 @@ const IncomeVoucher = () => {
       setSnackbarOpen(true);
 
       // Reset the form after successful submission
-      setRows([{number: 1, description: '', amount: ''}]);
+      setRows([
+        {number: 1, description: '', additionaldescription: '', amount: ''},
+      ]);
       setTotalAmount(0);
       setRoshidNo(0);
       setName('');
@@ -214,8 +216,6 @@ const IncomeVoucher = () => {
       setToYear('');
       setShowWarning(false);
     } catch (error) {
-      console.error('Failed to submit');
-      console.error('Error:', error.message);
       setSnackbarMessage('ব্যর্থ হয়েছে');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
@@ -393,23 +393,53 @@ const IncomeVoucher = () => {
               >
                 বিবরণ
               </Typography>
-              {rows.map((row, index) => (
-                <select
-                  key={index}
-                  value={row.description}
-                  onChange={(e) =>
-                    handleRowChange(index, 'description', e.target.value)
-                  }
-                  style={{width: '100%', height: '50px', marginBottom: '5px'}}
-                >
-                  <option value=''>বিবরণ নির্বাচন করুন</option>
-                  {incomeTypes.map((option, optionIndex) => (
-                    <option key={optionIndex} label={option.label}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              ))}
+              <div>
+                {rows.map((row, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '5px',
+                    }}
+                  >
+                    <select
+                      value={row.description}
+                      onChange={(e) =>
+                        handleRowChange(index, 'description', e.target.value)
+                      }
+                      style={{
+                        width: '50%', // Set the select to take up 50% of the width
+                        height: '50px',
+                        marginRight: '5px', // Add some spacing between select and TextField
+                      }}
+                    >
+                      <option value=''>বিবরণ নির্বাচন করুন</option>
+                      {incomeTypes.map((option, optionIndex) => (
+                        <option key={optionIndex} label={option.label}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div style={{flex: 1}}>
+                      <TextField
+                        key={index}
+                        value={row.additionaldescription}
+                        onChange={(e) =>
+                          handleRowChange(
+                            index,
+                            'additionaldescription',
+                            e.target.value,
+                          )
+                        }
+                        type='text'
+                        inputProps={{min: 0}}
+                        style={{width: '100%'}} // Set the TextField to take up 100% of the width
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </Grid>
             <Grid item xs={4}>
               <Typography
