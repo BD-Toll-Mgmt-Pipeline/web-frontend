@@ -86,7 +86,9 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                   {loading
                     ? 'Loading...'
                     : totalIncomeDate?.totalIncome
-                    ? totalIncomeDate?.totalIncome + ' টাকা'
+                    ? totalIncomeDate?.totalIncome -
+                      totalExpenseDate?.totalExpense +
+                      ' টাকা'
                     : 'No Income'}
                 </Typography>
               </div>
@@ -100,7 +102,9 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                   {loading
                     ? 'Loading...'
                     : incomeData?.totalIncome
-                    ? incomeData?.totalIncome + ' টাকা'
+                    ? incomeData?.totalIncome -
+                      expenseData?.totalExpense +
+                      ' টাকা'
                     : 'No Income'}
                 </Typography>
               </div>

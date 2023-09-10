@@ -19,7 +19,7 @@ const Welfare = () => {
   const [selectedTab, setSelectedTab] = useState('income');
 
   useEffect(() => {
-    getIncomeExpense(currentPage);
+    getIncome(currentPage);
     getExpense(currentPage);
   }, [currentPage]);
 
@@ -31,12 +31,10 @@ const Welfare = () => {
     setSelectedTab(newValue);
   };
 
-  const getIncomeExpense = async () => {
+  const getIncome = async () => {
     try {
-
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/income-expense/roshid-transactions?description=কল্যান তহবিল`,
-      
       );
 
       const {transactions} = response.data;
@@ -46,25 +44,14 @@ const Welfare = () => {
     }
   };
 
-  const getExpense = async (page) => {
+  const getExpense = async () => {
     try {
-      const query = ''; // Provide the search query if needed
-      const perPage = 10; // Provide the number of items per page
-
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/welfare`,
-        {
-          params: {
-            query,
-            page,
-            perPage,
-          },
-        },
+        `${process.env.REACT_APP_BASE_URL}/expense/voucher-transactions?description=কল্যাণ তহবিল সাহায্য`,
       );
 
-      const {allExpense, totalPages} = response.data;
-      setExpense(allExpense);
-      setTotalPages(totalPages);
+      const {transactions} = response.data;
+      setExpense(transactions);
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -122,6 +109,17 @@ const Welfare = () => {
               color='primary'
             >
               নতুন ভাউচার তৈরী
+            </Button>
+          </RouterLink>
+        </div>
+        <div>
+          <RouterLink to={`/dashboards/welfare-report`} underline='none'>
+            <Button
+              variant='outlined'
+              sx={{float: 'right', margin: '30px'}}
+              color='primary'
+            >
+              কল্যান তহবিলের রিপোর্ট
             </Button>
           </RouterLink>
         </div>

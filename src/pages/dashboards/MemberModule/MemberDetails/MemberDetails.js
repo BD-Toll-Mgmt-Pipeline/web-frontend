@@ -11,6 +11,7 @@ import MemberPaymentList from '../MemberPaymentList';
 export default function MemberDetails() {
   const {id} = useParams();
   const [member, setMember] = useState({});
+  const [memberLoanDetails, setMemberLoanDetails] = useState({});
   const [totalAmount, setTotalAmount] = useState('');
   const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState(true);
@@ -88,6 +89,20 @@ export default function MemberDetails() {
     }
   };
 
+  const getMemberLoanDetails = async (memberid) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/loan/${memberid}`,
+      );
+      setMemberLoanDetails(response.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  console.log(memberLoanDetails, 'memberLoanDetails');
+
   const getPaymentStatus = async (voterId) => {
     try {
       const query = voterId;
@@ -148,6 +163,7 @@ export default function MemberDetails() {
   useEffect(() => {
     if (member?.voterId) {
       getPaymentStatus(member.voterId);
+      getMemberLoanDetails(member.memberId);
     }
   }, [member]);
 
@@ -235,9 +251,18 @@ export default function MemberDetails() {
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                জমাকৃত টাকার পরিমান : {totalAmount} টাকা
+                সঞ্চিত টাকার পরিমান : {totalAmount} টাকা
               </Typography>
             </div>
+            {memberLoanDetails?.status == 'permitted' ? (
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  কর্জে হাসনা কৃত টাকার পরিমান : {memberLoanDetails?.reqMoney} টাকা
+                </Typography>
+              </div>
+            ) : (
+              ''
+            )}
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
                 সদস্য নাম্বার: {member.memberId}

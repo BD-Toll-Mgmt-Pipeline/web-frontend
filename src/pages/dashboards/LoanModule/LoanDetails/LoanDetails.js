@@ -127,7 +127,11 @@ export default function LoanDetails() {
                 স্টেটাস :{' '}
                 <ActiveStatus
                   status={
-                    member?.status === 'pending' ? 'pending' : 'permitted'
+                    member?.status === 'pending'
+                      ? 'pending'
+                      : member?.status === 'permitted'
+                      ? 'permitted'
+                      : 'done'
                   }
                 />
               </Typography>

@@ -35,9 +35,6 @@ const Analytics = () => {
           },
         },
       );
-
-      console.log(response.data, 'nfdjkdndsfnkjdsndsnldskfn');
-
       const {rentalName, totalPages} = response.data;
       setRentals(rentalName);
       console.log(rentalName, 'rentalName');
@@ -103,7 +100,7 @@ const Analytics = () => {
             </Button>
           </RouterLink>
         </div>
-        <div>
+        {/* <div>
           <RouterLink to={`/dashboard/rental-report`} underline='none'>
             <Button
               variant='outlined'
@@ -113,7 +110,7 @@ const Analytics = () => {
               ভাড়া সংক্রান্ত রিপোর্ট
             </Button>
           </RouterLink>
-        </div>
+        </div> */}
       </div>
       <RentalTable orderList={rentalName} />
       <Pagination

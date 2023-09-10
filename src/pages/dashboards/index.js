@@ -16,6 +16,7 @@ import ProjectDetails from './ProjectModule/ProjectDetails/ProjectDetails';
 import EditProject from './ProjectModule/EditProject/EditProject';
 import EditLoan from './LoanModule/EditLoan/EditLoan';
 import LoanDetails from './LoanModule/LoanDetails/LoanDetails';
+import WelfareReport from './WelfareModule/WelfareReport/WelfareReport';
 
 const HealthCare = React.lazy(() => import('./ProjectModule'));
 const VoucherModule = React.lazy(() => import('./IncomeExpenseModule'));
@@ -135,6 +136,11 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/welfare',
     element: <Welfare />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboards/welfare-report',
+    element: <WelfareReport />,
   },
   {
     permittedRole: RoutePermittedRole.user,

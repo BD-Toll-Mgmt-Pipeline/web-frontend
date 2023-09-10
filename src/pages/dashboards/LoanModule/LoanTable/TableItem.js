@@ -67,7 +67,13 @@ const TableItem = ({data}) => {
       </TableCell>
       <TableCell align='left' className='tableCell'>
         <ActiveStatus
-          status={data?.status === 'pending' ? 'pending' : 'permitted'}
+          status={
+            data?.status === 'pending'
+              ? 'pending'
+              : data?.status === 'permitted'
+              ? 'permitted'
+              : 'done'
+          }
         />
       </TableCell>
       <TableCell>
