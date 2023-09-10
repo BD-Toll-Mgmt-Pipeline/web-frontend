@@ -35,7 +35,6 @@ const Analytics = () => {
           },
         },
       );
-      console.log(response.data, "fmndndfjkndfkjfdndndfndkfndfnsknsfdk");
       const {allExpense, totalPages} = response.data;
       setRentals(allExpense);
       setTotalPages(totalPages);
@@ -61,8 +60,8 @@ const Analytics = () => {
         },
       );
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
+      const {allExpense, totalPages} = response.data;
+      setRentals(allExpense);
       setTotalPages(totalPages);
       setCurrentPage(1); // Reset the current page to 1 when performing a new search
     } catch (error) {

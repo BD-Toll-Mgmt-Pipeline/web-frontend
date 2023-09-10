@@ -11,11 +11,11 @@ import {BiCreditCardAlt} from 'react-icons/bi';
 const options = [
   {
     label: 'বিস্তারিত দেখুন',
-    url: (id) => `/dashboard/member-details/${id}`,
+    url: (id) => `/dashboards/project-details/${id}`,
   },
   {
     label: 'এডিট করুন',
-    url: (id) => `/dashboard/edit-member/${id}`,
+    url: (id) => `/dashboards/edit-project/${id}`,
   },
 ];
 const RentalAppMenuList = ({id}) => {

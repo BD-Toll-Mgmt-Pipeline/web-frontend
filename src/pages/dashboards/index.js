@@ -13,6 +13,9 @@ import NewLoanAdd from './LoanModule/NewLoanAdd/NewLoanAdd';
 import Welfare from './WelfareModule';
 import NewProjectAdd from './ProjectModule/NewProjectAdd/NewProjectAdd';
 import ProjectDetails from './ProjectModule/ProjectDetails/ProjectDetails';
+import EditProject from './ProjectModule/EditProject/EditProject';
+import EditLoan from './LoanModule/EditLoan/EditLoan';
+import LoanDetails from './LoanModule/LoanDetails/LoanDetails';
 
 const HealthCare = React.lazy(() => import('./ProjectModule'));
 const VoucherModule = React.lazy(() => import('./IncomeExpenseModule'));
@@ -120,6 +123,16 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/edit-loan-request/:id',
+    element: <EditLoan />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard/loan-details/:id',
+    element: <LoanDetails />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
     path: '/dashboards/welfare',
     element: <Welfare />,
   },
@@ -132,5 +145,10 @@ export const dashBoardConfigs = [
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/project-details/:id',
     element: <ProjectDetails />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboards/edit-project/:id',
+    element: <EditProject />,
   },
 ];

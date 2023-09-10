@@ -8,14 +8,17 @@ import Link from '@mui/material/Link';
 import PropTypes from 'prop-types';
 import {BiCreditCardAlt} from 'react-icons/bi';
 
-const options = [
-  {
-    label: 'পারমিশন দিন',
-    url: () => `${process.env.REACT_APP_BASE_URL}/loan/64f99cbdd2a4cb70321a9b00/updateStatus`,
-  },
-];
 const RentalAppMenuList = ({id}) => {
-  console.log(id, 'dakndkndskndsfknfsdksfdnkdsnfk');
+  const options = [
+    {
+      label: 'এডিট করুন',
+      url: () => `/dashboard/edit-loan-request/${id}`,
+    },
+    {
+      label: 'বিস্তারিত দেখুন ',
+      url: () => `/dashboard/loan-details/${id}`,
+    },
+  ];
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 

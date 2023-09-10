@@ -68,11 +68,11 @@ const TableItem = ({data}) => {
       </TableCell>
       <TableCell align='left' className='tableCell'>
         <ActiveStatus
-          status={data?.status === 'false' ? 'pending' : 'done'}
+          status={data?.status === 'false' ? 'pending' : 'permitted'}
         />
       </TableCell>
       <TableCell>
-        <RentalAppMenuList id={data.memberId} />
+        <RentalAppMenuList id={data.memberID} />
       </TableCell>
     </TableRow>
   );

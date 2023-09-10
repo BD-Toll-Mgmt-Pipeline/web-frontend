@@ -11,7 +11,13 @@ import RentalReport from './RentalReport/RentalReport';
 const Analytics = () => {
   const [, setTotalPages] = useState(1);
   const [, setRentals] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [totalIncomeDate, setTotalIncome] = useState('');
+  const [totalExpenseDate, setTotalExpense] = useState('');
+
+  // const [IncomeDate, setIncome] = useState('');
+  // const [ExpenseDate, setExpense] = useState('');
+
+  const [currentPage] = useState(1);
 
   useEffect(() => {
     getRentals(currentPage);
@@ -46,28 +52,34 @@ const Analytics = () => {
   };
 
   const onSearch = async (value) => {
-    try {
-      const query = value;
-      const page = 1;
-      const perPage = 10;
+    if (value?.fromDate && value?.toDate) {
+      const IncomeApi = `${process.env.REACT_APP_BASE_URL}/income-expense/total-income?fromDate=${value?.fromDate}&toDate=${value?.toDate}`;
+      const ExpenseApi = `${process.env.REACT_APP_BASE_URL}/expense/total-expense?fromDate=${value?.fromDate}&toDate=${value?.toDate}`;
+      // setIncome(value?.fromDate);
+      // setExpense(value?.toDate);
+      // Make the first API request
+      axios
+        .get(IncomeApi)
+        .then((response1) => {
+          console.log(response1?.data, 'Response from the first API');
+          setTotalIncome(response1?.data);
 
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
-        {
-          params: {
-            query,
-            page,
-            perPage,
-          },
-        },
-      );
+          // Make the second API request
+          axios
+            .get(ExpenseApi)
+            .then((response2) => {
+              console.log(response2?.data, 'Response from the second API');
+              setTotalExpense(response2?.data);
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
-      setTotalPages(totalPages);
-      setCurrentPage(1); // Reset the current page to 1 when performing a new search
-    } catch (error) {
-      console.error('Error:', error.message);
+              // Handle the response from the second API as needed
+            })
+            .catch((error2) => {
+              console.error(error2);
+            });
+        })
+        .catch((error1) => {
+          console.error(error1);
+        });
     }
   };
 
@@ -76,6 +88,8 @@ const Analytics = () => {
       <Typography variant='h4'>Company Module</Typography>
       <div style={{marginTop: '30px'}}>
         <SearchBar onSearch={onSearch} />
+        {/* <Typography>{IncomeDate}</Typography>
+        <Typography>{ExpenseDate}</Typography> */}
       </div>
       {/* <div style={{display: 'flex'}}>
         <div>
@@ -113,7 +127,10 @@ const Analytics = () => {
         </div>
       </div> */}
       <div style={{marginTop: '20px'}}>
-        <RentalReport />
+        <RentalReport
+          totalIncomeDate={totalIncomeDate}
+          totalExpenseDate={totalExpenseDate}
+        />
       </div>
       {/* <RentalTable orderList={rentalName} />
       <Pagination

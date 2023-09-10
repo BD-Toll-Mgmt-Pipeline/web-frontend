@@ -109,16 +109,16 @@ export default function ProjectDetails() {
   };
 
   const handleUpdateProject = async () => {
-    let memberid = id;
+    let projectId = id;
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/project/${memberid}`,
-        project?.activeStatus === true
+        `${process.env.REACT_APP_BASE_URL}/project/${projectId}`,
+        project?.status === 'true'
           ? {
-              activeStatus: 'false',
+              status: 'false',
             }
           : {
-              activeStatus: 'true',
+              status: 'true',
             },
       );
       window.location.reload();
@@ -241,12 +241,12 @@ export default function ProjectDetails() {
           >
             <Typography variant='h4'>শেয়ারহোল্ডার নং : {row.number}</Typography>
             <TextField
-             sx={{
-              padding:'10px',
-              '& .MuiInputBase-input.Mui-disabled': {
-                WebkitTextFillColor: '#000000',
-              },
-            }}
+              sx={{
+                padding: '10px',
+                '& .MuiInputBase-input.Mui-disabled': {
+                  WebkitTextFillColor: '#000000',
+                },
+              }}
               type='text'
               placeholder='শেয়ারহোল্ডারের নাম'
               name='shareholderName'
@@ -257,10 +257,9 @@ export default function ProjectDetails() {
                 projectDetails[index]?.shareholderName !== undefined
               }
             />
-
             <TextField
               sx={{
-                padding:'10px',
+                padding: '10px',
                 '& .MuiInputBase-input.Mui-disabled': {
                   WebkitTextFillColor: '#000000',
                 },

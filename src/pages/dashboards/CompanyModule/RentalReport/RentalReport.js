@@ -7,8 +7,9 @@ import DailyCharts from './DailyIncomeExpenseCharts';
 import CompanyInExlist from './CompanyInExList';
 import CompanyExpenseList from './CompanyExpenseList';
 import DailyBar from './DailyInExBar';
+import PropTypes from 'prop-types';
 
-export default function RentalReport() {
+export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   const [incomeData, setIncomeData] = useState(0);
   const [expenseData, setExpenseData] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -75,34 +76,104 @@ export default function RentalReport() {
           }}
         >
           <AppCard style={{margin: '20px'}}>
-            <Typography variant='h3'>
-              <GrMoney style={{marginRight: '10px'}} />
-              আজকের ইনকাম
-            </Typography>
-            <Typography variant='h3'>
-              {loading ? 'Loading...' : incomeData?.totalIncome + ' টাকা'}
-            </Typography>
+            {totalIncomeDate?.totalIncome ? (
+              <div>
+                <Typography variant='h3'>
+                  <GrMoney style={{marginRight: '10px'}} />
+                  সার্চ রেজাল্ট
+                </Typography>
+                <Typography variant='h3'>
+                  {loading
+                    ? 'Loading...'
+                    : totalIncomeDate?.totalIncome
+                    ? totalIncomeDate?.totalIncome + ' টাকা'
+                    : 'No Income'}
+                </Typography>
+              </div>
+            ) : (
+              <div>
+                <Typography variant='h3'>
+                  <GrMoney style={{marginRight: '10px'}} />
+                  আজকের ইনকাম
+                </Typography>
+                <Typography variant='h3'>
+                  {loading
+                    ? 'Loading...'
+                    : incomeData?.totalIncome
+                    ? incomeData?.totalIncome + ' টাকা'
+                    : 'No Income'}
+                </Typography>
+              </div>
+            )}
           </AppCard>
-          <AppCard>
-            <Typography variant='h3'>
-              <GrMoney style={{marginRight: '10px'}} />
-              আজকের খরচ
-            </Typography>
-            <Typography variant='h3'>
-              {loading ? 'Loading...' : expenseData?.totalExpense + ' টাকা'}
-            </Typography>
+          <AppCard style={{margin: '20px'}}>
+            {totalExpenseDate?.totalExpense ? (
+              <div>
+                <Typography variant='h3'>
+                  <GrMoney style={{marginRight: '10px'}} />
+                  সার্চ রেজাল্ট
+                </Typography>
+                <Typography variant='h3'>
+                  {loading
+                    ? 'Loading...'
+                    : totalExpenseDate?.totalExpense
+                    ? totalExpenseDate?.totalExpense + ' টাকা'
+                    : 'No Expense'}
+                </Typography>
+              </div>
+            ) : (
+              <div>
+                <Typography variant='h3'>
+                  <GrMoney style={{marginRight: '10px'}} />
+                  আজকের খরচ
+                </Typography>
+                <Typography variant='h3'>
+                  {loading
+                    ? 'Loading...'
+                    : expenseData?.totalExpense
+                    ? expenseData?.totalExpense + ' টাকা'
+                    : 'No Income'}
+                </Typography>
+              </div>
+            )}
           </AppCard>
         </div>
         <div>
-          <DailyCharts income={incomeData} expense={expenseData} />
+          <DailyCharts
+            income={totalIncomeDate?.totalIncome ? totalIncomeDate : incomeData}
+            expense={
+              totalExpenseDate?.totalExpense ? totalExpenseDate : expenseData
+            }
+          />
         </div>
         <div>
-          <DailyBar income={incomeData} expense={expenseData} />
+          <DailyBar
+            income={totalIncomeDate?.totalIncome ? totalIncomeDate : incomeData}
+            expense={
+              totalExpenseDate?.totalExpense ? totalExpenseDate : expenseData
+            }
+          />
         </div>
       </div>
-      <CompanyInExlist income={incomeData} />
+      <CompanyInExlist
+        income={totalIncomeDate?.totalIncome ? totalIncomeDate : incomeData}
+      />
 
-      <CompanyExpenseList expense={expenseData} />
+      <CompanyExpenseList
+        sx={{marginTop: '20px'}}
+        expense={
+          totalExpenseDate?.totalExpense ? totalExpenseDate : expenseData
+        }
+      />
     </>
   );
 }
+
+RentalReport.propTypes = {
+  totalIncomeDate: PropTypes.shape({
+    totalIncome: PropTypes.number,
+  }),
+  totalExpenseDate: PropTypes.shape({
+    totalExpense: PropTypes.number,
+  }),
+};

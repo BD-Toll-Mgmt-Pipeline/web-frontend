@@ -37,7 +37,7 @@ const SearchBar = ({onSearch}) => {
     onSearch(selectedValue);
   };
 
-  const types = [{value: 'true', label:"true"}, {value: 'false', label:"false"}];
+  const types = [{value: 'true', label:"Running"}, {value: 'false', label:"Done"}];
 
   return (
     <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -46,7 +46,7 @@ const SearchBar = ({onSearch}) => {
           <IconButtonStyled>
             <SearchIcon />
           </IconButtonStyled>
-          <Input placeholder='নাম/ফোন সার্চ' onChange={handleSearch} />
+          <Input placeholder='প্রজেক্ট নাম সার্চ' onChange={handleSearch} />
         </Root>
       </div>
       <div>
@@ -60,7 +60,7 @@ const SearchBar = ({onSearch}) => {
             প্রজেক্ট স্টেটাস খুজুন
           </MenuItem>
           {types.map((type) => (
-            <MenuItem key={type.id} value={type.label}>
+            <MenuItem key={type.id} value={type.value}>
               {type.label}
             </MenuItem>
           ))}

@@ -12,40 +12,44 @@ import {Alert} from '@mui/material';
 import {DatePicker} from '@mui/lab';
 import axios from 'axios';
 import * as Yup from 'yup';
+import {useParams} from 'react-router-dom';
+import moment from 'moment';
 
-const NewLoanAdd = () => {
-  const [memberSearch, setMemberSearch] = useState({});
+const EditLoan = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
+  const [loanDetails, setLoanDetails] = useState('');
 
-  const searchMemberbyID = async (memberid) => {
-    try {
-      const query = memberid;
-      const page = 1;
-      const perPage = 10;
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/members/findMember`,
-        {params: {query, page, perPage}},
-      );
-      const memberData = response.data[0];
-      setMemberSearch(memberData);
-    } catch (error) {
-      console.error('Error:', error.message);
-    }
-  };
+  const {id} = useParams();
+
+  console.log(loanDetails, 'loanDetails');
+  console.log(id, 'id');
 
   useEffect(() => {
-    setMemberSearch({});
+    getLoanDetailsById(id);
   }, [snackbarOpen]);
 
   const validationSchema = Yup.object().shape({
-    date: Yup.date().required('আবেদনের তারিখ is required'),
+    // date: Yup.date().required('আবেদনের তারিখ is required'),
     memberID: Yup.string().required('সদস্য নম্বর is required'),
     name: Yup.string().required('আবেদনকারীর নাম is required'),
     reqMoney: Yup.string().required('কর্জে হাসনার আবেদনের পরিমান is required'),
     paymentDeadline: Yup.date().required('পরিশোধের সময়কাল is required'),
   });
+
+  const getLoanDetailsById = async (loanId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/loan/${loanId}`,
+      );
+      setLoanDetails(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching project details:', error);
+      throw error;
+    }
+  };
 
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     if (!values.memberID || !values.name || !values.reqMoney) {
@@ -54,17 +58,13 @@ const NewLoanAdd = () => {
       setSnackbarOpen(true);
       return;
     }
-
-    const addedStatusValues = {
-      ...values,
-      status: 'false',
-    };
+    // const addedStatusValues = {
+    //   ...values,
+    //   status: 'false',
+    // };
     try {
-      await axios.post(
-        process.env.REACT_APP_BASE_URL + '/loan',
-        addedStatusValues,
-      );
-      setSnackbarMessage('সফলভাবে তৈরী হয়েছে');
+      await axios.put(process.env.REACT_APP_BASE_URL + `/loan/${id}`, values);
+      setSnackbarMessage('সফল হয়েছে');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
       resetForm();
@@ -88,18 +88,19 @@ const NewLoanAdd = () => {
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
           <Typography variant='h5' mb={4}>
-            Korze Hasna Request Form
+            Loan Edit Form
           </Typography>
 
           <Formik
+            enableReinitialize
             validationSchema={validationSchema}
             initialValues={{
-              date: new Date().toISOString().split('T')[0],
-              name: memberSearch?.name || '',
-              memberID: '',
-              rentaltype: '',
-              paymentDeadline: '',
-              reqMoney: '',
+              // date: new Date().toISOString().split('T')[0],
+              name: loanDetails?.name || '',
+              memberID: loanDetails?.memberID || '',
+              reqMoney: loanDetails?.reqMoney || '',
+              paymentDeadline:
+                moment(loanDetails?.paymentDeadline).format('YYYY-MM-DD') || '',
             }}
             onSubmit={handleSubmit}
           >
@@ -107,7 +108,7 @@ const NewLoanAdd = () => {
               <Form>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
-                    <DatePicker
+                    {/* <DatePicker
                       label='আবেদনের তারিখ'
                       name='date'
                       inputFormat='dd/MM/yyyy'
@@ -120,7 +121,7 @@ const NewLoanAdd = () => {
                           helperText={<ErrorMessage name='date' />}
                         />
                       )}
-                    />
+                    /> */}
                   </Grid>
                   <Grid item xs={12}>
                     <Field
@@ -132,9 +133,6 @@ const NewLoanAdd = () => {
                       helperText={<ErrorMessage name='memberID' />}
                       InputLabelProps={{
                         shrink: true,
-                      }}
-                      onBlur={(e) => {
-                        searchMemberbyID(e.target.value);
                       }}
                     />
                   </Grid>
@@ -209,4 +207,4 @@ const NewLoanAdd = () => {
   );
 };
 
-export default NewLoanAdd;
+export default EditLoan;
