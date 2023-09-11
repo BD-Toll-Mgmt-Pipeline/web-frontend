@@ -7,6 +7,7 @@ import AppCard from '@crema/core/AppCard';
 import {GrStatusWarning} from 'react-icons/gr';
 import {GoHeart} from 'react-icons/go';
 import moment from 'moment';
+import LoanPaymentList from '../LoanPaymentList';
 
 // import MemberPaymentList from '../MemberPaymentList';
 
@@ -14,10 +15,15 @@ export default function LoanDetails() {
   const {id} = useParams();
   const [member, setMember] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loan, setLoan] = useState([]);
+  const [memberDetails, setMemberDetails] = useState([]);
 
-  const paymentDeadline = moment(member?.paymentDeadline, 'YYYY-MM-DD');
+  const paymentDeadline = moment(loan?.paymentDeadline, 'YYYY-MM-DD');
   const today = moment();
   const daysDifference = paymentDeadline.diff(today, 'days');
+
+  console.log(member, 'member');
+  console.log(memberDetails, 'memberDetails');
 
   let statusText = '';
   if (daysDifference < 0) {
@@ -32,11 +38,35 @@ export default function LoanDetails() {
     statusText = `Due in ${daysDifference} days`;
   }
 
+  const getMemberLoanDetails = async (voterId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/income-expense/roshid-transactions?voterId=${voterId}&description=কর্জে হাসনা কিস্তি`,
+      );
+      setMemberDetails(response.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   const getMember = async () => {
     let memberid = id;
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/loan/${memberid}`,
+      );
+      setLoan(response.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const getMemberDetails = async (memberid) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/members/${memberid}`,
       );
       setMember(response.data);
       setLoading(false);
@@ -50,7 +80,7 @@ export default function LoanDetails() {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/loan/${memberid}`,
-        member?.status === 'pending'
+        loan?.status === 'pending'
           ? {
               status: 'permitted',
             }
@@ -65,20 +95,25 @@ export default function LoanDetails() {
     }
   };
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     getMember();
-  }, []);
+    getMemberDetails(id);
+  }, [id]);
+
+  useEffect(() => {
+    if (Object.keys(member).length !== 0 && member.voterId) {
+      getMemberLoanDetails(member.voterId);
+    }
+  }, [member]);
 
   return (
     <div>
       <AppCard>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <Typography variant='h3' mb={5}>
-            Loan Details : {member?.name}
+            Loan Details : {loan?.name}
           </Typography>
-          {member?.status == 'permitted' ? (
+          {loan?.status == 'permitted' ? (
             <Button
               variant='outlined'
               color='primary'
@@ -111,15 +146,15 @@ export default function LoanDetails() {
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
                 আবেদনের তারিখ:{' '}
-                {moment(member.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
+                {moment(loan.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>সদস্যের নাম: {member.name}</Typography>
+              <Typography variant='h4'>সদস্যের নাম: {loan.name}</Typography>
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                সদস্য নাম্বার: {member.memberID}
+                সদস্য নাম্বার: {loan.memberID}
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>
@@ -127,9 +162,9 @@ export default function LoanDetails() {
                 স্টেটাস :{' '}
                 <ActiveStatus
                   status={
-                    member?.status === 'pending'
+                    loan?.status === 'pending'
                       ? 'pending'
-                      : member?.status === 'permitted'
+                      : loan?.status === 'permitted'
                       ? 'permitted'
                       : 'done'
                   }
@@ -138,15 +173,21 @@ export default function LoanDetails() {
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                {member?.status === 'true'
-                  ? `আবেদনকৃত টাকার পরিমাণ: ${member.reqMoney} টাকা`
-                  : `কর্জে হাসনাকৃত টাকার পরিমাণ: ${member.reqMoney} টাকা`}
+                {loan?.status === 'true'
+                  ? `আবেদনকৃত টাকার পরিমাণ: ${loan.reqMoney} টাকা`
+                  : `কর্জে হাসনাকৃত টাকার পরিমাণ: ${loan.reqMoney} টাকা`}
+              </Typography>
+            </div>
+            <div style={{marginTop: '10px'}}>
+              <Typography variant='h4'>
+                বাকি কর্জে হাসনা :{' '}
+                {loan.reqMoney - memberDetails?.totalAmount + ' টাকা'}
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
                 পরিশোধ তারিখ:{' '}
-                {moment(member?.paymentDeadline, 'YYYY-MM-DD').format(
+                {moment(loan?.paymentDeadline, 'YYYY-MM-DD').format(
                   'DD-MM-YYYY',
                 )}
               </Typography>
@@ -158,9 +199,9 @@ export default function LoanDetails() {
         )}
       </AppCard>
 
-      {/* <AppCard style={{marginTop: '20px'}}>
-        <MemberPaymentList customerDetails={members} />
-      </AppCard> */}
+      <AppCard style={{marginTop: '20px'}}>
+        <LoanPaymentList customerDetails={memberDetails} />
+      </AppCard>
     </div>
   );
 }

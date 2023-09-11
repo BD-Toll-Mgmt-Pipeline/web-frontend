@@ -17,9 +17,10 @@ const TableItem = (props) => {
   const descriptions = product?.myArrayField?.map((x) => x.description) || [];
   const joinedDescriptions = descriptions.join(', ');
 
-  const add_descriptions =
-    product?.myArrayField?.map((x) => x.additionaldescription) || [];
-  const add_joinedDescriptions = add_descriptions.join(', ');
+  
+  const subdescriptions = product?.myArrayField?.map((x) => x.additionaldescription) || [];
+  const joinedSubDescriptions = subdescriptions.join(', ');
+
 
   const getMonthName = (monthNumber) => {
     return moment.months()[monthNumber - 1];
@@ -152,7 +153,7 @@ const TableItem = (props) => {
             fontWeight: Fonts.MEDIUM,
           }}
         >
-          {add_joinedDescriptions}
+          {joinedSubDescriptions}
         </Box>
       </TableCell>
     </TableRow>
