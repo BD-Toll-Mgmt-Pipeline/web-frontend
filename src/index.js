@@ -4,3 +4,6 @@ import '@crema/services';
 
 const root = createRoot(document.getElementById('root'));
 root.render(<App />);
+
+ // "deploy": "npm run build && surge ./build ansarul.surge.sh",
+
