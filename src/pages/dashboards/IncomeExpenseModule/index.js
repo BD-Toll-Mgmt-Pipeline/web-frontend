@@ -72,10 +72,6 @@ const Analytics = () => {
       );
 
       const {allExpense, totalPages} = response.data;
-      console.log(
-        response,
-        'allExpenseallExpenseallExpenseallExpenseallExpense',
-      );
       setExpense(allExpense);
       setTotalPages(totalPages);
     } catch (error) {

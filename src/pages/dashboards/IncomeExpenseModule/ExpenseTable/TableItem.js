@@ -35,7 +35,7 @@ const TableItem = ({data}) => {
       <TableCell align='left' className='tableCell'>
         <Link
           component={RouterLink}
-          to={`/dashboard/edit-member/${data.memberId}`}
+          to={`/dashboard/edit-voucher/${data.memberId}`}
           underline='none'
         >
           {moment(data?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
@@ -49,7 +49,7 @@ const TableItem = ({data}) => {
         >
           <Link
             component={RouterLink}
-            to={`/dashboard/edit-member/${data.memberId}`}
+            to={`/dashboard/edit-voucher/${data.memberId}`}
             underline='none'
           >
             {data.voucherNo}

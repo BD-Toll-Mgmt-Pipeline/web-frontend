@@ -12,13 +12,14 @@ const RentalAppMenuList = ({id}) => {
   const options = [
     {
       label: 'বিস্তারিত দেখুন',
-      url: (id) => `/dashboard/edit-payment-voucher/${id}`,
+      url: (id) => `/dashboard/edit-voucher/${id}`,
     },
     // {
     //   label: 'এডিট করুন',
     //   url: (id) => `/dashboard/edit-member/${id}`,
     // },
   ];
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
