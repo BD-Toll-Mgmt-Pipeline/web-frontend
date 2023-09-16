@@ -206,6 +206,7 @@ const PaymentVoucher = () => {
                     handleRowChange(index, 'description', newValue)
                   }
                   options={possibleDescriptions}
+                  freeSolo // Allow users to input values not in the options list
                   renderInput={(params) => (
                     <TextField
                       {...params}
