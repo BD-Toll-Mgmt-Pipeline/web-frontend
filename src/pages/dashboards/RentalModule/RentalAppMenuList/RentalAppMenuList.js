@@ -8,17 +8,18 @@ import Link from '@mui/material/Link';
 import PropTypes from 'prop-types';
 import {BiCreditCardAlt} from 'react-icons/bi';
 
-const options = [
-  {
-    label: 'বিস্তারিত দেখুন',
-    url: (id) => `/dashboard/member-details/${id}`,
-  },
-  {
-    label: 'এডিট করুন',
-    url: (id) => `/dashboard/edit-member/${id}`,
-  },
-];
 const RentalAppMenuList = ({id}) => {
+  console.log(id, 'fjddfkjsndfkfdnjksfdn');
+  const options = [
+    {
+      label: 'বিস্তারিত দেখুন',
+      url: (id) => `/dashboard/rental-details/${id?.voterId}`,
+    },
+    // {
+    //   label: 'এডিট করুন',
+    //   url: (id) => `/dashboard/edit-member/${id}`,
+    // },
+  ];
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 

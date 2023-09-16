@@ -115,25 +115,42 @@ const Analytics = () => {
       <div style={{marginTop: '30px'}}>
         <SearchBar onSearch={onSearch} />
       </div>
-      <div style={{display: 'flex'}}>
+      <div style={{display: 'flex', justifyContent: 'flex-start'}}>
         <div>
-          <RouterLink to={`/dashboard/add-payment-voucher`} underline='none'>
-            <Button
-              variant='outlined'
-              sx={{float: 'right', margin: '30px'}}
-              color='primary'
-            >
+          <RouterLink
+            to={`/dashboard/add-payment-voucher`}
+            underline='none'
+            style={{textDecoration: 'none'}}
+            I
+          >
+            <Button variant='outlined' sx={{margin: '10px'}} color='primary'>
               নতুন রশিদ তৈরী
             </Button>
           </RouterLink>
         </div>
         <div>
-          <RouterLink to={`/dashboard/add-receive-voucher`} underline='none'>
+          <RouterLink
+            to={`/dashboard/add-new-income-type`}
+            style={{textDecoration: 'none'}}
+            underline='none'
+          >
             <Button
               variant='outlined'
-              sx={{float: 'right', margin: '30px'}}
               color='primary'
+              target='_blank'
+              sx={{margin: '10px'}}
             >
+              রশিদে নতুন বিবরণ যোগ করুন
+            </Button>
+          </RouterLink>
+        </div>
+        <div>
+          <RouterLink
+            to={`/dashboard/add-receive-voucher`}
+            underline='none'
+            style={{textDecoration: 'none'}}
+          >
+            <Button variant='outlined' sx={{margin: '10px'}} color='primary'>
               নতুন ভাউচার তৈরী
             </Button>
           </RouterLink>

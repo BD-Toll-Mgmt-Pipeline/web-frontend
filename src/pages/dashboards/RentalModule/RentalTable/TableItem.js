@@ -71,7 +71,7 @@ const TableItem = ({data}) => {
         />
       </TableCell>
       <TableCell>
-        <RentalAppMenuList id={data.memberId} />
+        <RentalAppMenuList id={data} />
       </TableCell>
     </TableRow>
   );

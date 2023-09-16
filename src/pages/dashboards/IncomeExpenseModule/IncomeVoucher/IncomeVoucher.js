@@ -8,14 +8,10 @@ import {
   Button,
   Alert,
 } from '@mui/material';
-import {Link as RouterLink} from 'react-router-dom';
 import axios from 'axios';
 import FromDate from '../FromDate/FromDate';
 import ToDate from '../FromDate/ToDate';
 const moment = require('moment');
-import PDFGenerator from './PDFGenerator';
-import {BlobProvider} from '@react-pdf/renderer';
-// import { useReactToPrint } from 'react-to-print';
 
 const IncomeVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -37,30 +33,6 @@ const IncomeVoucher = () => {
   const [selectedToMonth, setToMonth] = useState('');
   const [selectedToYear, setToYear] = useState('');
   const [showWarning, setShowWarning] = useState(false);
-
-  const [showPDF, setShowPDF] = useState(false);
-  const [voucherData] = useState({name: 'John Doe'});
-
-  const handleGeneratePDF = async () => {
-    try {
-      // Render the PDFGenerator component to generate the PDF content
-      const pdfContent = <PDFGenerator voucherData={voucherData} />;
-
-      // Convert the PDF content to a string
-      const pdfString = pdfContent.toString();
-
-      // Create a Blob from the PDF content
-      const pdfBlob = new Blob([pdfString], {type: 'application/pdf'});
-
-      // Create a blob URL from the PDF blob
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-
-      // Open the PDF in a new window
-      window.open(pdfUrl, '_blank');
-    } catch (error) {
-      console.error('Error generating or opening PDF:', error);
-    }
-  };
 
   const getIncomeTypes = async () => {
     const response = await axios.get(
@@ -248,38 +220,8 @@ const IncomeVoucher = () => {
   return (
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
-        <button onClick={handleGeneratePDF}>Generate PDF</button>
-
-        {/* Conditionally render the PDF generator */}
-        {showPDF && (
-          // Inside the return statement of the IncomeVoucher component
-          <BlobProvider document={<PDFGenerator voucherData={voucherData} />}>
-            {({blob}) => {
-              if (blob) {
-                const pdfUrl = URL.createObjectURL(blob);
-                window.open(pdfUrl, '_blank');
-                setShowPDF(false); // Close the PDF viewer after opening
-              }
-              return null;
-            }}
-          </BlobProvider>
-        )}
         <Paper elevation={3} sx={{p: 4}}>
-          <RouterLink
-            to={`/dashboard/add-new-income-type`}
-            style={{textDecoration: 'none'}}
-            underline='none'
-          >
-            <Button
-              variant='outlined'
-              color='primary'
-              target='_blank'
-              sx={{margin: '10px'}}
-            >
-              নতুন বিবরণ যোগ করুন
-            </Button>
-          </RouterLink>
-          <hr />
+          <hr style={{marginTop:'20px'}}/>
           <Typography
             sx={{textAlign: 'center', margin: '10px'}}
             variant='h2'

@@ -122,7 +122,7 @@ const PaymentVoucher = () => {
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
-          <hr />
+          <hr style={{marginTop: '20px'}} />
           <Typography
             sx={{textAlign: 'center', margin: '10px'}}
             variant='h2'

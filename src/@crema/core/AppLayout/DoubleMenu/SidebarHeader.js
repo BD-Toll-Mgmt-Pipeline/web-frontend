@@ -155,7 +155,7 @@ const SidebarHeader = () => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem>My account</MenuItem>
+          {/* <MenuItem>My account</MenuItem> */}
           <MenuItem onClick={logout}>Logout</MenuItem>
         </Menu>
       </Box>
