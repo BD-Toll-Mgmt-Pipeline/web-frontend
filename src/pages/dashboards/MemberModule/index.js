@@ -47,28 +47,41 @@ const Crypto = () => {
       const page = 1;
       const perPage = 10;
 
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/members`,
-        {
-          params: {
-            query,
-            page,
-            perPage,
-          },
-        },
-      );
+      const authToken = localStorage.getItem('token'); // Retrieve the authentication token from localStorage
 
-      const {members, totalPages} = response.data;
-      setMembers(members);
-      setTotalPages(totalPages);
-      setCurrentPage(1); // Reset the current page to 1 when performing a new search
+      // Check if authToken exists before making the request
+      if (authToken) {
+        const headers = {
+          Authorization: `Bearer ${authToken}`,
+        };
+
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/members`,
+          {
+            params: {
+              query,
+              page,
+              perPage,
+            },
+            headers, // Include the headers in the request
+          },
+        );
+
+        const {members, totalPages} = response.data;
+        setMembers(members);
+        setTotalPages(totalPages);
+        setCurrentPage(1); // Reset the current page to 1 when performing a new search
+      } else {
+        // Handle the case where the authToken is not available
+        console.error('Authentication token not found.');
+      }
     } catch (error) {
       console.error('Error:', error.message);
     }
   };
 
   useEffect(() => {
-    getMembers(currentPage); // Pass the current page to the API call
+    getMembers(currentPage);
   }, [currentPage]);
 
   return (

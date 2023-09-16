@@ -7,6 +7,7 @@ import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import RentalReport from './RentalReport/RentalReport';
 // import Pagination from '@mui/material/Pagination';
+import makeAuthenticatedRequest from 'pages/common/common';
 
 const Analytics = () => {
   const [, setTotalPages] = useState(1);
@@ -32,20 +33,26 @@ const Analytics = () => {
       const query = ''; // Provide the search query if needed
       const perPage = 10; // Provide the number of items per page
 
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
-        {
-          params: {
-            query,
-            page,
-            perPage,
-          },
-        },
-      );
+      const apiUrl = `${process.env.REACT_APP_BASE_URL}/rental`;
+      const params = {
+        query,
+        page,
+        perPage,
+      };
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
-      setTotalPages(totalPages);
+      // Make an authenticated request for rentals API with params
+      makeAuthenticatedRequest(
+        apiUrl,
+        (response) => {
+          const {rentalName, totalPages} = response;
+          setRentals(rentalName);
+          setTotalPages(totalPages);
+        },
+        (error) => {
+          console.error('Error:', error);
+        },
+        params, // Pass the params to the makeAuthenticatedRequest function
+      );
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -53,33 +60,39 @@ const Analytics = () => {
 
   const onSearch = async (value) => {
     if (value?.fromDate && value?.toDate) {
-      const IncomeApi = `${process.env.REACT_APP_BASE_URL}/income-expense/total-income?fromDate=${value?.fromDate}&toDate=${value?.toDate}`;
-      const ExpenseApi = `${process.env.REACT_APP_BASE_URL}/expense/total-expense?fromDate=${value?.fromDate}&toDate=${value?.toDate}`;
-      // setIncome(value?.fromDate);
-      // setExpense(value?.toDate);
-      // Make the first API request
-      axios
-        .get(IncomeApi)
-        .then((response1) => {
-          console.log(response1?.data, 'Response from the first API');
-          setTotalIncome(response1?.data);
+      const authToken = localStorage.getItem('token');
 
-          // Make the second API request
-          axios
-            .get(ExpenseApi)
-            .then((response2) => {
-              console.log(response2?.data, 'Response from the second API');
-              setTotalExpense(response2?.data);
+      if (authToken) {
+        const headers = {
+          Authorization: `Bearer ${authToken}`,
+        };
 
-              // Handle the response from the second API as needed
-            })
-            .catch((error2) => {
-              console.error(error2);
-            });
-        })
-        .catch((error1) => {
-          console.error(error1);
-        });
+        const IncomeApi = `${process.env.REACT_APP_BASE_URL}/income-expense/total-income?fromDate=${value?.fromDate}&toDate=${value?.toDate}`;
+        const ExpenseApi = `${process.env.REACT_APP_BASE_URL}/expense/total-expense?fromDate=${value?.fromDate}&toDate=${value?.toDate}`;
+
+        axios
+          .get(IncomeApi, {headers})
+          .then((response1) => {
+            console.log(response1?.data, 'Response from the first API');
+            setTotalIncome(response1?.data);
+
+            // Make the second API request with headers
+            axios
+              .get(ExpenseApi, {headers})
+              .then((response2) => {
+                console.log(response2?.data, 'Response from the second API');
+                setTotalExpense(response2?.data);
+
+                // Handle the response from the second API as needed
+              })
+              .catch((error2) => {
+                console.error(error2);
+              });
+          })
+          .catch((error1) => {
+            console.error(error1);
+          });
+      }
     }
   };
 

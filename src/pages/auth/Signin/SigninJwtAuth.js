@@ -5,7 +5,7 @@ import {Form, Formik} from 'formik';
 import * as yup from 'yup';
 
 import AppInfoView from '@crema/core/AppInfoView';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import IntlMessages from '@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
@@ -38,8 +38,8 @@ const SigninJwtAuth = () => {
         <Formik
           validateOnChange={true}
           initialValues={{
-            email: 'crema.demo@gmail.com',
-            password: 'Pass@1!@all',
+            email: 'kar.suvra@gmail.com',
+            password: '12346',
           }}
           validationSchema={validationSchema}
           onSubmit={(data, {setSubmitting}) => {
@@ -116,7 +116,7 @@ const SigninJwtAuth = () => {
                   }}
                   onClick={onGoToForgetPassword}
                 >
-                  <IntlMessages id='common.forgetPassword' />
+                  {/* <IntlMessages id='common.forgetPassword' /> */}
                 </Box>
               </Box>
 
@@ -142,7 +142,7 @@ const SigninJwtAuth = () => {
         </Formik>
       </Box>
 
-      <Box
+      {/* <Box
         sx={{
           color: 'grey.500',
         }}
@@ -164,7 +164,7 @@ const SigninJwtAuth = () => {
             <IntlMessages id='common.signup' />
           </Link>
         </Box>
-      </Box>
+      </Box> */}
 
       <AppInfoView />
     </Box>
