@@ -16,7 +16,7 @@ import {useDispatch} from 'react-redux';
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
 // import AppTooltip from '../../../AppTooltip';
 // import {alpha} from '@mui/material/styles';
-import AppLogo from '../../components/AppLogo';
+// import AppLogo from '../../components/AppLogo';
 import {Typography} from '@mui/material';
 
 const AppHeader = () => {
@@ -71,9 +71,10 @@ const AppHeader = () => {
           />
         </IconButton>
       </Hidden>
-      <div style={{display:'flex'}}>
-        <AppLogo />
-        <Typography sx={{margin:'20px', fontWeight:'bold'}}>ANSARUL MUSLIMON BAHUMUKHI SAMABAY SAMITI LTD</Typography>
+      <div>
+        <Typography sx={{margin: '20px', fontWeight: 'bold', textAlign:'center'}}>
+          আনসারুল মুসলিমিন বহুমুখী সমবায় সমিতি লিমিটেড অ্যাডমিন এপ
+        </Typography>
       </div>
 
       {/* <AppSearchBar iconPosition='right' placeholder='Search…' /> */}

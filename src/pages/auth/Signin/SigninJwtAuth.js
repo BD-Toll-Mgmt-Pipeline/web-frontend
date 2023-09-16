@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import {Checkbox} from '@mui/material';
+// import {Checkbox} from '@mui/material';
 import {Form, Formik} from 'formik';
 import * as yup from 'yup';
 
@@ -95,7 +95,7 @@ const SigninJwtAuth = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Checkbox color='primary' sx={{ml: -3}} />
+                  {/* <Checkbox color='primary' sx={{ml: -3}} />
                   <Box
                     component='span'
                     sx={{
@@ -103,7 +103,7 @@ const SigninJwtAuth = () => {
                     }}
                   >
                     <IntlMessages id='common.rememberMe' />
-                  </Box>
+                  </Box> */}
                 </Box>
                 <Box
                   component='span'

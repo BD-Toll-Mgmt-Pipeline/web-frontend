@@ -1,12 +1,8 @@
 import React from 'react';
-import {useThemeContext} from '../../../../utility/AppContextProvider/ThemeContextProvider';
 import {Box} from '@mui/material';
-import {ReactComponent as Logo} from '../../../../../assets/icon/logo.svg';
-// import {ReactComponent as LogoText} from '../../../../../assets/icon/logo_text.svg';
+import logoImage from '../../../../../assets/icon/logo.png';
 
 const AppLogo = () => {
-  const {theme} = useThemeContext();
-
   return (
     <Box
       sx={{
@@ -17,24 +13,28 @@ const AppLogo = () => {
         cursor: 'pointer',
         alignItems: 'center',
         justifyContent: 'center',
-        '& svg': {
-          height: {xs: 40, sm: 45},
-        },
       }}
       className='app-logo'
     >
-      <Logo fill={theme.palette.primary.main} />
-      <Box
-        sx={{
-          mt: 1,
-          display: {xs: 'none', md: 'block'},
-          '& svg': {
-            height: {xs: 25, sm: 30},
-          },
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
         }}
       >
-        {/* <LogoText fill={alpha(theme.palette.text.primary, 0.8)} /> */}
-      </Box>
+        <img
+          src={logoImage}
+          alt='Logo'
+          style={{
+            height: '100px',
+            maxWidth: '100%',
+            marginLeft: '80px',
+            maxHeight: {xs: 40, sm: 45},
+          }}
+        />
+      </div>
     </Box>
   );
 };

@@ -64,13 +64,23 @@ const AuthWrapper = ({children}) => {
                 mb: 4,
               }}
             >
-              ANSARUL MUSLIMIN BAHUMUKHI SOMOBAY SOMITI LTD.
+              আনসারুল মুসলিমিন বহুমুখী সমবায় সমিতি লিমিটেড
             </Typography>
             <Typography
               component='h5'
               sx={{
                 fontWeight: Fonts.BOLD,
-                fontSize: 16,
+                fontSize: 18,
+                mb: 4,
+              }}
+            >
+              Admin Dashboard App
+            </Typography>
+            <Typography
+              component='h5'
+              sx={{
+                fontWeight: Fonts.BOLD,
+                fontSize: 12,
                 mb: 4,
               }}
             >
