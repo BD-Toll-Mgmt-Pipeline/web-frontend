@@ -1,4 +1,4 @@
-import mock from './apis/MockConfig';
-import './apis';
+// import mock from './apis/MockConfig';
+// import './apis';
 
-mock.onAny().passThrough();
+// mock.onAny().passThrough();
