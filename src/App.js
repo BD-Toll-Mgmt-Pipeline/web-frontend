@@ -21,14 +21,12 @@ const App = () => (
         <AppStyleProvider>
           <AppLocaleProvider>
             <BrowserRouter history={history}>
-              {/* <FirebaseAuthProvider> */}
-                <JWTAuthAuthProvider>
-                  <AuthRoutes>
-                    <CssBaseline />
-                    <AppLayout />
-                  </AuthRoutes>
-                </JWTAuthAuthProvider>
-              {/* </FirebaseAuthProvider> */}
+              <JWTAuthAuthProvider>
+                <AuthRoutes>
+                  <CssBaseline />
+                  <AppLayout />
+                </AuthRoutes>
+              </JWTAuthAuthProvider>
             </BrowserRouter>
           </AppLocaleProvider>
         </AppStyleProvider>

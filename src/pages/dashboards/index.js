@@ -35,37 +35,37 @@ const NewRentalAdd = React.lazy(() =>
 export const dashBoardConfigs = [
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/academy',
+    path: '/dashboards/loan-module',
     element: <Academy />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/analytics',
+    path: '/dashboards/rental-module',
     element: <RentalModule />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/e-commerce',
+    path: '/dashboards/income-expense-module',
     element: <VoucherModule />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/crm',
+    path: '/dashboards/company-module',
     element: <CRM />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/health-care',
+    path: '/dashboards/project-module',
     element: <HealthCare />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/crypto',
+    path: '/dashboards/member-module',
     element: <MemberModule />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/add-new-member',
+    path: '/dashboards/member-module/add-new-member',
     element: <NewMemberAdd />,
   },
   {
@@ -75,22 +75,22 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/add-new-rental',
+    path: '/dashboards/rental-module/rental-module/add-new-rental',
     element: <NewRentalAdd />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/add-new-rental-type',
+    path: '/dashboards/rental-module/add-new-rental-type',
     element: <NewRentalTypeAdd />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/rental-report',
+    path: '/dashboards/project-module/rental-report',
     element: <RentalReport />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/add-payment-voucher',
+    path: '/dashboards/income-expense-module/add-payment-voucher',
     element: <IncomeVoucher />,
   },
   {
@@ -100,7 +100,7 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/add-receive-voucher',
+    path: '/dashboards/income-expense-module/add-receive-voucher',
     element: <PaymentVoucher />,
   },
   {
@@ -120,12 +120,12 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/add-new-income-type',
+    path: '/dashboards/income-expense-module/add-new-income-type',
     element: <AddNewIcomeType />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/add-new-loan-request',
+    path: '/dashboards/loan-module/add-new-loan-request',
     element: <NewLoanAdd />,
   },
   {
@@ -145,12 +145,12 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/welfare-report',
+    path: '/dashboards/welfare/welfare-report',
     element: <WelfareReport />,
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboards/add-new-project',
+    path: '/dashboards/project-module/add-new-project',
     element: <NewProjectAdd />,
   },
   {

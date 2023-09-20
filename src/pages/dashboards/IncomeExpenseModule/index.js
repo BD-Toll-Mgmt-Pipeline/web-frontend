@@ -114,7 +114,7 @@ const Analytics = () => {
       <div style={{display: 'flex', justifyContent: 'flex-start'}}>
         <div>
           <RouterLink
-            to={`/dashboard/add-payment-voucher`}
+            to={`/dashboards/income-expense-module/add-payment-voucher`}
             underline='none'
             style={{textDecoration: 'none'}}
             I
@@ -126,7 +126,7 @@ const Analytics = () => {
         </div>
         <div>
           <RouterLink
-            to={`/dashboard/add-new-income-type`}
+            to={`/dashboards/income-expense-module/add-new-income-type`}
             style={{textDecoration: 'none'}}
             underline='none'
           >
@@ -142,7 +142,7 @@ const Analytics = () => {
         </div>
         <div>
           <RouterLink
-            to={`/dashboard/add-receive-voucher`}
+            to={`/dashboards/income-expense-module/add-receive-voucher`}
             underline='none'
             style={{textDecoration: 'none'}}
           >

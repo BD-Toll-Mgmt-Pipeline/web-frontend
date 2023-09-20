@@ -7,14 +7,14 @@ import Error403 from './errorPages/Error403';
 import {errorPagesConfigs} from './errorPages';
 import {dashBoardConfigs} from './dashboards';
 // import {appsConfig} from './apps';
-import {accountPagesConfigs} from './account';
+// import {accountPagesConfigs} from './account';
 
 const authorizedStructure = {
   fallbackPath: '/signin',
   unAuthorizedComponent: <Error403 />,
   routes: [
     ...dashBoardConfigs,
-    ...accountPagesConfigs,
+    // ...accountPagesConfigs,
   ],
 };
 

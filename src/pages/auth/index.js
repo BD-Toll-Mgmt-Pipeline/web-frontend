@@ -2,7 +2,7 @@ import React from 'react';
 
 const Signin = React.lazy(() => import('./Signin'));
 const Signup = React.lazy(() => import('./Signup'));
-const ForgotPassword = React.lazy(() => import('./ForgetPassword'));
+// const ForgotPassword = React.lazy(() => import('./ForgetPassword'));
 const ConfirmSignupAwsCognito = React.lazy(() =>
   import('./ConfirmSignupAwsCognito'),
 );
@@ -18,10 +18,10 @@ export const authRouteConfig = [
     path: '/signup',
     element: <Signup />,
   },
-  {
-    path: '/forget-password',
-    element: <ForgotPassword />,
-  },
+  // {
+  //   path: '/forget-password',
+  //   element: <ForgotPassword />,
+  // },
   {
     path: '/confirm-signup',
     element: <ConfirmSignupAwsCognito />,

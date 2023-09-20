@@ -92,7 +92,10 @@ const Crypto = () => {
           <SearchBar onSearch={onSearch} />
         </div>
         <div>
-          <RouterLink to={`/dashboard/add-new-member`} underline='none'>
+          <RouterLink
+            to={`/dashboards/member-module/add-new-member`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}

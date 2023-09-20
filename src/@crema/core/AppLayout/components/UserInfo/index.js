@@ -7,13 +7,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {Fonts} from 'shared/constants/AppEnums';
-import {useNavigate} from 'react-router-dom';
+// import {useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const UserInfo = ({color}) => {
   const {logout} = useAuthMethod();
   const {user} = useAuthUser();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -137,14 +137,14 @@ const UserInfo = ({color}) => {
           horizontal: 'right',
         }}
       >
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             handleClose();
             navigate('/my-profile');
           }}
         >
           My account
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={logout}>Logout</MenuItem>
       </Menu>
     </>

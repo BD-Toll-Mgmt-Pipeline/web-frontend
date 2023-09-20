@@ -91,7 +91,7 @@ const Welfare = () => {
       </div>
       <div style={{display: 'flex'}}>
         <div>
-          <RouterLink to={`/dashboard/add-payment-voucher`} underline='none'>
+          <RouterLink to={`/dashboards/income-expense-module/add-payment-voucher`} underline='none'>
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
@@ -102,7 +102,7 @@ const Welfare = () => {
           </RouterLink>
         </div>
         <div>
-          <RouterLink to={`/dashboard/add-receive-voucher`} underline='none'>
+          <RouterLink to={`/dashboards/income-expense-module/add-receive-voucher`} underline='none'>
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
@@ -113,7 +113,7 @@ const Welfare = () => {
           </RouterLink>
         </div>
         <div>
-          <RouterLink to={`/dashboards/welfare-report`} underline='none'>
+          <RouterLink to={`/dashboards/welfare/welfare-report`} underline='none'>
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}

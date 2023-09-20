@@ -9,12 +9,12 @@ import {useAuthMethod, useAuthUser} from '../../../../../utility/AuthHooks';
 import {useSidebarContext} from '../../../../../utility/AppContextProvider/SidebarContextProvider';
 import {Fonts} from 'shared/constants/AppEnums';
 import Status from './Status';
-import {useNavigate} from 'react-router-dom';
+// import {useNavigate} from 'react-router-dom';
 
 const SidebarUserInfo = () => {
   const {borderColor, sidebarTextColor} = useSidebarContext();
   const {user} = useAuthUser();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {logout} = useAuthMethod();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -132,14 +132,14 @@ const SidebarUserInfo = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             handleClose();
             navigate('/my-profile');
           }}
         >
           My account
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={logout}>Logout</MenuItem>
       </Menu>
     </Box>

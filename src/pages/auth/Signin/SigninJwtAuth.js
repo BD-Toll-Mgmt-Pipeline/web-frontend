@@ -134,7 +134,7 @@ const SigninJwtAuth = () => {
                     padding: '4px 16px 8px',
                   }}
                 >
-                  <IntlMessages id='common.login' />
+                  <IntlMessages id='Login' />
                 </Button>
               </div>
             </Form>

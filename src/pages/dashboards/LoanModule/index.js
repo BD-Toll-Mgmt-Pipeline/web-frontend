@@ -77,7 +77,7 @@ const Analytics = () => {
       </div>
       <div style={{display: 'flex'}}>
         <div>
-          <RouterLink to={`/dashboard/add-new-loan-request`} underline='none'>
+          <RouterLink to={`/dashboards/loan-module/add-new-loan-request`} underline='none'>
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}

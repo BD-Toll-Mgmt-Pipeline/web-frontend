@@ -6,12 +6,12 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import {Fonts} from 'shared/constants/AppEnums';
-import {useNavigate} from 'react-router-dom';
+// import {useNavigate} from 'react-router-dom';
 
 const UserInfo = () => {
   const {logout} = useAuthMethod();
   const {user} = useAuthUser();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -127,7 +127,7 @@ const UserInfo = () => {
             </Box>
           </Box>
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             handleClose();
             navigate('/my-profile');
@@ -138,7 +138,7 @@ const UserInfo = () => {
           }}
         >
           My account
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           sx={{
             px: 6,

@@ -16,7 +16,7 @@ const routesConfig = [
   {
     id: 'app',
     title: 'Application',
-    messageId: 'sidebar.application',
+    messageId: 'Applications',
     type: 'group',
     children: [
       {
@@ -25,7 +25,7 @@ const routesConfig = [
         messageId: 'কোম্পানি ব্যবস্থাপনা',
         type: 'item',
         icon: <HiOfficeBuilding />,
-        url: '/dashboards/crm',
+        url: '/dashboards/company-module',
       },
       {
         id: 'member_module',
@@ -33,7 +33,7 @@ const routesConfig = [
         messageId: 'সদস্য  ব্যবস্থাপনা',
         type: 'item',
         icon: <BsPeopleFill />,
-        url: '/dashboards/crypto',
+        url: '/dashboards/member-module',
       },
       {
         id: 'rental_module',
@@ -41,7 +41,7 @@ const routesConfig = [
         messageId: 'ভাড়া ব্যবস্থাপনা',
         type: 'item',
         icon: <FaHandshake />,
-        url: '/dashboards/analytics',
+        url: '/dashboards/rental-module',
       },
       {
         id: 'project_module',
@@ -49,7 +49,7 @@ const routesConfig = [
         messageId: 'প্রজেক্ট ব্যবস্থাপনা',
         type: 'item',
         icon: <AiFillProject />,
-        url: '/dashboards/health-care',
+        url: '/dashboards/project-module',
       },
       {
         id: 'vouchar_module',
@@ -57,7 +57,7 @@ const routesConfig = [
         messageId: 'আয়-ব্যায় ব্যবস্থাপনা ',
         type: 'item',
         icon: <FaMoneyBill />,
-        url: '/dashboards/e-commerce',
+        url: '/dashboards/income-expense-module',
       },
       {
         id: 'loan',
@@ -65,7 +65,7 @@ const routesConfig = [
         messageId: 'কর্জে হাসনা ব্যবস্থাপনা',
         type: 'item',
         icon: <FaHandHoldingUsd />,
-        url: '/dashboards/academy',
+        url: '/dashboards/loan-module',
       },
       {
         id: 'welfare',

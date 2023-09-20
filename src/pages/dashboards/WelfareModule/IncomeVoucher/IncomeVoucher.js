@@ -266,7 +266,7 @@ const IncomeVoucher = () => {
         )}
         <Paper elevation={3} sx={{p: 4}}>
           <RouterLink
-            to={`/dashboard/add-new-income-type`}
+            to={`/dashboards/income-expense-module/add-new-income-type`}
             style={{textDecoration: 'none'}}
             underline='none'
           >
