@@ -21,7 +21,6 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
     fetchExpenseData();
   }, [toDate]);
 
-
   const fetchIncomeData = () => {
     const apiUrl = `${
       process.env.REACT_APP_BASE_URL
@@ -103,9 +102,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                   {loading
                     ? 'Loading...'
                     : incomeData?.totalIncome
-                    ? incomeData?.totalIncome -
-                      expenseData?.totalExpense +
-                      ' টাকা'
+                    ? incomeData?.totalIncome
                     : 'No Income'}
                 </Typography>
               </div>
