@@ -80,14 +80,14 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
               <div>
                 <Typography variant='h3'>
                   <GrMoney style={{marginRight: '10px'}} />
-                  সার্চ রেজাল্ট
+                  সার্চ রেজাল্ট (ইনকাম)
                 </Typography>
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
                     : totalIncomeDate?.totalIncome
-                    ? totalIncomeDate?.totalIncome -
-                      totalExpenseDate?.totalExpense +
+                    ? totalIncomeDate.totalIncome -
+                      (totalExpenseDate?.totalExpense || 0) +
                       ' টাকা'
                     : 'No Income'}
                 </Typography>
@@ -102,7 +102,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                   {loading
                     ? 'Loading...'
                     : incomeData?.totalIncome
-                    ? incomeData?.totalIncome
+                    ? incomeData?.totalIncome + ' টাকা'
                     : 'No Income'}
                 </Typography>
               </div>
@@ -113,7 +113,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
               <div>
                 <Typography variant='h3'>
                   <GrMoney style={{marginRight: '10px'}} />
-                  সার্চ রেজাল্ট
+                  সার্চ রেজাল্ট (খরচ)
                 </Typography>
                 <Typography variant='h3'>
                   {loading
@@ -134,7 +134,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                     ? 'Loading...'
                     : expenseData?.totalExpense
                     ? expenseData?.totalExpense + ' টাকা'
-                    : 'No Income'}
+                    : 'No Expense'}
                 </Typography>
               </div>
             )}

@@ -31,20 +31,8 @@ const PaymentVoucher = () => {
     }, 0);
     setTotalAmount(sum);
   };
-  const isLastRowDescriptionSelected = () => {
-    const lastRowIndex = rows.length - 1;
-    const lastRow = rows[lastRowIndex];
-    return !!lastRow.description;
-  };
 
   const handleAddRow = () => {
-    if (!isLastRowDescriptionSelected()) {
-      setSnackbarMessage('সর্বশেষ সারির জন্য একটি বিবরণ নির্বাচন করুন');
-      setSnackbarSeverity('warning');
-      setSnackbarOpen(true);
-      return;
-    }
-
     const nextNumber = rows.length + 1;
     setRows([...rows, {number: nextNumber, description: '', amount: ''}]);
   };

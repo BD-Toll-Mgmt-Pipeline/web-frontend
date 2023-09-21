@@ -26,7 +26,7 @@ const CompanyInExlist = ({income}) => {
   return (
     <AppCard>
       <Typography variant='h3' mb={3}>
-        আজকের ইনকাম
+        ইনকাম
       </Typography>
       <hr />
       <StyledTable>
