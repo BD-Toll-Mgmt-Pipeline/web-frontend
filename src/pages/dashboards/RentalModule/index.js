@@ -79,7 +79,7 @@ const Analytics = () => {
       </div>
       <div style={{display: 'flex'}}>
         <div>
-          <RouterLink to={`/dashboards/rental-module/add-new-rental`} underline='none'>
+          <RouterLink to={`/dashboards/rental-module/rental-module/add-new-rental`} underline='none'>
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
