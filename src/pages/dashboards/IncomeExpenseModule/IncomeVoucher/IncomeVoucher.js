@@ -221,7 +221,7 @@ const IncomeVoucher = () => {
     <Grid container justifyContent='center'>
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
-          <hr style={{marginTop:'20px'}}/>
+          <hr style={{marginTop: '20px'}} />
           <Typography
             sx={{textAlign: 'center', margin: '10px'}}
             variant='h2'
@@ -395,10 +395,12 @@ const IncomeVoucher = () => {
                 <TextField
                   key={index}
                   value={row.amount}
-                  onChange={(e) =>
-                    handleRowChange(index, 'amount', e.target.value)
-                  }
-                  type='number'
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const validInput = inputValue.replace(/[^0-9.]/g, '');
+                    handleRowChange(index, 'amount', validInput);
+                  }}
+                  type='text'
                   inputProps={{min: 0}}
                 />
               ))}

@@ -29,19 +29,19 @@ const PaymentVoucher = () => {
     }, 0);
     setTotalAmount(sum);
   };
-  const isLastRowDescriptionSelected = () => {
-    const lastRowIndex = rows.length - 1;
-    const lastRow = rows[lastRowIndex];
-    return !!lastRow.description;
-  };
+  // const isLastRowDescriptionSelected = () => {
+  //   const lastRowIndex = rows.length - 1;
+  //   const lastRow = rows[lastRowIndex];
+  //   return !!lastRow.description;
+  // };
 
   const handleAddRow = () => {
-    if (!isLastRowDescriptionSelected()) {
-      setSnackbarMessage('সর্বশেষ সারির জন্য একটি বিবরণ নির্বাচন করুন');
-      setSnackbarSeverity('warning');
-      setSnackbarOpen(true);
-      return;
-    }
+    // if (!isLastRowDescriptionSelected()) {
+    //   setSnackbarMessage('সর্বশেষ সারির জন্য একটি বিবরণ নির্বাচন করুন');
+    //   setSnackbarSeverity('warning');
+    //   setSnackbarOpen(true);
+    //   return;
+    // }
 
     const nextNumber = rows.length + 1;
     setRows([...rows, {number: nextNumber, description: '', amount: ''}]);
@@ -238,10 +238,12 @@ const PaymentVoucher = () => {
                 <TextField
                   key={index}
                   value={row.amount}
-                  onChange={(e) =>
-                    handleRowChange(index, 'amount', e.target.value)
-                  }
-                  type='number'
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const validInput = inputValue.replace(/[^0-9.]/g, '');
+                    handleRowChange(index, 'amount', validInput);
+                  }}
+                  type='text'
                   inputProps={{min: 0}}
                 />
               ))}
