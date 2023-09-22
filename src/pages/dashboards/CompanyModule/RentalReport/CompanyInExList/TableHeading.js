@@ -81,7 +81,7 @@ const TableHeading = () => {
             fontWeight: Fonts.BOLD,
           }}
         >
-          <IntlMessages id='পেমেন্ট বিবরণ' />
+          <IntlMessages id='রশিদ  বিবরণ' />
         </Box>
       </TableCell>
       <TableCell>
@@ -93,7 +93,7 @@ const TableHeading = () => {
             fontWeight: Fonts.BOLD,
           }}
         >
-          <IntlMessages id='পেমেন্ট বিস্তারিত  ' />
+          <IntlMessages id='রশিদ বিস্তারিত  ' />
         </Box>
       </TableCell>
     </TableRow>

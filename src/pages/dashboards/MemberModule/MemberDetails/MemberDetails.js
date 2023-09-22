@@ -33,6 +33,34 @@ export default function MemberDetails() {
     }
   };
 
+  // const handlePrint = () => {
+  //   // Create a new window for printing
+  //   const printWindow = window.open('', '_blank');
+
+  //   // Define the content you want to print
+  //   const contentToPrint = document.getElementById('printable-content');
+
+  //   // Write the content to the new window
+  //   printWindow.document.open();
+  //   printWindow.document.write(`
+  //     <html>
+  //       <head>
+  //         <title>Print Member Details</title>
+  //       </head>
+  //       <body>
+  //         <div>
+  //           ${contentToPrint.innerHTML}
+  //         </div>
+  //       </body>
+  //     </html>
+  //   `);
+
+  //   // Close the document and trigger printing
+  //   printWindow.document.close();
+  //   printWindow.print();
+  //   printWindow.close();
+  // };
+
   const handleUpdateMember = async () => {
     let memberid = id;
     try {
@@ -180,6 +208,14 @@ export default function MemberDetails() {
           <Typography variant='h3' mb={5}>
             Member Details : {member?.name}
           </Typography>
+          {/* <Button
+            variant='outlined'
+            color='primary'
+            onClick={handlePrint}
+            sx={{margin: '5px'}}
+          >
+            Print Member Details
+          </Button> */}
           {member?.activeStatus == true ? (
             <Button
               variant='outlined'
@@ -206,149 +242,156 @@ export default function MemberDetails() {
         </div>
 
         <hr />
-        {loading ? (
-          <Skeleton variant='rectangular' width={700} height={800} />
-        ) : (
-          <>
-            <div style={{display: 'flex', justifyContent: 'space-around'}}>
-              <div>
-                <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                  মেম্বার ছবি
-                </Typography>
-                {imageLoading ? (
-                  <Skeleton variant='rectangular' width={200} height={200} />
-                ) : (
-                  profileImage && (
-                    <img
-                      src={profileImage}
-                      alt='Member'
-                      style={{width: 200, height: 200}}
-                    />
-                  )
-                )}
+        <div id='printable-content'>
+          {loading ? (
+            <Skeleton variant='rectangular' width={700} height={800} />
+          ) : (
+            <>
+              <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                <div>
+                  <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
+                    মেম্বার ছবি
+                  </Typography>
+                  {imageLoading ? (
+                    <Skeleton variant='rectangular' width={200} height={200} />
+                  ) : (
+                    profileImage && (
+                      <img
+                        src={profileImage}
+                        alt='Member'
+                        style={{width: 200, height: 200}}
+                      />
+                    )
+                  )}
+                </div>
+                <div>
+                  <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
+                    নোমিনীর ছবি
+                  </Typography>
+                  {nomineeImageLoading ? (
+                    <Skeleton variant='rectangular' width={200} height={200} />
+                  ) : (
+                    nomineeImage && (
+                      <img
+                        src={nomineeImage}
+                        alt='Nominee'
+                        style={{width: 200, height: 200}}
+                      />
+                    )
+                  )}
+                </div>
               </div>
-              <div>
-                <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                  নোমিনীর ছবি
-                </Typography>
-                {nomineeImageLoading ? (
-                  <Skeleton variant='rectangular' width={200} height={200} />
-                ) : (
-                  nomineeImage && (
-                    <img
-                      src={nomineeImage}
-                      alt='Nominee'
-                      style={{width: 200, height: 200}}
-                    />
-                  )
-                )}
-              </div>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                আবেদনকারীর নাম: {member.name}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                সঞ্চিত টাকার পরিমান : {totalAmount} টাকা
-              </Typography>
-            </div>
-            {memberLoanDetails?.status == 'permitted' ? (
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
-                  কর্জে হাসনা কৃত টাকার পরিমান : {memberLoanDetails?.reqMoney} টাকা
+                  আবেদনকারীর নাম: {member.name}
                 </Typography>
               </div>
-            ) : (
-              ''
-            )}
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                সদস্য নাম্বার: {member.memberId}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>জন্ম: {member.date_of_birth}</Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                সদস্য স্টেটাস :{' '}
-                <ActiveStatus
-                  status={member?.activeStatus === true ? 'active' : 'inactive'}
-                />
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                পিতার নাম: {member.fatherName}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                মাতার নাম: {member.motherName}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                স্থায়ী ঠিকানা: {member.permanentAddress}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                বর্তমান ঠিকানা: {} {member.currentAddress}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>বয়স: {member.age}</Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                শিক্ষাগত যোগ্যতা: {member.education}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                ভোটার নাম্বার: {member.voterId}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                মোবাইল নাম্বার: {member.phone}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                অভিভাবক নাম: {member.guardianName}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                অভিভাবক সম্পর্ক: {member.relationship}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                নমিনির নাম: {member.nomineeName}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                নমিনির ঠিকানা: {member.nomineeAddress}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                সনাক্তকারি সদস্যর নাম: {member.identificationMemberName}
-              </Typography>
-            </div>
-            <div style={{marginTop: '10px'}}>
-              <Typography variant='h4'>
-                সনাক্তকারি সদস্যর ঠিকানাঃ {member.identificationMemberAddress}
-              </Typography>
-            </div>
-          </>
-        )}
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  সঞ্চিত টাকার পরিমান : {totalAmount ? totalAmount : 0} টাকা
+                </Typography>
+              </div>
+              {memberLoanDetails?.status == 'permitted' ? (
+                <div style={{marginTop: '10px'}}>
+                  <Typography variant='h4'>
+                    কর্জে হাসনা কৃত টাকার পরিমান : {memberLoanDetails?.reqMoney}{' '}
+                    টাকা
+                  </Typography>
+                </div>
+              ) : (
+                ''
+              )}
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  সদস্য নাম্বার: {member.memberId}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  জন্ম: {member.date_of_birth}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  সদস্য স্টেটাস :{' '}
+                  <ActiveStatus
+                    status={
+                      member?.activeStatus === true ? 'active' : 'inactive'
+                    }
+                  />
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  পিতার নাম: {member.fatherName}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  মাতার নাম: {member.motherName}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  স্থায়ী ঠিকানা: {member.permanentAddress}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  বর্তমান ঠিকানা: {} {member.currentAddress}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>বয়স: {member.age}</Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  শিক্ষাগত যোগ্যতা: {member.education}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  ভোটার নাম্বার: {member.voterId}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  মোবাইল নাম্বার: {member.phone}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  অভিভাবক নাম: {member.guardianName}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  অভিভাবক সম্পর্ক: {member.relationship}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  নমিনির নাম: {member.nomineeName}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  নমিনির ঠিকানা: {member.nomineeAddress}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  সনাক্তকারি সদস্যর নাম: {member.identificationMemberName}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  সনাক্তকারি সদস্যর ঠিকানাঃ {member.identificationMemberAddress}
+                </Typography>
+              </div>
+            </>
+          )}
+        </div>
       </AppCard>
 
       <AppCard style={{marginTop: '20px'}}>

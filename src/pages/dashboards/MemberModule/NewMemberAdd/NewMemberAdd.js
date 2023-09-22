@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   fatherName: Yup.string().required("Father's Name is required"),
   motherName: Yup.string().required("Mother's Name is required"),
   permanentAddress: Yup.string().required('Permanent Address is required'),
-  presentAddress: Yup.string().required('Present Address is required'),
+  currentAddress: Yup.string().required('Present Address is required'),
   age: Yup.number().required('Age is required'),
   education: Yup.string().required('Education qualification is required'),
   voterId: Yup.string().required('Voter ID is required'),
@@ -83,7 +83,7 @@ const NewMemberAdd = () => {
               fatherName: '',
               motherName: '',
               permanentAddress: '',
-              presentAddress: '',
+              currentAddress: '',
               age: '',
               education: '',
               voterId: '',
@@ -116,10 +116,10 @@ const NewMemberAdd = () => {
                       as={TextField}
                       label='জন্ম'
                       name='date_of_birth'
-                      type='date' // Set the type to 'date' to get a normal date field
+                      type='date' 
                       fullWidth
                       InputLabelProps={{
-                        shrink: true, // Keep the label above the input field even when empty
+                        shrink: true, 
                       }}
                       error={!!errors.date_of_birth}
                       helperText={<ErrorMessage name='date_of_birth' />}
@@ -169,10 +169,10 @@ const NewMemberAdd = () => {
                     <Field
                       as={TextField}
                       label='বর্তমান ঠিকানাঃ  বাড়ি নংঃ রোড নংঃ ব্লক/থানাঃ জেলাঃ'
-                      name='presentAddress'
+                      name='currentAddress'
                       fullWidth
-                      error={!!errors.presentAddress}
-                      helperText={<ErrorMessage name='presentAddress' />}
+                      error={!!errors.currentAddress}
+                      helperText={<ErrorMessage name='currentAddress' />}
                     />
                   </Grid>
                   <Grid item xs={12}>

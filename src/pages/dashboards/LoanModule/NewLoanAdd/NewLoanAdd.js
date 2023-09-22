@@ -18,6 +18,7 @@ const NewLoanAdd = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
+  const [memberid, setMemberId] = useState('');
 
   console.log(memberSearch, 'memberSearch');
 
@@ -41,6 +42,9 @@ const NewLoanAdd = () => {
       console.log(response.data.members);
     } catch (error) {
       console.error('Error:', error.message);
+      setSnackbarMessage('মেম্বার পাওয়া যায়নি');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
     }
   };
 
@@ -101,11 +105,12 @@ const NewLoanAdd = () => {
           </Typography>
 
           <Formik
+            enableReinitialize
             validationSchema={validationSchema}
             initialValues={{
               date: new Date().toISOString().split('T')[0],
               name: memberSearch.length > 0 ? memberSearch[0].name : '',
-              memberID: memberSearch.length > 0 ? memberSearch[0].memberId : '',
+              memberID: memberid,
               rentaltype: '',
               paymentDeadline: '',
               reqMoney: '',
@@ -146,6 +151,7 @@ const NewLoanAdd = () => {
                         onChange={(e) => {
                           setFieldValue('memberID', e.target.value); // Add this line to update the form's value
                           searchMemberbyID(e.target.value);
+                          setMemberId(e.target.value);
                         }}
                       />
                     </Grid>

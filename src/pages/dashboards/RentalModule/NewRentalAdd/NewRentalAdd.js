@@ -17,6 +17,7 @@ const axios = require('axios');
 
 const validationSchema = Yup.object().shape({
   date: Yup.date().required('Date is required'),
+  // rental_start_date: Yup.date().required('Date is required'),
   name: Yup.string().required('Name is required'),
   rentalproperty: Yup.string().required('Rental Property is required'),
   permanentAddress: Yup.string().required('Permanent Address is required'),
@@ -93,6 +94,7 @@ const NewRentalAdd = () => {
           <Formik
             initialValues={{
               date: new Date().toISOString().split('T')[0],
+              rental_start_date: '',
               rentalproperty: '',
               name: '',
               permanentAddress: '',
@@ -113,7 +115,7 @@ const NewRentalAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={DatePicker}
-                      label='তারিখ'
+                      label='আবেদনের তারিখ'
                       name='date'
                       inputFormat='dd/MM/yyyy'
                       renderInput={(params) => (
@@ -183,6 +185,23 @@ const NewRentalAdd = () => {
                         </MenuItem>
                       ))}
                     </Field>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={DatePicker}
+                      label='ভাড়া কার্যকর হওয়ার তারিখ'
+                      name='rental_start_date'
+                      inputFormat='dd/MM/yyyy'
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={!!errors.rental_start_date}
+                          helperText={<ErrorMessage name='rental_start_date' />}
+                        />
+                      )}
+                      value={values.rental_start_date}
+                      onChange={(value) => setFieldValue('rental_start_date', value)}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <Field
