@@ -133,7 +133,7 @@ export default function RentalDetails() {
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
                 ভাড়া কার্যকর হওয়ার তারিখ :
-                {moment(member?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
+                {moment(member?.rental_start_date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
               </Typography>
             </div>
 
