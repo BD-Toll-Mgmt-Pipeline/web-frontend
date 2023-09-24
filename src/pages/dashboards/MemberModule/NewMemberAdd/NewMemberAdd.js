@@ -19,21 +19,21 @@ const validationSchema = Yup.object().shape({
   fatherName: Yup.string().required("Father's Name is required"),
   motherName: Yup.string().required("Mother's Name is required"),
   permanentAddress: Yup.string().required('Permanent Address is required'),
-  currentAddress: Yup.string().required('Present Address is required'),
-  age: Yup.number().required('Age is required'),
-  education: Yup.string().required('Education qualification is required'),
+  // currentAddress: Yup.string().required('Present Address is required'),
+  // age: Yup.number().required('Age is required'),
+  // education: Yup.string().required('Education qualification is required'),
   voterId: Yup.string().required('Voter ID is required'),
   phone: Yup.string().required('Mobile Number is required'),
-  guardianName: Yup.string().required('Guardian Name is required'),
-  relationship: Yup.string().required('Relationship with Guardian is required'),
-  nomineeName: Yup.string().required('Nominee Name is required'),
-  nomineeAddress: Yup.string().required('Nominee Address is required'),
-  identificationMemberName: Yup.string().required(
-    'Identifying Member Name is required',
-  ),
-  identificationMemberAddress: Yup.string().required(
-    'Identifying Member Address is required',
-  ),
+  // guardianName: Yup.string().required('Guardian Name is required'),
+  // relationship: Yup.string().required('Relationship with Guardian is required'),
+  // nomineeName: Yup.string().required('Nominee Name is required'),
+  // nomineeAddress: Yup.string().required('Nominee Address is required'),
+  // identificationMemberName: Yup.string().required(
+  //   'Identifying Member Name is required',
+  // ),
+  // identificationMemberAddress: Yup.string().required(
+  //   'Identifying Member Address is required',
+  // ),
 });
 
 const NewMemberAdd = () => {
