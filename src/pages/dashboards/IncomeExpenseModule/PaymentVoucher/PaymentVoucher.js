@@ -29,30 +29,14 @@ const PaymentVoucher = () => {
     }, 0);
     setTotalAmount(sum);
   };
-  // const isLastRowDescriptionSelected = () => {
-  //   const lastRowIndex = rows.length - 1;
-  //   const lastRow = rows[lastRowIndex];
-  //   return !!lastRow.description;
-  // };
+
+  // const possibleDescriptions = ['কল্যাণ তহবিল সাহায্য'];
 
   const handleAddRow = () => {
-    // if (!isLastRowDescriptionSelected()) {
-    //   setSnackbarMessage('সর্বশেষ সারির জন্য একটি বিবরণ নির্বাচন করুন');
-    //   setSnackbarSeverity('warning');
-    //   setSnackbarOpen(true);
-    //   return;
-    // }
-
     const nextNumber = rows.length + 1;
     setRows([...rows, {number: nextNumber, description: '', amount: ''}]);
   };
 
-  const handleRowChange = (index, field, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index][field] = value;
-    setRows(updatedRows);
-    calculateTotalAmount();
-  };
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -63,20 +47,34 @@ const PaymentVoucher = () => {
     setVoucherno(voucherNumber);
   };
 
-  const handleSubmit = async () => {
-    if (
-      !date ||
-      !voucher_title ||
-      !voucherNo ||
-      !voucher_details ||
-      total_amount === 0 ||
-      rows.some((row) => !row.description || !row.amount)
-    ) {
-      setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
-      setSnackbarSeverity('warning');
-      setSnackbarOpen(true);
-      return;
+  const handleRowChange = (index, field, value) => {
+    const updatedRows = [...rows];
+    const isOptionSelected = possibleDescriptions.includes(value);
+
+    if (isOptionSelected) {
+      updatedRows[index][field] = value;
+    } else {
+      updatedRows[index][field] = value;
     }
+
+    setRows(updatedRows);
+    calculateTotalAmount();
+  };
+
+  const handleSubmit = async () => {
+    // if (
+    //   !date ||
+    //   !voucher_title ||
+    //   !voucherNo ||
+    //   !voucher_details ||
+    //   total_amount === 0 ||
+    //   rows.some((row) => !row.description || !row.amount)
+    // ) {
+    //   setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
+    //   setSnackbarSeverity('warning');
+    //   setSnackbarOpen(true);
+    //   return;
+    // }
 
     try {
       const dataToSend = {
@@ -91,6 +89,7 @@ const PaymentVoucher = () => {
           amount: row.amount,
         })),
       };
+      console.log(dataToSend, 'dataToSend');
 
       // Send a POST request to your API endpoint using axios
       const response = await axios.post(
@@ -206,7 +205,10 @@ const PaymentVoucher = () => {
                     handleRowChange(index, 'description', newValue)
                   }
                   options={possibleDescriptions}
-                  freeSolo // Allow users to input values not in the options list
+                  freeSolo
+                  onInputChange={(_, newInputValue) => {
+                    handleRowChange(index, 'description', newInputValue);
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}

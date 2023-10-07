@@ -64,19 +64,19 @@ const EditPaymentVoucher = () => {
   };
 
   const handleSubmit = async () => {
-    if (
-      !date ||
-      !voucher_title ||
-      !voucherNo ||
-      !voucher_details ||
-      total_amount === 0 ||
-      rows.some((row) => !row.description || !row.amount)
-    ) {
-      setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
-      setSnackbarSeverity('warning');
-      setSnackbarOpen(true);
-      return;
-    }
+    // if (
+    //   !date ||
+    //   !voucher_title ||
+    //   !voucherNo ||
+    //   !voucher_details ||
+    //   total_amount === 0 ||
+    //   rows.some((row) => !row.description || !row.amount)
+    // ) {
+    //   setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
+    //   setSnackbarSeverity('warning');
+    //   setSnackbarOpen(true);
+    //   return;
+    // }
 
     try {
       const dataToSend = {
@@ -91,6 +91,8 @@ const EditPaymentVoucher = () => {
           amount: row.amount,
         })),
       };
+
+      console.log(dataToSend,"dataToSend");
 
       // Send a POST request to your API endpoint using axios
       const response = await axios.post(
