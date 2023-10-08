@@ -146,11 +146,11 @@ const IncomeVoucher = () => {
         (item) => `
       <tr>
         <td>${item.number}</td>
-        <td>${item.description} ${item.additionaldescription} ${
+        <td>${item.description} - ${item.additionaldescription} : ( ${
           bengaliMonths[selectedMonth - 1]
         }/${selectedYear} - ${
           bengaliMonths[selectedToMonth - 1]
-        }/${selectedToYear}</td>
+        }/${selectedToYear} )</td> 
         <td>${item.amount}</td>
       </tr>
     `,
@@ -161,46 +161,53 @@ const IncomeVoucher = () => {
     const staticContent = `
       <div>
       <body>
-      <h5 style="margin-bottom: 4px; text-align: center; margin: 10px;">
-        আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি: <br />
-        ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
-      </h5>
-      
-      <h6 style="margin-bottom: 4px; text-align: center; margin: 10px;">
-        ১-জি, ১/১, চিড়িয়াখানা রোড, মিরপুর-১, ঢাকা-১২১৬ <br />
-        গভ: রেজি: নং-১২৮/৯৮
-        <br />
-        ফোন-৮০২১৬৩৬
-      </h6>
-      <hr/>
-      <div style="text-align: center; margin: 10px";><p>রশিদ</p></div>
-      <div>
-      <p>সদস্যের নাম : ${dataObject?.name}</p>
-      <p>তারিখ : ${dataObject?.date}</p>
-
-
-
+      <div style="position: relative;">
+        <!-- Overlay Image -->
+        <img src="https://ansarul.vercel.app/static/media/logo.4b6898928be910a2f248.png" alt="Overlay Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.5;">
+    
+        <h4 style="margin-bottom: 4px; text-align: center; margin: 10px;">
+          আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি: <br />
+          ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
+        </h4>
+        
+        <h6 style="margin-bottom: 4px; text-align: center; margin: 10px;">
+          ১-জি, ১/১, চিড়িয়াখানা রোড, মিরপুর-১, ঢাকা-১২১৬ <br />
+          গভ: রেজি: নং-১২৮/৯৮
+          <br />
+          ফোন-৮০২১৬৩৬
+        </h6>
+        <hr/>
+        <div style="text-align: center; margin: 10px";><p>রশিদ</p></div>
+    
+        <div style="display: grid; justify-items: space-between;">
+          <div>
+            <p>রশিদ নং : ${dataObject?.roshidNo}</p>
+            <p>তারিখ : ${dataObject?.date}</p>
+          </div>
+          <div style="float:right">
+            <p>সদস্যের নাম : ${dataObject?.name}</p>
+            <p>মেম্বার নং  : ${dataObject?.memberId}</p>
+          </div>
+        </div>
+        
+        <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
+              <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
+              <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
+            </tr>
+          </thead>
+          <tbody id="dynamicTableBody">
+            ${tableRows}
+          </tbody>
+        </table>
+        <p style='float:right'>মোট টাকার পরিমাণ : ${dataObject?.total_amount}</p>
       </div>
-      
-      <!-- Dynamic Table -->
-      <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
-        <thead>
-          <tr>
-            <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
-            <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
-            <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
-          </tr>
-        </thead>
-        <tbody id="dynamicTableBody">
-          ${tableRows}
-        </tbody>
-      </table>
     </body>
     
-    <p>${dataObject}</p>
     
-        
-        <p>${dataObject}</p>
+       
       </div>
     `;
 
@@ -214,11 +221,18 @@ const IncomeVoucher = () => {
     // Use html2pdf to generate the PDF
     html2pdf(tempDiv, {
       margin: 10,
-      filename: 'voucher.pdf',
+      filename: roshidNo,
       image: {type: 'jpeg', quality: 0.98},
       html2canvas: {scale: 2},
-      jsPDF: {unit: 'mm', format: 'a4', orientation: 'portrait'},
+      jsPDF: {
+        unit: 'mm',
+        format: 'a5', // Set to A7
+        orientation: 'portrait',
+        width: 105,  // A7 width
+        height: 74,  // A7 height
+      },
     });
+    
 
     // Remove the temporary div from the body
     document.body.removeChild(tempDiv);
