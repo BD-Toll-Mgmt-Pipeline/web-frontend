@@ -76,7 +76,7 @@ const Analytics = () => {
       <div style={{marginTop: '30px'}}>
         <SearchBar onSearch={onSearch} />
       </div>
-      <div style={{display: 'flex'}}>
+      <div style={{display: 'flex', marginTop:'20px'}}>
         <div>
           <RouterLink to={`/dashboards/project-module/add-new-project`} underline='none'>
             <Button

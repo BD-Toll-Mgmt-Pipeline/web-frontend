@@ -7,11 +7,14 @@ import {
   Snackbar,
   Button,
   Alert,
+  Modal,
 } from '@mui/material';
 import axios from 'axios';
 import FromDate from '../FromDate/FromDate';
 import ToDate from '../FromDate/ToDate';
 const moment = require('moment');
+import jsPDF from 'jspdf';
+import html2pdf from 'html2pdf.js';
 
 const IncomeVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -33,6 +36,7 @@ const IncomeVoucher = () => {
   const [selectedToMonth, setToMonth] = useState('');
   const [selectedToYear, setToYear] = useState('');
   const [showWarning, setShowWarning] = useState(false);
+  const [voucherData, setVoucherData] = useState(null);
 
   const getIncomeTypes = async () => {
     const response = await axios.get(
@@ -40,6 +44,17 @@ const IncomeVoucher = () => {
     );
     console.log(response.data.data, 'responseresponseresponse');
     setIncomeTypes(response.data.data);
+  };
+
+  const [openModalIndex, setOpenModalIndex] = useState(null);
+  const [isVoucherReady, setIsVoucherReady] = useState(true);
+
+  const handleOpenModal = (index) => {
+    setOpenModalIndex(index);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModalIndex(null);
   };
 
   const isInvalidDateRange = () => {
@@ -105,6 +120,121 @@ const IncomeVoucher = () => {
     setRows([...rows, {number: nextNumber, description: '', amount: ''}]);
   };
 
+  const generatePDFContent = async (pdfinfo, data) => {
+    const bengaliMonths = [
+      'জানুয়ারি',
+      'ফেব্রুয়ারি',
+      'মার্চ',
+      'এপ্রিল',
+      'মে',
+      'জুন',
+      'জুলাই',
+      'আগস্ট',
+      'সেপ্টেম্বর',
+      'অক্টোবর',
+      'নভেম্বর',
+      'ডিসেম্বর',
+    ];
+
+    // Convert the data object to a string
+    const dataString = JSON.stringify(data);
+    const dataObject = JSON.parse(dataString);
+
+    // Create the dynamic table content
+    const tableRows = dataObject.myArrayField
+      .map(
+        (item) => `
+      <tr>
+        <td>${item.number}</td>
+        <td>${item.description} ${item.additionaldescription} ${
+          bengaliMonths[selectedMonth - 1]
+        }/${selectedYear} - ${
+          bengaliMonths[selectedToMonth - 1]
+        }/${selectedToYear}</td>
+        <td>${item.amount}</td>
+      </tr>
+    `,
+      )
+      .join('');
+
+    // Create the complete HTML content
+    const staticContent = `
+      <div>
+      <body>
+      <h5 style="margin-bottom: 4px; text-align: center; margin: 10px;">
+        আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি: <br />
+        ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
+      </h5>
+      
+      <h6 style="margin-bottom: 4px; text-align: center; margin: 10px;">
+        ১-জি, ১/১, চিড়িয়াখানা রোড, মিরপুর-১, ঢাকা-১২১৬ <br />
+        গভ: রেজি: নং-১২৮/৯৮
+        <br />
+        ফোন-৮০২১৬৩৬
+      </h6>
+      <hr/>
+      <div style="text-align: center; margin: 10px";><p>রশিদ</p></div>
+      <div>
+      <p>সদস্যের নাম : ${dataObject?.name}</p>
+      <p>তারিখ : ${dataObject?.date}</p>
+
+
+
+      </div>
+      
+      <!-- Dynamic Table -->
+      <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
+        <thead>
+          <tr>
+            <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
+            <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
+            <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
+          </tr>
+        </thead>
+        <tbody id="dynamicTableBody">
+          ${tableRows}
+        </tbody>
+      </table>
+    </body>
+    
+    <p>${dataObject}</p>
+    
+        
+        <p>${dataObject}</p>
+      </div>
+    `;
+
+    // Create a temporary div to hold the content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = staticContent;
+
+    // Append the temporary div to the body
+    document.body.appendChild(tempDiv);
+
+    // Use html2pdf to generate the PDF
+    html2pdf(tempDiv, {
+      margin: 10,
+      filename: 'voucher.pdf',
+      image: {type: 'jpeg', quality: 0.98},
+      html2canvas: {scale: 2},
+      jsPDF: {unit: 'mm', format: 'a4', orientation: 'portrait'},
+    });
+
+    // Remove the temporary div from the body
+    document.body.removeChild(tempDiv);
+  };
+
+  const handlePrintVoucher = async (data) => {
+    if (isVoucherReady) {
+      const pdf = new jsPDF();
+      await generatePDFContent(pdf, data);
+
+      // Open the print dialog
+      // pdf.autoPrint();
+      // window.open(pdf.output('bloburl'), '_blank');
+    }
+  };
+
   const handleRowChange = (index, field, value) => {
     const updatedRows = [...rows];
     updatedRows[index][field] = value;
@@ -128,6 +258,7 @@ const IncomeVoucher = () => {
       setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
       setSnackbarSeverity('warning');
       setSnackbarOpen(true);
+      setIsVoucherReady(true);
       return;
     }
 
@@ -146,23 +277,28 @@ const IncomeVoucher = () => {
           number: row.number,
           description: row.description,
           additionaldescription: row.additionaldescription,
+          payment_start_month: selectedMonth,
+          payment_start_year: selectedYear,
+          payment_end_month: selectedToMonth,
+          payment_end_year: selectedToYear,
           amount: row.amount,
         })),
         phone,
         voterId,
         total_amount: totalAmount,
         roshidNo: roshidNo,
-        payment_start_month: selectedMonth,
-        payment_start_year: selectedYear,
-        payment_end_month: selectedToMonth,
-        payment_end_year: selectedToYear,
+        // payment_start_month: selectedMonth,
+        // payment_start_year: selectedYear,
+        // payment_end_month: selectedToMonth,
+        // payment_end_year: selectedToYear,
       };
-
+      setVoucherData(dataToSend);
       // Send a POST request to your API endpoint using axios
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/income-expense`,
         dataToSend,
       );
+      await handlePrintVoucher(dataToSend);
 
       // Handle the response
       console.log('Response:', response.data);
@@ -211,7 +347,7 @@ const IncomeVoucher = () => {
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0]; // Get date in 'YYYY-MM-DD' format
     setDate(formattedDate);
-  }, [memberSearch]);
+  }, [memberSearch, voucherData]);
 
   useEffect(() => {
     generateNo();
@@ -296,26 +432,14 @@ const IncomeVoucher = () => {
               sx={{margin: '10px'}}
             />
           </div>
-          <hr style={{margin: '10px'}} />
-          <Typography>মাস হইতে</Typography>
-          <br />
-          <FromDate
-            setSelectedMonth={setSelectedMonth}
-            setSelectedYear={setSelectedYear}
-          />
-          <br />
-          <Typography>মাস পর্যন্ত</Typography>
-          <br />
-          <ToDate setToYear={setToYear} setToMonth={setToMonth} />
-          <hr style={{margin: '10px'}} />
           <Grid
             container
-            spacing={2}
+            spacing={1}
             mb={4}
             mt={4}
-            sx={{textAlign: 'center', padding: '10px'}}
+            sx={{textAlign: 'center', padding: '5px'}}
           >
-            <Grid item xs={2}>
+            <Grid item xs={1.5}>
               <Typography
                 variant='h3'
                 component='h2'
@@ -324,10 +448,19 @@ const IncomeVoucher = () => {
                 ক্র: নং:
               </Typography>
               {rows.map((row, index) => (
-                <TextField key={index} value={row.number} disabled />
+                <TextField
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '5px',
+                  }}
+                  key={index}
+                  value={row.number}
+                  disabled
+                />
               ))}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={8}>
               <Typography
                 variant='h3'
                 component='h2'
@@ -351,9 +484,9 @@ const IncomeVoucher = () => {
                         handleRowChange(index, 'description', e.target.value)
                       }
                       style={{
-                        width: '50%', // Set the select to take up 50% of the width
+                        width: '25%',
                         height: '50px',
-                        marginRight: '5px', // Add some spacing between select and TextField
+                        marginRight: '5px',
                       }}
                     >
                       <option value=''>বিবরণ নির্বাচন করুন</option>
@@ -363,7 +496,7 @@ const IncomeVoucher = () => {
                         </option>
                       ))}
                     </select>
-                    <div style={{flex: 1}}>
+                    <div style={{flex: 2}}>
                       <TextField
                         key={index}
                         value={row.additionaldescription}
@@ -379,20 +512,32 @@ const IncomeVoucher = () => {
                         style={{width: '100%'}} // Set the TextField to take up 100% of the width
                       />
                     </div>
+                    <div style={{flex: 1}}>
+                      <div style={{flex: 1}}>
+                        <Button onClick={() => handleOpenModal(index)}>
+                          তারিখ সিলেক্ট
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={2.5}>
               <Typography
-                variant='h3'
-                component='h2'
+                variant='h4'
+                component='h4'
                 sx={{backgroundColor: 'black', color: 'white'}}
               >
                 টাকার পরিমাণ
               </Typography>
               {rows.map((row, index) => (
                 <TextField
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '5px',
+                  }}
                   key={index}
                   value={row.amount}
                   onChange={(e) => {
@@ -428,6 +573,14 @@ const IncomeVoucher = () => {
             >
               সংরক্ষণ করুন
             </Button>
+            {/* <Button
+              variant='outlined'
+              onClick={handlePrintVoucher}
+              sx={{marginTop: '20px'}}
+              // disabled={!isVoucherReady}
+            >
+              Print Voucher
+            </Button> */}
           </div>
           <Snackbar
             open={showWarning}
@@ -453,6 +606,68 @@ const IncomeVoucher = () => {
             </Alert>
           </Snackbar>
         </Paper>
+
+        <Modal
+          open={openModalIndex !== null}
+          onClose={handleCloseModal}
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '300px',
+              backgroundColor: 'white', // Set the background color to white
+              border: '2px solid #000',
+              padding: '20px', // Add padding for better appearance
+            }}
+          >
+            <h2 id='modal-modal-title'>
+              রশিদের সময়সীমা - {rows[0]?.description}
+            </h2>
+            <br />
+            <p id='modal-modal-description'>
+              <Typography>হতে</Typography>
+              <br />
+              <FromDate
+                setSelectedMonth={(value) => {
+                  setSelectedMonth(value);
+                  // No need to close the modal here, let it remain open until the submit button is pressed
+                }}
+                setSelectedYear={(value) => {
+                  setSelectedYear(value);
+                  // No need to close the modal here, let it remain open until the submit button is pressed
+                }}
+              />
+              <br />
+              <Typography>পর্যন্ত</Typography>
+              <br />
+              <ToDate
+                setToYear={(value) => {
+                  setToYear(value);
+                  // No need to close the modal here, let it remain open until the submit button is pressed
+                }}
+                setToMonth={(value) => {
+                  setToMonth(value);
+                  // No need to close the modal here, let it remain open until the submit button is pressed
+                }}
+              />
+            </p>
+            <br />
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                handleCloseModal();
+              }}
+            >
+              Submit
+            </Button>
+          </div>
+        </Modal>
       </Grid>
     </Grid>
   );

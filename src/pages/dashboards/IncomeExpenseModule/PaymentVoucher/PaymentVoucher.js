@@ -30,7 +30,6 @@ const PaymentVoucher = () => {
     setTotalAmount(sum);
   };
 
-  // const possibleDescriptions = ['কল্যাণ তহবিল সাহায্য'];
 
   const handleAddRow = () => {
     const nextNumber = rows.length + 1;
