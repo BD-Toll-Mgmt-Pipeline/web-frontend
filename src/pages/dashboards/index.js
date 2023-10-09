@@ -95,7 +95,7 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/dashboard/edit-payment-voucher/:id',
+    path: '/dashboard/edit-payment-voucher/:roshidNoid',
     element: <EditRoshid />,
   },
   {

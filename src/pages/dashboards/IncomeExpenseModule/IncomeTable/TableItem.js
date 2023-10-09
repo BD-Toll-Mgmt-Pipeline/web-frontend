@@ -14,6 +14,10 @@ import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
 
 const TableItem = ({data}) => {
+  console.log(
+    data,
+    'Income-Expense ModuleIncome-Expense ModuleIncome-Expense ModuleIncome-Expense Module',
+  );
   return (
     <TableRow
       key={data.id}
@@ -35,7 +39,7 @@ const TableItem = ({data}) => {
       <TableCell align='left' className='tableCell'>
         <Link
           component={RouterLink}
-          to={`/dashboard/edit-payment-voucher/${data?.memberId}`}
+          to={`/dashboard/edit-payment-voucher/${data?.roshidNo}`}
           underline='none'
         >
           {moment(data?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
@@ -49,7 +53,7 @@ const TableItem = ({data}) => {
         >
           <Link
             component={RouterLink}
-            to={`/dashboard/edit-payment-voucher/${data?.memberId}`}
+            to={`/dashboard/edit-payment-voucher/${data?.roshidNo}`}
             underline='none'
           >
             {data.name}
@@ -57,7 +61,7 @@ const TableItem = ({data}) => {
         </Box>
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data?.memberId? data?.memberId : "মেম্বার আইডি প্রযোজ্য না"}
+        {data?.memberId ? data?.memberId : 'মেম্বার আইডি প্রযোজ্য না'}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         {data.roshidNo}

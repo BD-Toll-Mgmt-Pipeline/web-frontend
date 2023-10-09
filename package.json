@@ -30,6 +30,7 @@
     "date-fns": "^2.23.0",
     "file-saver": "^2.0.5",
     "firebase": "^9.6.9",
+    "flatted": "^3.2.9",
     "formik": "^2.2.9",
     "formik-material-ui-pickers": "^1.0.0-alpha.1",
     "gh-pages": "^6.0.0",
