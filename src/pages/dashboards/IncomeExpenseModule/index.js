@@ -126,22 +126,6 @@ const Analytics = () => {
         </div>
         <div>
           <RouterLink
-            to={`/dashboards/income-expense-module/add-new-income-type`}
-            style={{textDecoration: 'none'}}
-            underline='none'
-          >
-            <Button
-              variant='outlined'
-              color='primary'
-              target='_blank'
-              sx={{margin: '10px'}}
-            >
-              রশিদে নতুন বিবরণ যোগ করুন
-            </Button>
-          </RouterLink>
-        </div>
-        <div>
-          <RouterLink
             to={`/dashboards/income-expense-module/add-receive-voucher`}
             underline='none'
             style={{textDecoration: 'none'}}
