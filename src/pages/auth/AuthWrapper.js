@@ -46,14 +46,30 @@ const AuthWrapper = ({children}) => {
             alignItems: {sm: 'center'},
             justifyContent: {sm: 'center'},
             flexDirection: {sm: 'column'},
-            backgroundColor: (theme) => theme.palette.grey[900],
+            backgroundImage:
+              "url('https://www.tbsnews.net/sites/default/files/styles/big_3/public/images/2022/09/13/1.jpg')", // Provide the link to your image
+            backgroundSize: 'cover', // Optional: Adjust the background size
+            backgroundPosition: 'center', // Optional: Adjust the background position
             color: (theme) => theme.palette.common.white,
             fontSize: 14,
+            '::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the opacity as needed
+              backdropFilter: 'blur(2px)',
+              zIndex: 1,
+            },
           }}
         >
           <Box
             sx={{
               maxWidth: 320,
+              position: 'relative', // Ensure child elements are positioned relative to this container
+              zIndex: 2, // Place child elements above the overlay
             }}
           >
             <Typography
