@@ -14,10 +14,6 @@ import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
 
 const TableItem = ({data}) => {
-  console.log(
-    data,
-    'Income-Expense ModuleIncome-Expense ModuleIncome-Expense ModuleIncome-Expense Module',
-  );
   return (
     <TableRow
       key={data.id}

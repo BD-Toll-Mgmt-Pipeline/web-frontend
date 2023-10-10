@@ -12,7 +12,7 @@ const RentalAppMenuList = ({id}) => {
   const options = [
     {
       label: 'বিস্তারিত দেখুন',
-      url: (id) => `/dashboard/edit-voucher/${id}`,
+      url: (id) => `/dashboard/edit-payment-voucher/${id}`,
     },
     // {
     //   label: 'এডিট করুন',
