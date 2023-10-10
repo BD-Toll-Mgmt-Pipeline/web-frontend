@@ -11,8 +11,10 @@ import {Alert} from '@mui/material';
 import axios from 'axios';
 const moment = require('moment');
 import Autocomplete from '@mui/material/Autocomplete';
+import html2pdf from 'html2pdf.js';
+import {useParams} from 'react-router-dom';
 
-const EditPaymentVoucher = () => {
+const PaymentVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
   const [total_amount, setTotalAmount] = useState(0);
   const [voucherNo, setVoucherno] = useState(0);
@@ -22,6 +24,10 @@ const EditPaymentVoucher = () => {
   const [voucher_title, setNameVoucher_title] = useState('');
   const [date, setDate] = useState('');
   const [voucher_details, setLargeParagraph] = useState('');
+  const [voucher, setMemberVoucherSearch] = useState('');
+
+  console.log(voucher[0]?.voucher_title, 'voucher');
+  const {id} = useParams();
 
   const calculateTotalAmount = () => {
     const sum = rows.reduce((total, row) => {
@@ -29,30 +35,18 @@ const EditPaymentVoucher = () => {
     }, 0);
     setTotalAmount(sum);
   };
-  const isLastRowDescriptionSelected = () => {
-    const lastRowIndex = rows.length - 1;
-    const lastRow = rows[lastRowIndex];
-    return !!lastRow.description;
-  };
 
-  const handleAddRow = () => {
-    if (!isLastRowDescriptionSelected()) {
-      setSnackbarMessage('সর্বশেষ সারির জন্য একটি বিবরণ নির্বাচন করুন');
-      setSnackbarSeverity('warning');
-      setSnackbarOpen(true);
-      return;
+  const searchMemberbyVowID = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/expense?query=${id}&page=1&perPage=10`,
+      );
+      setMemberVoucherSearch(response.data?.allExpense);
+    } catch (error) {
+      console.error('Error:', error.message);
     }
-
-    const nextNumber = rows.length + 1;
-    setRows([...rows, {number: nextNumber, description: '', amount: ''}]);
   };
 
-  const handleRowChange = (index, field, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index][field] = value;
-    setRows(updatedRows);
-    calculateTotalAmount();
-  };
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -63,21 +57,21 @@ const EditPaymentVoucher = () => {
     setVoucherno(voucherNumber);
   };
 
-  const handleSubmit = async () => {
-    // if (
-    //   !date ||
-    //   !voucher_title ||
-    //   !voucherNo ||
-    //   !voucher_details ||
-    //   total_amount === 0 ||
-    //   rows.some((row) => !row.description || !row.amount)
-    // ) {
-    //   setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
-    //   setSnackbarSeverity('warning');
-    //   setSnackbarOpen(true);
-    //   return;
-    // }
+  const handleRowChange = (index, field, value) => {
+    const updatedRows = [...rows];
+    const isOptionSelected = possibleDescriptions.includes(value);
 
+    if (isOptionSelected) {
+      updatedRows[index][field] = value;
+    } else {
+      updatedRows[index][field] = value;
+    }
+
+    setRows(updatedRows);
+    calculateTotalAmount();
+  };
+
+  const handlePrint = async () => {
     try {
       const dataToSend = {
         date,
@@ -91,22 +85,111 @@ const EditPaymentVoucher = () => {
           amount: row.amount,
         })),
       };
+      console.log(voucher[0].myArrayField.map((x) => x.number),"jdfnksdndkf");
+      // Create the dynamic table content
+      const tableRows = voucher?.myArrayField
+        .map(
+          (item) => `
+            <tr>
+              <td>${item.number}</td>
+              <td>${item.description}</td> 
+              <td>${item.amount}</td>
+            </tr>
+          `,
+        )
+        .join('');
 
-      console.log(dataToSend,"dataToSend");
+      const staticContent = `
+        <div>
+          <body>
+            <div style="position: relative;">
+  
+              <h4 style="text-align: center; margin: 10px;">
+                আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি:
+              </h4>
+  
+              <h4 style="text-align: center; margin: 10px;">
+                ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
+              </h4>
+              
+              <h6 style="margin-bottom: 4px; text-align: center; margin: 10px;">
+                ১-জি, ১/১, চিড়িয়াখানা রোড, মিরপুর-১, ঢাকা-১২১৬ <br />
+                গভ: রেজি: নং-১২৮/৯৮
+                <br />
+                ফোন-৮০২১৬৩৬
+              </h6>
+              
+              <hr/>
+              <div style="text-align: center; margin: 10px";><p>ভাউচার</p></div>
+              
+              <div style="display: flex; justify-content: space-between;">
+                <div>
+                  <p>ভাউচার নং : ${id}</p>
+                  <p>তারিখ : ${voucher?.date}</p>
+                </div>
+              </div>
+  
+              <div style='text-align: center; margin-top:15px;'>
+                <p>ভাউচার টাইটেল : ${voucher?.voucher_title}</p>
+                <p>বিস্তারিত : ${voucher?.voucher_details}</p>
+              </div>
+              
+              <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
+                <thead>
+                  <tr>
+                    <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
+                    <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
+                    <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
+                  </tr>
+                </thead>
+                <tbody id="dynamicTableBody">
+                  ${tableRows}
+                </tbody>
+              </table>
+              <p style='float:right'>মোট টাকার পরিমাণ : ${dataToSend.total_amount}</p>
+            </div>
+            <div style='padding-top: 120px;'>
+              <div style="display: flex; justify-content: space-between; margin:10px;">
+                <p>আদায়কারী </p>
+                <p> হিসাবরক্ষক  </p> 
+                <p> কোষাধক্ষ</p>
+                <p> সম্পাদক</p>
+              </div>
+              <hr/>
+              <p style='text-align: center; font-weight: 2;'>This roshid is generated by ANSARUL ERP SERVER</p>
+              <p style='text-align: center; font-weight: 2;'>Powered by: TechWave Limited</p>
+            </div>
+          </body>
+        </div>
+      `;
 
-      // Send a POST request to your API endpoint using axios
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/expense`,
-        dataToSend,
-      );
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = staticContent;
 
-      // Handle the response
-      console.log('Response:', response.data);
-      setSnackbarMessage('সফলভাবে তৈরী হয়েছে');
+      // Append the temporary div to the body
+      document.body.appendChild(tempDiv);
+
+      await html2pdf(tempDiv, {
+        margin: 10,
+        filename: voucherNo,
+        image: {type: 'jpeg', quality: 0.98},
+        html2canvas: {scale: 2},
+        jsPDF: {
+          unit: 'mm',
+          format: 'a5',
+          orientation: 'portrait',
+          width: 105,
+          height: 74,
+        },
+      });
+
+      document.body.removeChild(tempDiv);
+
+      setSnackbarMessage('সফলভাবে প্রিন্ট হয়েছে');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
     } catch (error) {
-      console.error('Failed to submit');
+      console.error('Failed to print');
       console.error('Error:', error.message);
       setSnackbarMessage('ব্যর্থ হয়েছে');
       setSnackbarSeverity('error');
@@ -116,7 +199,8 @@ const EditPaymentVoucher = () => {
 
   useEffect(() => {
     generateNo();
-  }, []);
+    searchMemberbyVowID();
+  }, [setMemberVoucherSearch]);
 
   const possibleDescriptions = ['কল্যাণ তহবিল সাহায্য'];
 
@@ -151,7 +235,7 @@ const EditPaymentVoucher = () => {
             ভাউচার
           </Typography>
           <div style={{display: 'flex', justifyContent: 'space-around'}}>
-            <Typography>ভাউচার নং - {voucherNo}</Typography>
+            <Typography>ভাউচার নং - {id}</Typography>
             <TextField
               // label='Date'
               type='date'
@@ -160,23 +244,24 @@ const EditPaymentVoucher = () => {
             />
           </div>
 
-          <div>
-            <div style={{margin: '10px', textAlign: 'center'}}>
-              <TextField
-                label='ভাউচার টাইটেল'
-                value={voucher_title}
-                onChange={(e) => setNameVoucher_title(e.target.value)}
-              />
-            </div>
+          <div style={{margin: '10px', textAlign: 'center'}}>
+            <TextField
+              // label='ভাউচার টাইটেল'
+              defaultValue={voucher[0]?.voucher_title}
+              value={voucher[0]?.voucher_title}
+              onChange={(e) => setNameVoucher_title(e.target.value)}
+            />
           </div>
 
           <TextField
-            label='ভাউচার বিবরণ'
+            // label='ভাউচার বিবরণ'
             multiline
             rows={6}
-            value={voucher_details}
+            // value={voucher_details}
             onChange={(e) => setLargeParagraph(e.target.value)}
             fullWidth
+            defaultValue={voucher[0]?.voucher_details}
+            value={voucher[0]?.voucher_details}
           />
 
           <Grid container spacing={2} mb={4} mt={4} sx={{textAlign: 'center'}}>
@@ -208,7 +293,10 @@ const EditPaymentVoucher = () => {
                     handleRowChange(index, 'description', newValue)
                   }
                   options={possibleDescriptions}
-                  freeSolo // Allow users to input values not in the options list
+                  freeSolo
+                  onInputChange={(_, newInputValue) => {
+                    handleRowChange(index, 'description', newInputValue);
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -239,18 +327,20 @@ const EditPaymentVoucher = () => {
               {rows.map((row, index) => (
                 <TextField
                   key={index}
-                  value={row.amount}
-                  onChange={(e) =>
-                    handleRowChange(index, 'amount', e.target.value)
-                  }
-                  type='number'
+                  value={voucher[0]?.voucher_details}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const validInput = inputValue.replace(/[^0-9.]/g, '');
+                    handleRowChange(index, 'amount', validInput);
+                  }}
+                  type='text'
                   inputProps={{min: 0}}
                 />
               ))}
             </Grid>
           </Grid>
           <div style={{textAlign: 'right', margin: '20px'}}>
-            <Typography>মোট টাকার পরিমাণ: {total_amount}</Typography>
+            <Typography>মোট টাকার পরিমাণ: {voucher[0]?.total_amount}</Typography>
           </div>
           <hr />
           <div
@@ -260,16 +350,12 @@ const EditPaymentVoucher = () => {
               marginTop: '20px',
             }}
           >
-            <Button variant='outlined' onClick={handleAddRow}>
-              সারি অ্যাড করুন
-            </Button>
-            <br />
             <Button
               variant='outlined'
-              onClick={handleSubmit}
+              onClick={handlePrint}
               sx={{marginTop: '20px'}}
             >
-              সংরক্ষণ করুন
+              প্রিন্ট করুন
             </Button>
           </div>
 
@@ -292,4 +378,4 @@ const EditPaymentVoucher = () => {
   );
 };
 
-export default EditPaymentVoucher;
+export default PaymentVoucher;

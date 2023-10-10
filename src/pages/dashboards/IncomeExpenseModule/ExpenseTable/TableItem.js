@@ -14,6 +14,7 @@ import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
 
 const TableItem = ({data}) => {
+  console.log(data, 'data');
   return (
     <TableRow
       key={data.id}
@@ -35,7 +36,7 @@ const TableItem = ({data}) => {
       <TableCell align='left' className='tableCell'>
         <Link
           component={RouterLink}
-          to={`/dashboard/edit-voucher/${data.memberId}`}
+          to={`/dashboard/edit-voucher/${data?.voucherNo}`}
           underline='none'
         >
           {moment(data?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
@@ -49,7 +50,7 @@ const TableItem = ({data}) => {
         >
           <Link
             component={RouterLink}
-            to={`/dashboard/edit-voucher/${data.memberId}`}
+            to={`/dashboard/edit-voucher/${data?.voucherNo}`}
             underline='none'
           >
             {data.voucherNo}
@@ -63,7 +64,7 @@ const TableItem = ({data}) => {
         {data.voucher_title}
       </TableCell>
       <TableCell>
-        <RentalAppMenuList id={data.memberId} />
+        <RentalAppMenuList id={data?.voucherNo} />
       </TableCell>
     </TableRow>
   );
