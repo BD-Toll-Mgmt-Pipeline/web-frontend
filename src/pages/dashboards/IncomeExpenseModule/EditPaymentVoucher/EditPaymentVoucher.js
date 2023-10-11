@@ -10,31 +10,31 @@ import {
 import {Alert} from '@mui/material';
 import axios from 'axios';
 const moment = require('moment');
-import Autocomplete from '@mui/material/Autocomplete';
+// import Autocomplete from '@mui/material/Autocomplete';
 import html2pdf from 'html2pdf.js';
 import {useParams} from 'react-router-dom';
 
 const PaymentVoucher = () => {
-  const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
-  const [total_amount, setTotalAmount] = useState(0);
+  const [rows] = useState([{number: 1, description: '', amount: ''}]);
+  const [total_amount] = useState(0);
   const [voucherNo, setVoucherno] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
   const [voucher_title, setNameVoucher_title] = useState('');
-  const [date, setDate] = useState('');
+  // const [date, setDate] = useState('');
   const [voucher_details, setLargeParagraph] = useState('');
-  const [voucher, setMemberVoucherSearch] = useState('');
+  const [voucher, setMemberVoucherSearch] = useState([]);
 
   console.log(voucher[0]?.voucher_title, 'voucher');
   const {id} = useParams();
 
-  const calculateTotalAmount = () => {
-    const sum = rows.reduce((total, row) => {
-      return total + parseFloat(row.amount || 0);
-    }, 0);
-    setTotalAmount(sum);
-  };
+  // const calculateTotalAmount = () => {
+  //   const sum = rows.reduce((total, row) => {
+  //     return total + parseFloat(row.amount || 0);
+  //   }, 0);
+  //   setTotalAmount(sum);
+  // };
 
   const searchMemberbyVowID = async () => {
     try {
@@ -57,45 +57,48 @@ const PaymentVoucher = () => {
     setVoucherno(voucherNumber);
   };
 
-  const handleRowChange = (index, field, value) => {
-    const updatedRows = [...rows];
-    const isOptionSelected = possibleDescriptions.includes(value);
+  // const handleRowChange = (index, field, value) => {
+  //   const updatedRows = [...rows];
+  //   const isOptionSelected = possibleDescriptions.includes(value);
 
-    if (isOptionSelected) {
-      updatedRows[index][field] = value;
-    } else {
-      updatedRows[index][field] = value;
-    }
+  //   if (isOptionSelected) {
+  //     updatedRows[index][field] = value;
+  //   } else {
+  //     updatedRows[index][field] = value;
+  //   }
 
-    setRows(updatedRows);
-    calculateTotalAmount();
-  };
+  //   setRows(updatedRows);
+  //   calculateTotalAmount();
+  // };
+  // Other code...
 
   const handlePrint = async () => {
     try {
       const dataToSend = {
-        date,
+        date: voucher[0]?.date,
         voucher_title,
         voucherNo,
         voucher_details,
         total_amount,
-        myArrayField: rows.map((row) => ({
-          number: row.number,
-          description: row.description,
+        myArrayField: voucher.map((row) => ({
+          number: row?.number,
+          description: row?.description,
           amount: row.amount,
         })),
       };
-      console.log(voucher[0].myArrayField.map((x) => x.number),"jdfnksdndkf");
-      // Create the dynamic table content
-      const tableRows = voucher?.myArrayField
-        .map(
+
+      // Generate table rows from the 'voucher' array
+      // Generate table rows from the 'voucher' array
+      // Generate table rows from the 'voucher' array
+      const tableRows = voucher
+        ?.map(
           (item) => `
-            <tr>
-              <td>${item.number}</td>
-              <td>${item.description}</td> 
-              <td>${item.amount}</td>
-            </tr>
-          `,
+  <tr>
+    <td>${item.number}</td>
+    <td>${item.description}</td> 
+    <td>${item.amount}</td>
+  </tr>
+`,
         )
         .join('');
 
@@ -103,11 +106,11 @@ const PaymentVoucher = () => {
         <div>
           <body>
             <div style="position: relative;">
-  
+
               <h4 style="text-align: center; margin: 10px;">
                 আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি:
               </h4>
-  
+
               <h4 style="text-align: center; margin: 10px;">
                 ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
               </h4>
@@ -125,13 +128,13 @@ const PaymentVoucher = () => {
               <div style="display: flex; justify-content: space-between;">
                 <div>
                   <p>ভাউচার নং : ${id}</p>
-                  <p>তারিখ : ${voucher?.date}</p>
+                  <p>তারিখ : ${voucher?.[0]?.date}</p>
                 </div>
               </div>
-  
+
               <div style='text-align: center; margin-top:15px;'>
-                <p>ভাউচার টাইটেল : ${voucher?.voucher_title}</p>
-                <p>বিস্তারিত : ${voucher?.voucher_details}</p>
+                <p>ভাউচার টাইটেল : ${voucher?.[0]?.voucher_title}</p>
+                <p>বিস্তারিত : ${voucher?.[0]?.voucher_details}</p>
               </div>
               
               <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
@@ -166,7 +169,6 @@ const PaymentVoucher = () => {
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = staticContent;
 
-      // Append the temporary div to the body
       document.body.appendChild(tempDiv);
 
       await html2pdf(tempDiv, {
@@ -200,9 +202,9 @@ const PaymentVoucher = () => {
   useEffect(() => {
     generateNo();
     searchMemberbyVowID();
-  }, [setMemberVoucherSearch]);
+  }, []);
 
-  const possibleDescriptions = ['কল্যাণ তহবিল সাহায্য'];
+  // const possibleDescriptions = ['কল্যাণ তহবিল সাহায্য'];
 
   return (
     <Grid container justifyContent='center'>
@@ -239,8 +241,8 @@ const PaymentVoucher = () => {
             <TextField
               // label='Date'
               type='date'
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              value={voucher[0]?.date}
+              // onChange={(e) => setDate(e.target.value)}
             />
           </div>
 
@@ -286,33 +288,7 @@ const PaymentVoucher = () => {
                 বিবরণ
               </Typography>
               {rows.map((row, index) => (
-                <Autocomplete
-                  key={index}
-                  value={row.description}
-                  onChange={(_, newValue) =>
-                    handleRowChange(index, 'description', newValue)
-                  }
-                  options={possibleDescriptions}
-                  freeSolo
-                  onInputChange={(_, newInputValue) => {
-                    handleRowChange(index, 'description', newInputValue);
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label='বিবরণ'
-                      fullWidth
-                      multiline
-                      variant='outlined'
-                      sx={{
-                        marginBottom: '5px',
-                        '& input::placeholder': {
-                          fontSize: '12px',
-                        },
-                      }}
-                    />
-                  )}
-                />
+                <TextField key={index} value={row.description} disabled />
               ))}
             </Grid>
 
@@ -325,22 +301,14 @@ const PaymentVoucher = () => {
                 টাকার পরিমাণ
               </Typography>
               {rows.map((row, index) => (
-                <TextField
-                  key={index}
-                  value={voucher[0]?.voucher_details}
-                  onChange={(e) => {
-                    const inputValue = e.target.value;
-                    const validInput = inputValue.replace(/[^0-9.]/g, '');
-                    handleRowChange(index, 'amount', validInput);
-                  }}
-                  type='text'
-                  inputProps={{min: 0}}
-                />
+                <TextField key={index} value={row.amount} disabled />
               ))}
             </Grid>
           </Grid>
           <div style={{textAlign: 'right', margin: '20px'}}>
-            <Typography>মোট টাকার পরিমাণ: {voucher[0]?.total_amount}</Typography>
+            <Typography>
+              মোট টাকার পরিমাণ: {voucher[0]?.total_amount}
+            </Typography>
           </div>
           <hr />
           <div

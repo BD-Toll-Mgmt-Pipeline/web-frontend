@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
   // currentAddress: Yup.string().required('Present Address is required'),
   // age: Yup.number().required('Age is required'),
   // education: Yup.string().required('Education qualification is required'),
-  voterId: Yup.string().required('Voter ID is required'),
+  // voterId: Yup.string().required('Voter ID is required'),
   phone: Yup.string().required('Mobile Number is required'),
   // guardianName: Yup.string().required('Guardian Name is required'),
   // relationship: Yup.string().required('Relationship with Guardian is required'),
@@ -104,7 +104,7 @@ const NewMemberAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='আবেদনকারী নামঃ'
+                      label='আবেদনকারীর নামঃ'
                       name='name'
                       fullWidth
                       error={!!errors.name}
@@ -114,7 +114,7 @@ const NewMemberAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='জন্ম'
+                      label='জন্মসাল'
                       name='date_of_birth'
                       type='date' 
                       fullWidth
