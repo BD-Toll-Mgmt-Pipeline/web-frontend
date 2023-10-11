@@ -66,7 +66,7 @@ const SignupJwtAuth = () => {
 
               <Box sx={{mb: {xs: 4, xl: 5}}}>
                 <AppTextField
-                  label={<IntlMessages id='common.email' />}
+                  label={<IntlMessages id='Email' />}
                   name='email'
                   variant='outlined'
                   sx={{
@@ -80,7 +80,7 @@ const SignupJwtAuth = () => {
 
               <Box sx={{mb: {xs: 4, xl: 5}}}>
                 <AppTextField
-                  label={<IntlMessages id='common.password' />}
+                  label={<IntlMessages id='Password' />}
                   name='password'
                   type='password'
                   variant='outlined'

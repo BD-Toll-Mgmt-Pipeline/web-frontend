@@ -57,7 +57,7 @@ const SigninJwtAuth = () => {
                 <AppTextField
                   placeholder={messages['common.email']}
                   name='email'
-                  label={<IntlMessages id='common.email' />}
+                  label={<IntlMessages id='Email' />}
                   variant='outlined'
                   sx={{
                     width: '100%',
@@ -72,7 +72,7 @@ const SigninJwtAuth = () => {
                 <AppTextField
                   type='password'
                   placeholder={messages['common.password']}
-                  label={<IntlMessages id='common.password' />}
+                  label={<IntlMessages id='Password' />}
                   name='password'
                   variant='outlined'
                   sx={{

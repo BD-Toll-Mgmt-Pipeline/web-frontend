@@ -85,8 +85,11 @@ const Analytics = () => {
       const page = 1;
       const perPage = 10;
 
+      const endpoint =
+        selectedTab === 'income' ? '/income-expense' : '/expense';
+
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/income-expense`,
+        `${process.env.REACT_APP_BASE_URL}${endpoint}`,
         {
           params: {
             query,
@@ -96,8 +99,14 @@ const Analytics = () => {
         },
       );
 
-      const {allIncomeExpense, totalPages} = response.data;
-      setRentals(allIncomeExpense);
+      const {allIncomeExpense, allExpense, totalPages} = response.data;
+
+      if (selectedTab === 'income') {
+        setRentals(allIncomeExpense);
+      } else {
+        setExpense(allExpense);
+      }
+
       setTotalPages(totalPages);
       setCurrentPage(1);
     } catch (error) {
