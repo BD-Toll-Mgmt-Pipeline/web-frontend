@@ -39,6 +39,7 @@ const IncomeVoucher = () => {
   const [showWarning, setShowWarning] = useState(false);
   const [voucherData, setVoucherData] = useState(null);
   const [showUntilSection, setShowUntilSection] = useState(true);
+  const {toBengaliWord} = require('bengali-number');
 
   const getIncomeTypes = async () => {
     const response = await axios.get(
@@ -608,9 +609,17 @@ const IncomeVoucher = () => {
               ))}
             </Grid>
           </Grid>
-          <div style={{textAlign: 'right', margin: '20px'}}>
-            <Typography>মোট টাকার পরিমাণ: {totalAmount}</Typography>
+          <div>
+            <div style={{textAlign: 'right', margin: '20px'}}>
+              <Typography>মোট টাকা: {totalAmount}</Typography>
+            </div>
+            <div style={{textAlign: 'right', margin: '20px'}}>
+              <Typography>
+                মোট টাকা (কথায়): {toBengaliWord(totalAmount)}
+              </Typography>
+            </div>
           </div>
+
           <hr />
           <div
             style={{

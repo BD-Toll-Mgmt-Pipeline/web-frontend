@@ -4560,6 +4560,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bengali-number@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bengali-number/-/bengali-number-1.1.0.tgz#03280924b52f31df7dec02f7de21ab3fef958069"
+  integrity sha512-XgIM9kYVOGkmsxda4AaUPGRbXide0L1+pOpJ3SPG+rnlTySr9wtKOj9rHXIZnt01B2oR7PaInDQVDqFLMrATqA==
+
 bfj@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-7.0.2.tgz#1988ce76f3add9ac2913fd8ba47aad9e651bfbb2"
