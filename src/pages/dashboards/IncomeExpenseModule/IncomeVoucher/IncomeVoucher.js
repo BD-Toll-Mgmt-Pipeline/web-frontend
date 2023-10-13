@@ -16,6 +16,7 @@ const moment = require('moment');
 import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
 import {Link as RouterLink} from 'react-router-dom';
+// import formatNumber from '../../../common/common';
 
 const IncomeVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -39,7 +40,15 @@ const IncomeVoucher = () => {
   const [showWarning, setShowWarning] = useState(false);
   const [voucherData, setVoucherData] = useState(null);
   const [showUntilSection, setShowUntilSection] = useState(true);
-  const {toBengaliWord} = require('bengali-number');
+  const {toBengaliWord, toBengaliNumber} = require('bengali-number');
+
+  function formatNumber(number) {
+    const numberString = String(number);
+    const separators = [',', ',', ','];
+    const separator = separators[Math.floor((numberString.length - 1) / 3)];
+    const groups = numberString.split(/(?=(?:\d{3})+(?!\d))/);
+    return groups.join(separator);
+  }
 
   const getIncomeTypes = async () => {
     const response = await axios.get(
@@ -148,8 +157,10 @@ const IncomeVoucher = () => {
       .map(
         (item) => `
       <tr>
-  <td>${item.number}</td>
-  <td>${item.description} - ${item.additionaldescription} : ${
+  <td>${item?.number}</td>
+  <td>${item?.description} - ${
+          item?.additionaldescription ? item?.additionaldescription : ''
+        } : ${
           selectedMonth && selectedYear && selectedToMonth && selectedToYear
             ? `(${bengaliMonths[selectedMonth - 1]}/${selectedYear} - ${
                 bengaliMonths[selectedToMonth - 1]
@@ -158,7 +169,7 @@ const IncomeVoucher = () => {
             ? `(${bengaliMonths[selectedMonth - 1]}/${selectedYear})`
             : ''
         }</td> 
-  <td>${item.amount}</td>
+  <td>${toBengaliNumber(formatNumber(item.amount))}/-</td>
   
 </tr>
 
@@ -175,13 +186,13 @@ const IncomeVoucher = () => {
 
     
 
-        <h4 style="text-align: center; margin: 10px;">
-          আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি:
-        </h4>
+        <h2 style="text-align: center; margin: 10px;">
+        <b>আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি:</b>
+        </h2>
 
-        <h4 style="text-align: center; margin: 10px;">
-          ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
-        </h4>
+        <h5 style="text-align: center; margin: 10px;">
+          <b>ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.</b>
+        </h5>
         
         <h6 style="margin-bottom: 4px; text-align: center; margin: 10px;">
           ১-জি, ১/১, চিড়িয়াখানা রোড, মিরপুর-১, ঢাকা-১২১৬ <br />
@@ -191,16 +202,16 @@ const IncomeVoucher = () => {
         </h6>
         
         <hr/>
-        <div style="text-align: center; margin: 10px";><p>রশিদ</p></div>
+        <div style="text-align: center; margin: 10px; text-decoration: underline;";><p><b>টাকা আদায়ের রশিদ</b></p></div>
         
         <div style="display: flex; justify-content: space-between;">
           <div>
-            <p>রশিদ নং : ${dataObject?.roshidNo}</p>
-            <p>তারিখ : ${dataObject?.date}</p>
+          <p><b>সদস্যের নাম : </b> ${dataObject?.name}</p>
+          <p><b>সদস্য নং :</b>  ${dataObject?.memberId}</p>
           </div>
           <div style="float:right">
-            <p>সদস্যের নাম : ${dataObject?.name}</p>
-            <p>মেম্বার নং  : ${dataObject?.memberId}</p>
+          <p><b> রশিদ নং :</b> ${dataObject?.roshidNo}</p>
+          <p><b> তারিখ : </b>${moment(dataObject.date).format('DD-MM-YYYY')}</p>
           </div>
         </div>
         
@@ -216,12 +227,20 @@ const IncomeVoucher = () => {
             ${tableRows}
           </tbody>
         </table>
-        <p style='float:right'>মোট টাকার পরিমাণ : ${dataObject?.total_amount}</p>
+        <div style='display:flex; justify-content:space-around'>
+        <p style='float:right'><b>মোট টাকা (কথায়): </b>${toBengaliWord(
+          totalAmount,
+        )} টাকা মাত্র </p>
+
+        <p style='float:right'><b>মোট টাকা : </b> ${toBengaliNumber(
+          formatNumber(dataObject?.total_amount),
+        )}/- ৳ </p>
+        </div>
       </div>
       <div style='padding-top: 120px;'>
       <div style="display: flex; justify-content: space-between; margin:10px;">
         <p>আদায়কারী </p>
-        <p> হিসাবরক্ষক  </p> 
+        <p>হিসাবরক্ষক </p> 
         <p> কোষাধক্ষ</p>
         <p> সম্পাদক</p>
       </div>
@@ -597,7 +616,7 @@ const IncomeVoucher = () => {
                     marginBottom: '12px',
                   }}
                   key={index}
-                  value={row.amount}
+                  value={formatNumber(row.amount)}
                   onChange={(e) => {
                     const inputValue = e.target.value;
                     const validInput = inputValue.replace(/[^0-9.]/g, '');
@@ -611,7 +630,7 @@ const IncomeVoucher = () => {
           </Grid>
           <div>
             <div style={{textAlign: 'right', margin: '20px'}}>
-              <Typography>মোট টাকা: {totalAmount}</Typography>
+              <Typography>মোট টাকা: {formatNumber(totalAmount)}</Typography>
             </div>
             <div style={{textAlign: 'right', margin: '20px'}}>
               <Typography>
