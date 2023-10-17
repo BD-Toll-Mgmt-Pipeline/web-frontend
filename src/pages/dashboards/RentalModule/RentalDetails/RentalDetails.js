@@ -117,6 +117,14 @@ export default function RentalDetails() {
             type='submit'
             variant='outlined'
             color='primary'
+            // onClick={updateRentalInfo}
+          >
+            ভাড়াটিয়া পরিবর্তন করুন
+          </Button>
+          <Button
+            type='submit'
+            variant='outlined'
+            color='primary'
             onClick={updateRentalInfo}
           >
             চুক্তি শেষ করুন
@@ -142,7 +150,7 @@ export default function RentalDetails() {
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                আবেদনকারীর নাম: {member?.name}
+                ভাড়াটিয়ার নাম: {member?.name}
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>

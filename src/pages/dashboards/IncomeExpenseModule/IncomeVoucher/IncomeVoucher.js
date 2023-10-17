@@ -423,6 +423,28 @@ const IncomeVoucher = () => {
         console.error('Error:', error.message);
       }
     }
+    if (descriptionData === 'প্রকল্প কিস্তি') {
+      try {
+        const response =
+          await axios.get(`${process.env.REACT_APP_BASE_URL}/project?query=&page=1&perPage=10
+        `);
+        console.log(response.data.projects, 'projects');
+        setRentalNames(response.data.projects);
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
+    if (descriptionData === 'আমানত') {
+      try {
+        const response =
+          await axios.get(`${process.env.REACT_APP_BASE_URL}/members?query=&page=1&perPage=10
+        `);
+        console.log(response.data.members, 'members');
+        setRentalNames(response.data.members);
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
   };
 
   useEffect(() => {
@@ -604,7 +626,9 @@ const IncomeVoucher = () => {
                             newValue,
                           )
                         }
-                        options={rentalNames?.map((x) => x.rentalproperty)}
+                        options={rentalNames?.map(
+                          (x) => x.rentalproperty || x.projectName || x.name,
+                        )}
                         freeSolo
                         onInputChange={(_, newInputValue) => {
                           handleRowChange(
