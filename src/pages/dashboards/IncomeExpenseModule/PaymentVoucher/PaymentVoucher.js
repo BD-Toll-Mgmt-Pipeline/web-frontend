@@ -306,7 +306,7 @@ const PaymentVoucher = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label='বিবরণ'
+                      // label='বিবরণ'
                       fullWidth
                       multiline
                       variant='outlined'

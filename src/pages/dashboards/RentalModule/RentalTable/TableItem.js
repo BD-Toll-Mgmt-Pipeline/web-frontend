@@ -33,14 +33,12 @@ const TableItem = ({data}) => {
       className='item-hover'
     >
       <TableCell align='left' className='tableCell'>
-        <Link
-          component={RouterLink}
-          to={`/dashboard/rental-details/${data?.voterId}`}
-          underline='none'
-        >
-          {moment(data?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
-        </Link>
+        {data?.rentalproperty ? data?.rentalproperty : 'N/A'}
       </TableCell>
+      <TableCell align='left' className='tableCell'>
+        {data.rentaltype}
+      </TableCell>
+
       <TableCell align='left' className='tableCell'>
         <Box
           sx={{
@@ -56,18 +54,24 @@ const TableItem = ({data}) => {
           </Link>
         </Box>
       </TableCell>
+
+      <TableCell align='left' className='tableCell'>
+        <Link
+          component={RouterLink}
+          to={`/dashboard/rental-details/${data?.voterId}`}
+          underline='none'
+        >
+          {moment(data?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
+        </Link>
+      </TableCell>
+
       <TableCell align='left' className='tableCell'>
         {data.phone}
       </TableCell>
-      <TableCell align='left' className='tableCell'>
-        {data.rentaltype}
-      </TableCell>
-      <TableCell align='left' className='tableCell'>
-        {data?.rentalproperty? data?.rentalproperty : "N/A"}
-      </TableCell>
+
       <TableCell align='left' className='tableCell'>
         <ActiveStatus
-          status={data?.status === "true" ? 'active' : 'inactive'}
+          status={data?.status === 'true' ? 'active' : 'inactive'}
         />
       </TableCell>
       <TableCell>

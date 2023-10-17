@@ -32,9 +32,11 @@ const validationSchema = Yup.object().shape({
 
 const NewRentalAdd = () => {
   const [types, setTypes] = useState([]);
+  const [propertyName, setPropertyName] = useState([]);
 
   useEffect(() => {
     getRentalTypes();
+    getRentalPropertyTypes();
   }, []);
 
   const getRentalTypes = async () => {
@@ -42,6 +44,13 @@ const NewRentalAdd = () => {
       process.env.REACT_APP_BASE_URL + '/rental/rental-types',
     );
     setTypes(response.data.data);
+  };
+
+  const getRentalPropertyTypes = async () => {
+    const response = await axios.get(
+      process.env.REACT_APP_BASE_URL + '/rental/rental-property',
+    );
+    setPropertyName(response.data.data);
   };
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -142,7 +151,7 @@ const NewRentalAdd = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <Field
                       as={TextField}
                       label='ভাড়া সম্পত্তির পরিচিতি'
@@ -151,6 +160,23 @@ const NewRentalAdd = () => {
                       error={!!errors.rentalproperty}
                       helperText={<ErrorMessage name='rentalproperty' />}
                     />
+                  </Grid> */}
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      select
+                      label='ভাড়া সম্পত্তির পরিচিতি'
+                      name='rentalproperty'
+                      fullWidth
+                      error={!!errors.rentalproperty}
+                      helperText={<ErrorMessage name='rentalproperty' />}
+                    >
+                      {propertyName.map((option) => (
+                        <MenuItem key={option.propertyName} value={option.propertyName}>
+                          {option.propertyName}
+                        </MenuItem>
+                      ))}
+                    </Field>
                   </Grid>
                   <Grid item xs={12}>
                     <Field
@@ -200,7 +226,9 @@ const NewRentalAdd = () => {
                         />
                       )}
                       value={values.rental_start_date}
-                      onChange={(value) => setFieldValue('rental_start_date', value)}
+                      onChange={(value) =>
+                        setFieldValue('rental_start_date', value)
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>

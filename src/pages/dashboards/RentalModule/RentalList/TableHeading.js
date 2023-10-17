@@ -58,6 +58,32 @@ const TableHeading = () => {
           <IntlMessages id='পেমেন্ট বিবরণ' />
         </Box>
       </TableCell>
+
+      <TableCell>
+        <Box
+          sx={{
+            color: 'text.secondary',
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.BOLD,
+          }}
+        >
+          <IntlMessages id='সম্পত্তির নাম ' />
+        </Box>
+      </TableCell>
+
+      <TableCell>
+        <Box
+          sx={{
+            color: 'text.secondary',
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.BOLD,
+          }}
+        >
+          <IntlMessages id='ভাড়া পরিশোধ' />
+        </Box>
+      </TableCell>
     </TableRow>
   );
 };

@@ -79,24 +79,41 @@ const Analytics = () => {
       </div>
       <div style={{display: 'flex'}}>
         <div>
-          <RouterLink to={`/dashboards/rental-module/rental-module/add-new-rental`} underline='none'>
+          <RouterLink
+            to={`/dashboards/rental-module/rental-module/add-new-rental`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
-              নতুন ভাড়া সংযুক্তি
+              নতুন ভাড়াটিয়া সংযুক্তি
             </Button>
           </RouterLink>
         </div>
         <div>
-          <RouterLink to={`/dashboards/rental-module/add-new-rental-type`} underline='none'>
+          <RouterLink
+            to={`/dashboards/rental-module/add-new-rental-type`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
               নতুন ভাড়ার ধরণ সংযুক্তি
+            </Button>
+          </RouterLink>
+        </div>
+        <div>
+          <RouterLink to={`/dashboards/rental-module/add-new-rental-property`} underline='none'>
+            <Button
+              variant='outlined'
+              sx={{float: 'right', margin: '30px'}}
+              color='primary'
+            >
+              নতুন ভাড়া-সম্পদ সংযুক্তি
             </Button>
           </RouterLink>
         </div>

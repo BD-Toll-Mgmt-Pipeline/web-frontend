@@ -8,6 +8,7 @@ import {
   Button,
   Alert,
   Modal,
+  Autocomplete,
 } from '@mui/material';
 import axios from 'axios';
 import FromDate from '../FromDate/FromDate';
@@ -32,6 +33,7 @@ const IncomeVoucher = () => {
   const [currentAddress, setCurrentAddress] = useState('');
   const [date, setDate] = useState('');
   const [memberSearch, setMemberSearch] = useState('');
+  const [rentalNames, setRentalNames] = useState([]);
   const [incomeTypes, setIncomeTypes] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
@@ -54,12 +56,13 @@ const IncomeVoucher = () => {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/income-expense/income-types`,
     );
-    console.log(response.data.data, 'responseresponseresponse');
     setIncomeTypes(response.data.data);
   };
 
   const [openModalIndex, setOpenModalIndex] = useState(null);
   const [isVoucherReady, setIsVoucherReady] = useState(true);
+
+  const [descriptionData, setDescriptionData] = useState('');
 
   const handleOpenModal = (index) => {
     setOpenModalIndex(index);
@@ -310,8 +313,8 @@ const IncomeVoucher = () => {
       // !selectedToMonth ||
       // !selectedToYear ||
       !date ||
-      !memberId ||
-      !phone ||
+      // !memberId ||
+      // !phone ||
       rows.some((row) => !row.description || !row.amount)
     ) {
       setSnackbarMessage('সমস্ত তথ্য পূরণ করুন');
@@ -408,9 +411,25 @@ const IncomeVoucher = () => {
     setDate(formattedDate);
   }, [memberSearch, voucherData]);
 
+  const getSelectedData = async () => {
+    if (descriptionData === 'ভাড়া') {
+      try {
+        const response =
+          await axios.get(`${process.env.REACT_APP_BASE_URL}/rental?query=&page=1&perPage=10
+        `);
+        console.log(response.data.rentalName, 'rentalNames');
+        setRentalNames(response.data.rentalName);
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
+  };
+
   useEffect(() => {
     generateNo();
-  }, []);
+    console.log(descriptionData, 'descriptionData');
+    getSelectedData();
+  }, [descriptionData]);
 
   return (
     <Grid container justifyContent='center'>
@@ -556,9 +575,11 @@ const IncomeVoucher = () => {
                   >
                     <select
                       value={row.description}
-                      onChange={(e) =>
-                        handleRowChange(index, 'description', e.target.value)
-                      }
+                      onChange={(e) => {
+                        e.target.value;
+                        setDescriptionData(e.target.value);
+                        handleRowChange(index, 'description', e.target.value);
+                      }}
                       style={{
                         width: '35%',
                         height: '50px',
@@ -573,21 +594,36 @@ const IncomeVoucher = () => {
                       ))}
                     </select>
                     <div>
-                      <TextField
+                      <Autocomplete
                         key={index}
                         value={row.additionaldescription}
-                        onChange={(e) =>
+                        onChange={(_, newValue) =>
                           handleRowChange(
                             index,
                             'additionaldescription',
-                            e.target.value,
+                            newValue,
                           )
                         }
-                        type='text'
-                        inputProps={{min: 0}}
-                        style={{width: '100%'}} // Set the TextField to take up 100% of the width
+                        options={rentalNames?.map((x) => x.rentalproperty)}
+                        freeSolo
+                        onInputChange={(_, newInputValue) => {
+                          handleRowChange(
+                            index,
+                            'additionaldescription',
+                            newInputValue,
+                          );
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            fullWidth
+                            variant='outlined'
+                            style={{width: '180px'}}
+                          />
+                        )}
                       />
                     </div>
+
                     <div>
                       <div>
                         <Button onClick={() => handleOpenModal(index)}>

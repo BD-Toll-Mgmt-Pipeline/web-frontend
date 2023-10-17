@@ -11,11 +11,24 @@ import moment from 'moment';
 import {useParams} from 'react-router-dom';
 
 const TableItem = (props) => {
+  console.log(props, 'props');
   const {product} = props;
   const {id} = useParams();
 
   const descriptions = product?.myArrayField?.map((x) => x.description) || [];
   const joinedDescriptions = descriptions.join(', ');
+  const add_descriptions =
+    product?.myArrayField?.map((x) => x.additionaldescription) || [];
+
+  const start_month =
+    product?.myArrayField?.map((x) => x.payment_start_month) || [];
+  const start_year =
+    product?.myArrayField?.map((x) => x.payment_start_year) || [];
+  const end_month =
+    product?.myArrayField?.map((x) => x.payment_end_month) || [];
+  const end_year = product?.myArrayField?.map((x) => x.payment_end_year) || [];
+
+  const joined_Add_Descriptions = add_descriptions.join(', ');
 
   return (
     <TableRow>
@@ -33,7 +46,7 @@ const TableItem = (props) => {
             to={`/dashboard/edit-payment-voucher/${id}`}
             underline='none'
           >
-            {moment(product?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
+            {moment(props?.product?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
           </Link>
         </Box>
       </TableCell>
@@ -91,6 +104,43 @@ const TableItem = (props) => {
           {joinedDescriptions}
         </Box>
       </TableCell>
+
+      <TableCell
+        sx={{
+          verticalAlign: 'top',
+        }}
+      >
+        <Box
+          sx={{
+            mb: 2,
+
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.MEDIUM,
+          }}
+        >
+          {joined_Add_Descriptions}
+        </Box>
+      </TableCell>
+
+      <TableCell
+        sx={{
+          verticalAlign: 'top',
+        }}
+      >
+        <Box
+          sx={{
+            mb: 2,
+
+            textAlign: 'right',
+            fontSize: 13,
+            fontWeight: Fonts.MEDIUM,
+          }}
+        >
+          {start_month}/{start_year}{' '}
+          {end_month === [] ? `- ${end_month}/${end_year}` : ''}
+        </Box>
+      </TableCell>
     </TableRow>
   );
 };
@@ -99,4 +149,5 @@ export default TableItem;
 
 TableItem.propTypes = {
   product: PropTypes.object.isRequired,
+  date: PropTypes.object.isRequired,
 };

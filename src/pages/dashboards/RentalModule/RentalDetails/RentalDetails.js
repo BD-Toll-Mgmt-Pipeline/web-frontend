@@ -10,8 +10,9 @@ import OrderList from '../RentalList';
 export default function RentalDetails() {
   const {id} = useParams();
   const [member, setMember] = useState({});
+  const [rentalAditional, setRentalAditional] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [rentals, setRentals] = useState([]);
+  const [, setRentals] = useState([]);
 
   const getMember = async () => {
     let rentalid = id;
@@ -20,6 +21,25 @@ export default function RentalDetails() {
         `${process.env.REACT_APP_BASE_URL}/rental/${rentalid}`,
       );
       setMember(response.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  // console.log(
+  //   rentals.map((x) => x.myArrayField.map((y) => y.additionaldescription)),
+  //   'rentals',
+  // );
+
+  console.log(rentalAditional, 'rentalAditional');
+
+  const getRentalInfo = async (propertyName) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/income-expense/get-additionalinfo?rentalProperty=${propertyName}`,
+      );
+      setRentalAditional(response.data.matchingIncomeExpense);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -75,6 +95,8 @@ export default function RentalDetails() {
   useEffect(() => {
     if (member?.voterId) {
       getRoshidStatus(member.voterId);
+      getRentalInfo(member.rentalproperty);
+      console.log(member?.rentalproperty);
     }
   }, [member]);
 
@@ -89,7 +111,7 @@ export default function RentalDetails() {
           }}
         >
           <Typography variant='h3' mb={3}>
-            Rental Information
+            Rental Information : {member?.rentalproperty}
           </Typography>
           <Button
             type='submit'
@@ -133,7 +155,9 @@ export default function RentalDetails() {
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
                 ভাড়া কার্যকর হওয়ার তারিখ :
-                {moment(member?.rental_start_date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
+                {moment(member?.rental_start_date, 'YYYY-MM-DD').format(
+                  'DD-MM-YYYY',
+                )}
               </Typography>
             </div>
 
@@ -177,22 +201,8 @@ export default function RentalDetails() {
       </AppCard>
 
       <div style={{marginTop: '15px'}}>
-        <OrderList customerDetails={rentals} />
+        <OrderList customerDetails={rentalAditional} />
       </div>
-
-      <AppCard sx={{mt: 4}}>
-        <div style={{marginTop: '10px'}}>
-          <Typography variant='h4'>
-            Last Payment: {rentals[0]?.myArrayField?.map((x) => x.description)}
-          </Typography>
-        </div>
-        <div style={{marginTop: '10px'}}>
-          <Typography variant='h4'>
-            Last Payment:{' '}
-            {moment(rentals[0]?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}
-          </Typography>
-        </div>
-      </AppCard>
     </div>
   );
 }
