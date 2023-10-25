@@ -18,6 +18,8 @@ import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
 import {Link as RouterLink} from 'react-router-dom';
 // import formatNumber from '../../../common/common';
+const {toBengaliWord, toBengaliNumber} = require('bengali-number');
+
 
 const IncomeVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -42,7 +44,6 @@ const IncomeVoucher = () => {
   const [showWarning, setShowWarning] = useState(false);
   const [voucherData, setVoucherData] = useState(null);
   const [showUntilSection, setShowUntilSection] = useState(true);
-  const {toBengaliWord, toBengaliNumber} = require('bengali-number');
 
   function formatNumber(number) {
     const numberString = String(number);

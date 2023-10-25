@@ -188,7 +188,7 @@ const IncomeVoucher = () => {
         )} টাকা মাত্র </p>
 
         <p style='float:right'><b>মোট টাকা : </b> ${toBengaliNumber(
-          formatNumber(dataObject?.total_amount || 'Test'),
+          formatNumber(dataObject?.total_amount || 0),
         )}/- ৳ </p>
         </div>
       </div>
