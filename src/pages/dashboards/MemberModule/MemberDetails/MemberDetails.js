@@ -177,11 +177,10 @@ export default function MemberDetails() {
     }
   };
 
-  // Define a separate function to get the values where description is "মেম্বার ফি"
   const getValuesOfMemberFee = (array) => {
     let valuesArray = [];
     array.forEach((item) => {
-      if (item.description === 'মেম্বার ফি') {
+      if (item.description === 'আমানত') {
         valuesArray.push(item); // Push the entire item object if it matches the description
       }
     });
@@ -288,7 +287,8 @@ export default function MemberDetails() {
               </div>
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
-                  সঞ্চিত টাকার পরিমান : {totalAmount ? totalAmount : 0} টাকা
+                  সঞ্চিত টাকার (আমানত) পরিমান : {totalAmount ? totalAmount : 0}{' '}
+                  টাকা
                 </Typography>
               </div>
               {memberLoanDetails?.status == 'permitted' ? (

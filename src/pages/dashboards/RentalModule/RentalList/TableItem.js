@@ -8,12 +8,12 @@ import {Fonts} from 'shared/constants/AppEnums';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@mui/material/Link';
 import moment from 'moment';
-import {useParams} from 'react-router-dom';
+// import {useParams} from 'react-router-dom';
 
 const TableItem = (props) => {
   console.log(props, 'props');
   const {product} = props;
-  const {id} = useParams();
+  // const {id} = useParams();
 
   const descriptions = product?.myArrayField?.map((x) => x.description) || [];
   const joinedDescriptions = descriptions.join(', ');
@@ -43,7 +43,7 @@ const TableItem = (props) => {
         >
           <Link
             component={RouterLink}
-            to={`/dashboard/edit-payment-voucher/${id}`}
+            to={`/dashboard/edit-payment-voucher/${product?.roshidNo}`}
             underline='none'
           >
             {moment(props?.product?.date, 'YYYY-MM-DD').format('DD-MM-YYYY')}

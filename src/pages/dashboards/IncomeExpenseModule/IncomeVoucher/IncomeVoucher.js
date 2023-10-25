@@ -209,8 +209,8 @@ const IncomeVoucher = () => {
         
         <div style="display: flex; justify-content: space-between;">
           <div>
-          <p><b>সদস্যের নাম : </b> ${dataObject?.name}</p>
-          <p><b>সদস্য নং :</b>  ${dataObject?.memberId}</p>
+          <p><b>নাম : </b> ${dataObject?.name}</p>
+          <p><b>সদস্য নং :</b>  ${dataObject?.memberId || 'N/A'}</p>
           </div>
           <div style="float:right">
           <p><b> রশিদ নং :</b> ${dataObject?.roshidNo}</p>
