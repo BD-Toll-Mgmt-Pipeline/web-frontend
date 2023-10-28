@@ -151,7 +151,7 @@ const PaymentVoucher = () => {
       </h6>
         
         <hr/>
-        <div style="text-align: center; margin: 10px";><p><b>ভাউচার</b></p></div>
+        <div style="text-align: center; margin: 10px";><p><b>খরচের ভাউচার</b></p></div>
         
         <div style="display: flex; justify-content: space-between;">
           <div>
