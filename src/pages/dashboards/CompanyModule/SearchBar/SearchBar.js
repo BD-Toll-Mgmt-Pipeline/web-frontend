@@ -1,103 +1,78 @@
 import React, {useState} from 'react';
-// import {styled} from '@mui/system';
-import {TextField, Button, Typography} from '@mui/material';
-// import SearchIcon from '@mui/icons-material/Search';
+import {TextField, Button, Typography, Snackbar, Alert} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
-
-// const Root = styled('div')({
-//   display: 'flex',
-//   alignItems: 'center',
-//   width: '100%',
-//   borderRadius: 4,
-//   backgroundColor: '#f2f2f2',
-//   padding: '4px 8px',
-// });
-
-// const IconButtonStyled = styled(IconButton)({
-//   padding: 8,
-// });
 
 const SearchBar = ({onSearch}) => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
-  // const [totalIncome, setTotalIncome] = useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isSuccessSnackbarOpen, setIsSuccessSnackbarOpen] = useState(false);
 
-  const handleSearch = () => {
-    const query = {fromDate, toDate};
-    onSearch(query);
+  const handleSearch = async () => {
+    if (!fromDate || !toDate || toDate < fromDate) {
+      console.error('Invalid date range');
+      return;
+    }
+
+    try {
+      await onSearch({fromDate, toDate});
+
+      setIsSuccessSnackbarOpen(true);
+    } catch (error) {
+      console.error('API error:', error);
+    }
   };
 
   const handleFromDateChange = (event) => {
     const date = event.target.value;
     setFromDate(date);
+    updateButtonDisabledState(date, toDate);
   };
 
   const handleToDateChange = (event) => {
     const date = event.target.value;
     setToDate(date);
+    updateButtonDisabledState(fromDate, date);
   };
 
-  // const fetchData = () => {
-  //   if (fromDate && toDate) {
-  //     const apiUrl = `${process.env.REACT_APP_BASE_URL}/income-expense/total-income?fromDate=${fromDate}&toDate=${toDate}`;
+  const updateButtonDisabledState = (from, to) => {
+    setIsButtonDisabled(!from || !to);
+  };
 
-  //     axios
-  //       .get(apiUrl)
-  //       .then((response) => {
-  //         console.log(
-  //           response?.data,
-  //           'nfdasfnnfndfkndfkndfkndfknfdkdnfkfdnkfdnkfdnk',
-  //         );
-  //         setTotalIncome(response?.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // };
-
-  // console.error(totalIncome, 'totalIncome');
+  const handleSuccessSnackbarClose = () => {
+    setIsSuccessSnackbarOpen(false);
+  };
 
   return (
     <div
       style={{
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
       }}
     >
-      {/* <div>
-        <Root>
-          <IconButtonStyled>
-            <SearchIcon />
-          </IconButtonStyled>
-          <InputBase placeholder='নাম/ফোন সার্চ' onChange={handleSearch} />
-        </Root>
-      </div> */}
       <div style={{display: 'flex', alignItems: 'center'}}>
-        <Typography>হইতে :</Typography>
-        <TextField
-          type='date'
-          value={fromDate}
-          onChange={handleFromDateChange}
-          style={{marginLeft: '20px', width: '200px'}}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-      </div>
-      <div style={{display: 'flex', alignItems: 'center', marginLeft:'10px'}}>
-        <Typography>পর্যন্ত :</Typography>
-        <TextField
-          type='date'
-          value={toDate}
-          onChange={handleToDateChange}
-          style={{marginLeft: '20px', width: '200px'}}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+        <div>
+          <Typography>হইতে :</Typography>
+          <TextField
+            type='date'
+            value={fromDate}
+            onChange={handleFromDateChange}
+            style={{marginLeft: '20px', width: '200px'}}
+            InputLabelProps={{shrink: true}}
+          />
+        </div>
+        <div>
+          <Typography>পর্যন্ত :</Typography>
+          <TextField
+            type='date'
+            value={toDate}
+            onChange={handleToDateChange}
+            style={{marginLeft: '20px', width: '200px'}}
+            InputLabelProps={{shrink: true}}
+          />
+        </div>
       </div>
       <div>
         <Button
@@ -106,16 +81,27 @@ const SearchBar = ({onSearch}) => {
           color='primary'
           onClick={handleSearch}
           sx={{marginLeft: '10px'}}
+          disabled={isButtonDisabled}
         >
-          Search
+          <SearchIcon /> অনুসন্ধান করুন
         </Button>
+
+        <Snackbar
+          open={isSuccessSnackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleSuccessSnackbarClose}
+        >
+          <Alert onClose={handleSuccessSnackbarClose} severity='success'>
+            সফলভাবে তথ্য পাওয়া গিয়েছে
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );
 };
 
 SearchBar.propTypes = {
-  onSearch: PropTypes.string.isRequired,
+  onSearch: PropTypes.func.isRequired,
 };
 
 export default SearchBar;
