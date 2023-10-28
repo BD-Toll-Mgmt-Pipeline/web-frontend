@@ -116,10 +116,10 @@ const NewMemberAdd = () => {
                       as={TextField}
                       label='জন্মসাল'
                       name='date_of_birth'
-                      type='date' 
+                      type='date'
                       fullWidth
                       InputLabelProps={{
-                        shrink: true, 
+                        shrink: true,
                       }}
                       error={!!errors.date_of_birth}
                       helperText={<ErrorMessage name='date_of_birth' />}
@@ -198,7 +198,7 @@ const NewMemberAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='ভোটার নাম্বারঃ'
+                      label='জাতীয় পরিচয়পত্র নম্বর (NID)নাম্বারঃ'
                       name='voterId'
                       fullWidth
                       error={!!errors.voterId}
@@ -270,7 +270,7 @@ const NewMemberAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='ঠিকানাঃ'
+                      label='সনাক্তকারি সদস্য নাম্বারঃ'
                       name='identificationMemberAddress'
                       fullWidth
                       error={!!errors.identificationMemberAddress}

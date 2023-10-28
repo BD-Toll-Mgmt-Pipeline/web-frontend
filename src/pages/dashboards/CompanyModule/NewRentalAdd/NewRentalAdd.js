@@ -193,7 +193,7 @@ const NewRentalAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='ভোটার নাম্বারঃ'
+                      label='জাতীয় পরিচয়পত্র নম্বর (NID)নাম্বারঃ'
                       name='voterId'
                       fullWidth
                       error={!!errors.voterId}

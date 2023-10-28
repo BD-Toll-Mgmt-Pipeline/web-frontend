@@ -101,7 +101,7 @@ const Crypto = () => {
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
-              <MdCreate style={{margin: '5px'}} /> নতুন মেম্বার সংযোজন
+              <MdCreate style={{margin: '5px'}} /> নতুন সদস্য সংযোজন
             </Button>
           </RouterLink>
         </div>

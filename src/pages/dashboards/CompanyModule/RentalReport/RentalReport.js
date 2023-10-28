@@ -80,7 +80,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
               <div>
                 <Typography variant='h3'>
                   <GrMoney style={{marginRight: '10px'}} />
-                  সার্চ রেজাল্ট (ইনকাম)
+                  সার্চ রেজাল্ট (জমা )
                 </Typography>
                 <Typography variant='h3'>
                   {loading
@@ -96,7 +96,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
               <div>
                 <Typography variant='h3'>
                   <GrMoney style={{marginRight: '10px'}} />
-                  আজকের ইনকাম
+                  আজকের জমা 
                 </Typography>
                 <Typography variant='h3'>
                   {loading

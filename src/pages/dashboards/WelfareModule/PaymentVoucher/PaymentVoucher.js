@@ -235,7 +235,7 @@ const PaymentVoucher = () => {
             </Grid>
           </Grid>
           <div style={{textAlign: 'right', margin: '20px'}}>
-            <Typography>মোট টাকার পরিমাণ: {total_amount}</Typography>
+            <Typography>মোট টাকার: {total_amount}</Typography>
           </div>
           <hr />
           <div

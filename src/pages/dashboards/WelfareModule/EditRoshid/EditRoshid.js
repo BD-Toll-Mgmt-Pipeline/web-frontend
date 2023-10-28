@@ -130,7 +130,7 @@ const EditRoshed = () => {
                 sx={{margin: '10px'}}
               />
               <TextField
-                label='মেম্বার আইডি'
+                label='সদস্য আইডি'
                 value={memberId}
                 onChange={(e) => {
                   setMemberId(e.target.value);
@@ -162,7 +162,7 @@ const EditRoshed = () => {
               sx={{margin: '10px'}}
             />
             <TextField
-              label='ভোটার আইডি'
+              label='জাতীয় পরিচয়পত্র নম্বর (NID)আইডি'
               value={voterId}
               onChange={(e) => setVoterId(e.target.value)}
               sx={{margin: '10px'}}
@@ -243,7 +243,7 @@ const EditRoshed = () => {
             </Grid>
           </Grid>
           <div style={{textAlign: 'right', margin: '20px'}}>
-            <Typography>মোট টাকার পরিমাণ: {totalAmount}</Typography>
+            <Typography>মোট টাকা: {totalAmount}</Typography>
           </div>
           <hr />
           <div

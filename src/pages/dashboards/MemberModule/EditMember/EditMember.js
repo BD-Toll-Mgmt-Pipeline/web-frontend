@@ -142,7 +142,7 @@ const EditMember = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='সদস্য নাম্বারঃ'
+                      label='সদস্য নম্বারঃ'
                       name='memberId'
                       fullWidth
                       error={!!errors.memberId}
@@ -213,7 +213,7 @@ const EditMember = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='ভোটার নাম্বারঃ'
+                      label='জাতীয় পরিচয়পত্র নম্বর (NID)নাম্বারঃ'
                       name='voterId'
                       fullWidth
                       error={!!errors.voterId}
@@ -273,7 +273,7 @@ const EditMember = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='সনাক্তকারি সদস্যঃ   নামঃ'
+                      label='সনাক্তকারি সদস্য নামঃ'
                       name='identifyingMemberName'
                       fullWidth
                       error={!!errors.identifyingMemberName}
@@ -283,7 +283,7 @@ const EditMember = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='ঠিকানাঃ'
+                      label='সনাক্তকারি সদস্য নাম্বারঃ'
                       name='identifyingMemberAddress'
                       fullWidth
                       error={!!errors.identifyingMemberAddress}

@@ -14,7 +14,7 @@ const COLORS = ['#0088FE', '#FF8042'];
 
 function DailyBar({income, expense}) {
   const data = [
-    {name: 'ইনকাম', income: income?.totalIncome},
+    {name: 'জমা ', income: income?.totalIncome},
     {name: 'খরচ', expense: expense?.totalExpense},
   ];
 
@@ -29,7 +29,7 @@ function DailyBar({income, expense}) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey='income' fill={COLORS[0]} name='ইনকাম' />
+        <Bar dataKey='income' fill={COLORS[0]} name='জমা ' />
         <Bar dataKey='expense' fill={COLORS[1]} name='খরচ' />
       </BarChart>
     </div>

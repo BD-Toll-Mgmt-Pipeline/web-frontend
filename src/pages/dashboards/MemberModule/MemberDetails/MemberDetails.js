@@ -249,7 +249,7 @@ export default function MemberDetails() {
               <div style={{display: 'flex', justifyContent: 'space-around'}}>
                 <div>
                   <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                    মেম্বার ছবি
+                    সদস্য ছবি
                   </Typography>
                   {imageLoading ? (
                     <Skeleton variant='rectangular' width={200} height={200} />
@@ -388,7 +388,7 @@ export default function MemberDetails() {
               </div>
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
-                  সনাক্তকারি সদস্যর ঠিকানাঃ {member.identificationMemberAddress}
+                  সনাক্তকারি সদস্য নম্বার: {member.identificationMemberAddress}
                 </Typography>
               </div>
             </>

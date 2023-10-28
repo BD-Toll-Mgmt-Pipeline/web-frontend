@@ -154,7 +154,7 @@ export default function LoanDetails() {
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                সদস্য নাম্বার: {loan.memberID}
+                সদস্য নম্বার: {loan.memberID}
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>

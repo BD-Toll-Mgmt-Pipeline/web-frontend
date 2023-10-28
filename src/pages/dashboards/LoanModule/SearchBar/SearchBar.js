@@ -51,7 +51,7 @@ const SearchBar = ({onSearch}) => {
             <SearchIcon />
           </IconButtonStyled>
           <Input
-            placeholder='নাম/মেম্বার নম্বর সার্চ'
+            placeholder='নাম/সদস্য নম্বর সার্চ'
             onChange={handleSearch}
           />
         </Root>

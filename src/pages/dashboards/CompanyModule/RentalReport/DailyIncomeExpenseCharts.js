@@ -7,7 +7,7 @@ const COLORS = ['#0088FE', '#FF8042'];
 function DailyCharts({income, expense}) {
   console.log(income, expense);
   const data = [
-    {name: 'ইনকাম', value: income?.totalIncome},
+    {name: 'জমা ', value: income?.totalIncome},
     {name: 'খরচ', value: expense?.totalExpense},
   ];
   return (

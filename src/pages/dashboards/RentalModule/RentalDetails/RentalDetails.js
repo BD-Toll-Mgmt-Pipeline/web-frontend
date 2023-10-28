@@ -37,7 +37,7 @@ export default function RentalDetails() {
   const getRentalInfo = async (propertyName) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/income-expense/get-additionalinfo?rentalProperty=${propertyName}`,
+        `${process.env.REACT_APP_BASE_URL}/income-expense/get-additionalinfo?query=${propertyName}`,
       );
       setRentalAditional(response.data.matchingIncomeExpense);
       setLoading(false);

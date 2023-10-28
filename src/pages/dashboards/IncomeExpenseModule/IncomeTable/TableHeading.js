@@ -22,7 +22,7 @@ const TableHeading = () => {
     >
       <TableCell>তারিখ</TableCell>
       <TableCell>নাম</TableCell>
-      <TableCell>মেম্বার আইডি</TableCell>
+      <TableCell>সদস্য আইডি</TableCell>
       <TableCell>রসিদ নং</TableCell>
       <TableCell>মোট টাকা </TableCell>
       <TableCell>ব্যবস্থা</TableCell>

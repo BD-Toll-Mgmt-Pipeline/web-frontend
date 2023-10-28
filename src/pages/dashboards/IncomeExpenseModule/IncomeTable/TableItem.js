@@ -57,7 +57,7 @@ const TableItem = ({data}) => {
         </Box>
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data?.memberId ? data?.memberId : 'মেম্বার আইডি প্রযোজ্য না'}
+        {data?.memberId ? data?.memberId : 'সদস্য আইডি প্রযোজ্য না'}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         {data.roshidNo}

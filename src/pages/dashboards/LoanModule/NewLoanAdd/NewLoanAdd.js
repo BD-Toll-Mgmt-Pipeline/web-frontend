@@ -42,7 +42,7 @@ const NewLoanAdd = () => {
       console.log(response.data.members);
     } catch (error) {
       console.error('Error:', error.message);
-      setSnackbarMessage('মেম্বার পাওয়া যায়নি');
+      setSnackbarMessage('সদস্য পাওয়া যায়নি');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }

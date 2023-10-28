@@ -26,7 +26,7 @@ const LoanPaymentList = ({customerDetails}) => {
   return (
     <AppCard>
       <Typography variant='h3' mb={3}>
-        মেম্বার লেনদেন তথ্য
+        সদস্য লেনদেন তথ্য
       </Typography>
       <hr />
       <StyledTable>
