@@ -10,6 +10,7 @@ import ExpenseTable from './ExpenseTable';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
+import {MdCreate} from 'react-icons/md';
 
 const Analytics = () => {
   const [totalPages, setTotalPages] = useState(1);
@@ -120,7 +121,13 @@ const Analytics = () => {
       <div style={{marginTop: '30px'}}>
         <SearchBar onSearch={onSearch} />
       </div>
-      <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          marginTop: '20px',
+        }}
+      >
         <div>
           <RouterLink
             to={`/dashboards/income-expense-module/add-payment-voucher`}
@@ -129,6 +136,7 @@ const Analytics = () => {
             I
           >
             <Button variant='outlined' sx={{margin: '10px'}} color='primary'>
+              <MdCreate style={{margin: '5px'}} />
               নতুন রশিদ তৈরী
             </Button>
           </RouterLink>
@@ -140,6 +148,7 @@ const Analytics = () => {
             style={{textDecoration: 'none'}}
           >
             <Button variant='outlined' sx={{margin: '10px'}} color='primary'>
+              <MdCreate style={{margin: '5px'}} />
               নতুন ভাউচার তৈরী
             </Button>
           </RouterLink>

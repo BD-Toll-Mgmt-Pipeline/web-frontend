@@ -15,6 +15,7 @@ import ToDate from '../FromDate/ToDate';
 const moment = require('moment');
 import PDFGenerator from './PDFGenerator';
 import {BlobProvider} from '@react-pdf/renderer';
+import {MdCreate} from 'react-icons/md';
 // import { useReactToPrint } from 'react-to-print';
 
 const IncomeVoucher = () => {
@@ -45,23 +46,22 @@ const IncomeVoucher = () => {
     try {
       // Render the PDFGenerator component to generate the PDF content
       const pdfContent = <PDFGenerator voucherData={voucherData} />;
-  
+
       // Convert the PDF content to a string
       const pdfString = pdfContent.toString();
-  
+
       // Create a Blob from the PDF content
-      const pdfBlob = new Blob([pdfString], { type: 'application/pdf' });
-  
+      const pdfBlob = new Blob([pdfString], {type: 'application/pdf'});
+
       // Create a blob URL from the PDF blob
       const pdfUrl = URL.createObjectURL(pdfBlob);
-  
+
       // Open the PDF in a new window
       window.open(pdfUrl, '_blank');
     } catch (error) {
       console.error('Error generating or opening PDF:', error);
     }
   };
-  
 
   const getIncomeTypes = async () => {
     const response = await axios.get(
@@ -94,7 +94,7 @@ const IncomeVoucher = () => {
       const perPage = 10;
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/members/findMember`,
+        `${process.env.REACT_APP_BASE_URL}/members/findMember-exact-match`,
         {
           params: {
             query,
@@ -276,6 +276,7 @@ const IncomeVoucher = () => {
               target='_blank'
               sx={{margin: '10px'}}
             >
+              <MdCreate style={{margin: '5px'}} />
               নতুন বিবরণ যোগ করুন
             </Button>
           </RouterLink>

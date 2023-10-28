@@ -3,6 +3,7 @@ import {TextField, MenuItem, Grid} from '@mui/material';
 import PropTypes from 'prop-types';
 
 const FromDate = ({setSelectedMonth, setSelectedYear}) => {
+  console.log(setSelectedYear, 'setSelectedYear');
   const monthsInBangla = [
     'জানুয়ারি',
     'ফেব্রুয়ারি',

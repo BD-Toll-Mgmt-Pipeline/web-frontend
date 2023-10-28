@@ -10,6 +10,7 @@ import ExpenseTable from './ExpenseTable';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
+import {MdCreate} from 'react-icons/md';
 
 const Welfare = () => {
   const [totalPages, setTotalPages] = useState(1);
@@ -91,29 +92,40 @@ const Welfare = () => {
       </div>
       <div style={{display: 'flex'}}>
         <div>
-          <RouterLink to={`/dashboards/income-expense-module/add-payment-voucher`} underline='none'>
+          <RouterLink
+            to={`/dashboards/income-expense-module/add-payment-voucher`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
+              <MdCreate style={{margin: '5px'}} />
               নতুন রশিদ তৈরী
             </Button>
           </RouterLink>
         </div>
         <div>
-          <RouterLink to={`/dashboards/income-expense-module/add-receive-voucher`} underline='none'>
+          <RouterLink
+            to={`/dashboards/income-expense-module/add-receive-voucher`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
+              <MdCreate style={{margin: '5px'}} />
               নতুন ভাউচার তৈরী
             </Button>
           </RouterLink>
         </div>
         <div>
-          <RouterLink to={`/dashboards/welfare/welfare-report`} underline='none'>
+          <RouterLink
+            to={`/dashboards/welfare/welfare-report`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}

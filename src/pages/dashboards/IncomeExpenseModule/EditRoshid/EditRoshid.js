@@ -53,7 +53,7 @@ const IncomeVoucher = () => {
       const perPage = 10;
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/members/findMember`,
+        `${process.env.REACT_APP_BASE_URL}/members/findMember-exact-match`,
         {
           params: {
             query,

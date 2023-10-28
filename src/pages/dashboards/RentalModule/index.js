@@ -6,6 +6,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
+import {MdCreate} from 'react-icons/md';
 
 const Analytics = () => {
   const [totalPages, setTotalPages] = useState(1);
@@ -88,6 +89,7 @@ const Analytics = () => {
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
+              <MdCreate style={{margin: '5px'}} />
               নতুন ভাড়াটিয়া সংযুক্তি
             </Button>
           </RouterLink>
@@ -102,17 +104,22 @@ const Analytics = () => {
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
+              <MdCreate style={{margin: '5px'}} />
               নতুন ভাড়ার ধরণ সংযুক্তি
             </Button>
           </RouterLink>
         </div>
         <div>
-          <RouterLink to={`/dashboards/rental-module/add-new-rental-property`} underline='none'>
+          <RouterLink
+            to={`/dashboards/rental-module/add-new-rental-property`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
+              <MdCreate style={{margin: '5px'}} />
               নতুন ভাড়া-সম্পদ সংযুক্তি
             </Button>
           </RouterLink>

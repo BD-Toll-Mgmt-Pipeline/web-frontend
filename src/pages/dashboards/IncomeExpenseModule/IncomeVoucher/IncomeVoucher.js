@@ -16,10 +16,12 @@ import ToDate from '../FromDate/ToDate';
 const moment = require('moment');
 import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
+import {MdCreate} from 'react-icons/md';
+
 import {Link as RouterLink} from 'react-router-dom';
 // import formatNumber from '../../../common/common';
 const {toBengaliWord, toBengaliNumber} = require('bengali-number');
-
+import {BsCalendarDate} from 'react-icons/bs';
 
 const IncomeVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -43,7 +45,8 @@ const IncomeVoucher = () => {
   const [selectedToYear, setToYear] = useState('');
   const [showWarning, setShowWarning] = useState(false);
   const [voucherData, setVoucherData] = useState(null);
-  const [showUntilSection, setShowUntilSection] = useState(true);
+  const [showUntilSection, setShowUntilSection] = useState(false);
+  const [showEditDate, setEditDate] = useState(false);
 
   function formatNumber(number) {
     const numberString = String(number);
@@ -96,7 +99,7 @@ const IncomeVoucher = () => {
       const perPage = 10;
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/members/findMember`,
+        `${process.env.REACT_APP_BASE_URL}/members/findMember-exact-match`,
         {
           params: {
             query,
@@ -456,7 +459,7 @@ const IncomeVoucher = () => {
 
   return (
     <Grid container justifyContent='center'>
-      <Grid item xs={12} sm={8} md={6}>
+      <Grid item xs={12} sm={8} md={8}>
         <Paper elevation={3} sx={{p: 4}}>
           <div>
             <RouterLink
@@ -470,6 +473,7 @@ const IncomeVoucher = () => {
                 target='_blank'
                 sx={{margin: '10px'}}
               >
+                <MdCreate style={{margin: '5px'}} />
                 রশিদে নতুন বিবরণ যোগ করুন
               </Button>
             </RouterLink>
@@ -594,6 +598,7 @@ const IncomeVoucher = () => {
                       display: 'flex',
                       alignItems: 'center',
                       marginBottom: '5px',
+                      marginTop: '8px',
                     }}
                   >
                     <select
@@ -643,7 +648,7 @@ const IncomeVoucher = () => {
                             {...params}
                             fullWidth
                             variant='outlined'
-                            style={{width: '180px'}}
+                            style={{width: '130px'}}
                           />
                         )}
                       />
@@ -651,9 +656,18 @@ const IncomeVoucher = () => {
 
                     <div>
                       <div>
-                        <Button onClick={() => handleOpenModal(index)}>
-                          তারিখ সিলেক্ট
-                        </Button>
+                        {showEditDate === false ? (
+                          <Button onClick={() => handleOpenModal(index)}>
+                            <BsCalendarDate style={{fontSize: '40px'}} />
+                            <p style={{fontSize: '10px', marginLeft: '5px'}}>
+                              তারিখ সিলেক্ট
+                            </p>
+                          </Button>
+                        ) : (
+                          <Button onClick={() => handleOpenModal(index)}>
+                            Edit
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -708,9 +722,19 @@ const IncomeVoucher = () => {
               marginTop: '20px',
             }}
           >
-            <Button variant='outlined' onClick={handleAddRow}>
+            <Button
+              variant='outlined'
+              onClick={handleAddRow}
+              onKeyDown={(e) => {
+                if (e.key === 'Tab') {
+                  e.preventDefault();
+                  handleAddRow();
+                }
+              }}
+            >
               সারি অ্যাড করুন
             </Button>
+
             <br />
             <Button
               variant='outlined'
@@ -765,14 +789,15 @@ const IncomeVoucher = () => {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '300px',
+              width: '500px',
               backgroundColor: 'white',
               border: '2px solid #000',
               padding: '20px',
             }}
           >
             <h2 id='modal-modal-title'>
-              রশিদের সময়সীমা - {rows[0]?.description}
+              সময়সীমা - {rows[0]?.description} -{' '}
+              {rows[0]?.additionaldescription}
             </h2>
             <br />
             <p id='modal-modal-description'>
@@ -785,6 +810,7 @@ const IncomeVoucher = () => {
                 }}
                 setSelectedYear={(value) => {
                   setSelectedYear(value);
+                  setEditDate(true);
                 }}
               />
               <br />
@@ -809,8 +835,9 @@ const IncomeVoucher = () => {
                   type='checkbox'
                   checked={showUntilSection}
                   onChange={() => setShowUntilSection(!showUntilSection)}
-                  style={{transform: 'scale(1.5)'}} // You can adjust the scale factor
+                  style={{transform: 'scale(1.5)'}}
                 />
+                <br />
                 <span style={{marginLeft: '5px'}}>পর্যন্ত দেখুন</span>
               </label>
             </div>

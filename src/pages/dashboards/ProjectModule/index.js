@@ -6,6 +6,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
+import {MdCreate} from 'react-icons/md';
 
 const Analytics = () => {
   const [totalPages, setTotalPages] = useState(1);
@@ -64,7 +65,7 @@ const Analytics = () => {
       const {projects, totalPages} = response.data;
       setRentals(projects);
       setTotalPages(totalPages);
-      setCurrentPage(1); 
+      setCurrentPage(1);
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -76,14 +77,18 @@ const Analytics = () => {
       <div style={{marginTop: '30px'}}>
         <SearchBar onSearch={onSearch} />
       </div>
-      <div style={{display: 'flex', marginTop:'20px'}}>
+      <div style={{display: 'flex', marginTop: '20px'}}>
         <div>
-          <RouterLink to={`/dashboards/project-module/add-new-project`} underline='none'>
+          <RouterLink
+            to={`/dashboards/project-module/add-new-project`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}
               color='primary'
             >
+              <MdCreate style={{margin: '5px'}} />
               নতুন প্রজেক্ট সংযুক্তি
             </Button>
           </RouterLink>
@@ -96,7 +101,10 @@ const Analytics = () => {
           </RouterLink>
         </div> */}
         <div>
-          <RouterLink to={`/dashboards/project-module/rental-report`} underline='none'>
+          <RouterLink
+            to={`/dashboards/project-module/rental-report`}
+            underline='none'
+          >
             <Button
               variant='outlined'
               sx={{float: 'right', margin: '30px'}}

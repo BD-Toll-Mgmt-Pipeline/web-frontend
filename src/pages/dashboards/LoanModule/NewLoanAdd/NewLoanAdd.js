@@ -19,6 +19,8 @@ const NewLoanAdd = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
   const [memberid, setMemberId] = useState('');
+  const [voterId, setVoterId] = useState('');
+  const [findAmountValue, setFindAmanot] = useState('');
 
   console.log(memberSearch, 'memberSearch');
 
@@ -29,7 +31,7 @@ const NewLoanAdd = () => {
       const perPage = 10;
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/members/findMember`,
+        `${process.env.REACT_APP_BASE_URL}/members/findMember-exact-match`,
         {
           params: {
             query,
@@ -39,7 +41,23 @@ const NewLoanAdd = () => {
         },
       );
       setMemberSearch(response.data.members);
+      setVoterId(response.data.members.voterId);
       console.log(response.data.members);
+    } catch (error) {
+      console.error('Error:', error.message);
+      setSnackbarMessage('সদস্য পাওয়া যায়নি');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    }
+  };
+
+  const findAmanot = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/income-expense/roshid-transactions?voterId=${voterId}&description=আমানত`,
+      );
+      setFindAmanot(response.data?.totalAmount);
+      console.log(response.data, 'kndkdnsknfd');
     } catch (error) {
       console.error('Error:', error.message);
       setSnackbarMessage('সদস্য পাওয়া যায়নি');
@@ -52,12 +70,19 @@ const NewLoanAdd = () => {
     setMemberSearch({});
   }, [snackbarOpen]);
 
+  useEffect(() => {
+    if (voterId != '') {
+      findAmanot();
+    }
+  }, [voterId]);
+
   const validationSchema = Yup.object().shape({
     date: Yup.date().required('আবেদনের তারিখ is required'),
     memberID: Yup.string().required('সদস্য নম্বর is required'),
     name: Yup.string().required('আবেদনকারীর নাম is required'),
     reqMoney: Yup.string().required('কর্জে হাসনার আবেদনের পরিমান is required'),
     paymentDeadline: Yup.date().required('পরিশোধের সময়কাল is required'),
+    savedMoney: Yup.date().required('is required'),
   });
 
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
@@ -111,6 +136,7 @@ const NewLoanAdd = () => {
               date: new Date().toISOString().split('T')[0],
               name: memberSearch.length > 0 ? memberSearch[0].name : '',
               memberID: memberid,
+              savedMoney: findAmountValue,
               rentaltype: '',
               paymentDeadline: '',
               reqMoney: '',
@@ -168,6 +194,16 @@ const NewLoanAdd = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='আমানতের পরিমান (টাকা)'
+                      name='savedMoney'
+                      fullWidth
+                      error={!!errors.savedMoney}
+                      helperText={<ErrorMessage name='savedMoney' />}
                     />
                   </Grid>
                   <Grid item xs={12}>

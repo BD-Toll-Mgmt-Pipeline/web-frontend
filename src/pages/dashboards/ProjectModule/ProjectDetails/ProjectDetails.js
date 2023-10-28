@@ -13,6 +13,7 @@ import ActiveStatus from '@crema/common/ActiveStatus';
 import AppCard from '@crema/core/AppCard';
 import {GrStatusWarning} from 'react-icons/gr';
 import moment from 'moment';
+import { MdCreate } from 'react-icons/md';
 
 export default function ProjectDetails() {
   const {id} = useParams();
@@ -226,6 +227,7 @@ export default function ProjectDetails() {
           onClick={handleAddRow}
           sx={{margin: '5px', float: 'right'}}
         >
+          <MdCreate style={{margin: '5px'}} />
           নতুন শেয়ারহোল্ডার অ্যাড করুন
         </Button>
 
