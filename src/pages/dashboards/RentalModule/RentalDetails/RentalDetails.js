@@ -196,7 +196,7 @@ export default function RentalDetails() {
             </div>
             <div style={{marginTop: '10px'}}>
               <Typography variant='h4'>
-                ভোটার নাম্বার: {member?.voterId}
+                জাতীয় পরিচয়পত্র নম্বর (NID): {member?.voterId}
               </Typography>
             </div>
             <div style={{marginTop: '10px'}}>

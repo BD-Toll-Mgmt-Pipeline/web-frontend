@@ -287,6 +287,26 @@ export default function MemberDetails() {
               </div>
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
+                  সদস্য নম্বার: {member.memberId}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  জাতীয় পরিচয়পত্র নম্বর (NID): {member.voterId}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  জন্ম: {member.date_of_birth}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
+                  মোবাইল নাম্বার: {member.phone}
+                </Typography>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Typography variant='h4'>
                   সঞ্চিত টাকার (আমানত) পরিমান : {totalAmount ? totalAmount : 0}{' '}
                   টাকা
                 </Typography>
@@ -301,16 +321,7 @@ export default function MemberDetails() {
               ) : (
                 ''
               )}
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  সদস্য নাম্বার: {member.memberId}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  জন্ম: {member.date_of_birth}
-                </Typography>
-              </div>
+
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
                   সদস্য স্টেটাস :{' '}
@@ -349,16 +360,7 @@ export default function MemberDetails() {
                   শিক্ষাগত যোগ্যতা: {member.education}
                 </Typography>
               </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  ভোটার নাম্বার: {member.voterId}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  মোবাইল নাম্বার: {member.phone}
-                </Typography>
-              </div>
+
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
                   অভিভাবক নাম: {member.guardianName}

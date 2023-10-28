@@ -1,62 +1,19 @@
 import AppCard from '@crema/core/AppCard';
 import {Typography} from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 // import RentalTable from './RentalTable';
 // import {Link as RouterLink} from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import RentalReport from './RentalReport/RentalReport';
 // import Pagination from '@mui/material/Pagination';
-import makeAuthenticatedRequest from 'pages/common/common';
 
 const Analytics = () => {
-  const [, setTotalPages] = useState(1);
-  const [, setRentals] = useState([]);
   const [totalIncomeDate, setTotalIncome] = useState('');
   const [totalExpenseDate, setTotalExpense] = useState('');
 
   // const [IncomeDate, setIncome] = useState('');
   // const [ExpenseDate, setExpense] = useState('');
-
-  const [currentPage] = useState(1);
-
-  useEffect(() => {
-    getRentals(currentPage);
-  }, [currentPage]);
-
-  // const handlePageChange = (event, newPage) => {
-  //   setCurrentPage(newPage);
-  // };
-
-  const getRentals = async (page) => {
-    try {
-      const query = ''; // Provide the search query if needed
-      const perPage = 10; // Provide the number of items per page
-
-      const apiUrl = `${process.env.REACT_APP_BASE_URL}/rental`;
-      const params = {
-        query,
-        page,
-        perPage,
-      };
-
-      // Make an authenticated request for rentals API with params
-      makeAuthenticatedRequest(
-        apiUrl,
-        (response) => {
-          const {rentalName, totalPages} = response;
-          setRentals(rentalName);
-          setTotalPages(totalPages);
-        },
-        (error) => {
-          console.error('Error:', error);
-        },
-        params, // Pass the params to the makeAuthenticatedRequest function
-      );
-    } catch (error) {
-      console.error('Error:', error.message);
-    }
-  };
 
   const onSearch = async (value) => {
     if (value?.fromDate && value?.toDate) {
