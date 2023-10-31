@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import AppCard from '@crema/core/AppCard';
-import {Typography} from '@mui/material';
+import {Button, Typography} from '@mui/material';
 import {GrMoney} from 'react-icons/gr';
 // import axios from 'axios';
 import DailyCharts from './DailyIncomeExpenseCharts';
@@ -9,11 +9,18 @@ import CompanyExpenseList from './CompanyExpenseList';
 import DailyBar from './DailyInExBar';
 import PropTypes from 'prop-types';
 import makeAuthenticatedRequest from 'pages/common/common';
+import jsPDF from 'jspdf';
+import html2pdf from 'html2pdf.js';
 
 export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   const [incomeData, setIncomeData] = useState(0);
   const [expenseData, setExpenseData] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isVoucherReady] = useState(true);
+
+  console.log(incomeData);
+  console.log(expenseData);
+
   const [toDate] = useState(new Date().toISOString().slice(0, 10));
 
   useEffect(() => {
@@ -64,8 +71,102 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
     );
   };
 
+  const generatePDFContent = async () => {
+    const tableRows = incomeData.individualIncome
+      .map(
+        (item) => `
+      <tr>
+  <td>${item?.name}</td>
+  <td>${item?.roshidNo}</td>
+  <td>${item?.total_amount}</td>
+
+  
+</tr>
+
+    `,
+      )
+      .join('');
+
+    const staticContent = `
+      <div>
+      <body>
+      <div style="position: relative;">
+       
+        <h2 style="text-align: center; margin: 10px;">
+        <b>আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি:</b>
+        </h2>
+
+        <h5 style="text-align: center; margin: 10px;">
+          <b>ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.</b>
+        </h5>
+        
+        <h6 style="margin-bottom: 4px; text-align: center; margin: 10px;">
+          ১-জি, ১/১, চিড়িয়াখানা রোড, মিরপুর-১, ঢাকা-১২১৬ <br />
+          গভ: রেজি: নং-১২৮/৯৮
+          <br />
+          ফোন-৮০২১৬৩৬
+        </h6>
+
+        <div style="display: flex; justify-content: space-between;">
+        <h2>Total Income: ${incomeData?.totalIncome}</h2>
+        <h2>Total Expense: ${expenseData?.totalExpense}</h2>
+        </div>
+
+         
+        <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
+              <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
+              <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
+            </tr>
+          </thead>
+          <tbody id="dynamicTableBody">
+            ${tableRows}
+          </tbody>
+        </table>
+       
+
+    `;
+
+    // Create a temporary div to hold the content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = staticContent;
+
+    // Append the temporary div to the body
+    document.body.appendChild(tempDiv);
+
+    // Use html2pdf to generate the PDF
+    await html2pdf(tempDiv, {
+      margin: 10,
+      filename: 'test',
+      image: {type: 'jpeg', quality: 0.98},
+      html2canvas: {scale: 2},
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4', // Set to A7
+        orientation: 'portrait',
+        width: 105, // A7 width
+        height: 74, // A7 height
+      },
+    });
+
+    // Remove the temporary div from the body
+    document.body.removeChild(tempDiv);
+  };
+
+  const handlePrint = async (data) => {
+    if (isVoucherReady) {
+      const pdf = new jsPDF();
+      await generatePDFContent(pdf, data);
+    }
+  };
+
   return (
     <>
+      <Button variant='contained' color='primary' onClick={handlePrint}>
+        Download Income Report
+      </Button>
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
         <div
           style={{
@@ -96,7 +197,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
               <div>
                 <Typography variant='h3'>
                   <GrMoney style={{marginRight: '10px'}} />
-                  আজকের জমা 
+                  আজকের জমা
                 </Typography>
                 <Typography variant='h3'>
                   {loading

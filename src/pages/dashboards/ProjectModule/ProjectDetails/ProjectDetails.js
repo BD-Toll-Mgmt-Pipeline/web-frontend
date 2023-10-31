@@ -13,7 +13,7 @@ import ActiveStatus from '@crema/common/ActiveStatus';
 import AppCard from '@crema/core/AppCard';
 import {GrStatusWarning} from 'react-icons/gr';
 import moment from 'moment';
-import { MdCreate } from 'react-icons/md';
+import {MdCreate} from 'react-icons/md';
 
 export default function ProjectDetails() {
   const {id} = useParams();
