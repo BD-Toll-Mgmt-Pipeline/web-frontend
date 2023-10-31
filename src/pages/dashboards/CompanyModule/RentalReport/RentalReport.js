@@ -18,8 +18,14 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   const [loading, setLoading] = useState(true);
   const [isVoucherReady] = useState(true);
 
-  console.log(incomeData);
-  console.log(expenseData);
+  console.log(
+    incomeData,
+    'incomeDataincomeDataincomeDataincomeDataincomeDataincomeDataincomeDataincomeDataincomeDataincomeData',
+  );
+  console.log(
+    expenseData,
+    'expenseDataexpenseDataexpenseDataexpenseDataexpenseDataexpenseDataexpenseDataexpenseData',
+  );
 
   const [toDate] = useState(new Date().toISOString().slice(0, 10));
 
@@ -72,18 +78,27 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   };
 
   const generatePDFContent = async () => {
-    const tableRows = incomeData.individualIncome
+    const incomeTableRows = incomeData.individualIncome
       .map(
         (item) => `
-      <tr>
-  <td>${item?.name}</td>
-  <td>${item?.roshidNo}</td>
-  <td>${item?.total_amount}</td>
+    <tr>
+      <td>${item?.name}</td>
+      <td>${item?.roshidNo}</td>
+      <td>${item?.total_amount}</td>
+    </tr>
+  `,
+      )
+      .join('');
 
-  
-</tr>
-
-    `,
+    const expenseTableRows = expenseData.individualExpenses
+      .map(
+        (item) => `
+    <tr>
+      <td>${item?.voucher_title}</td>
+      <td>${item?.voucherNo}</td>
+      <td>${item?.total_amount}</td>
+    </tr>
+  `,
       )
       .join('');
 
@@ -113,18 +128,36 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
         </div>
 
          
-        <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
-          <thead>
-            <tr>
-              <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
-              <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
-              <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
-            </tr>
-          </thead>
-          <tbody id="dynamicTableBody">
-            ${tableRows}
-          </tbody>
-        </table>
+        <div style="display: flex; justify-content: space-between;">
+        <div style="flex: 1; margin-right: 10px;">
+          <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
+            <thead>
+              <tr>
+                <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
+                <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
+                <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
+              </tr>
+            </thead>
+            <tbody id="incomeTableBody">
+              ${incomeTableRows}
+            </tbody>
+          </table>
+        </div>
+        <div style="flex: 1; margin-left: 10px;">
+          <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
+            <thead>
+              <tr>
+                <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
+                <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
+                <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
+              </tr>
+            </thead>
+            <tbody id="expenseTableBody">
+              ${expenseTableRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
        
 
     `;
@@ -144,7 +177,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
       html2canvas: {scale: 2},
       jsPDF: {
         unit: 'mm',
-        format: 'a4', // Set to A7
+        format: 'a3',
         orientation: 'portrait',
         width: 105, // A7 width
         height: 74, // A7 height
@@ -165,7 +198,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   return (
     <>
       <Button variant='contained' color='primary' onClick={handlePrint}>
-        Download Income Report
+        Download Report
       </Button>
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
         <div
