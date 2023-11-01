@@ -11,28 +11,26 @@ import PropTypes from 'prop-types';
 import makeAuthenticatedRequest from 'pages/common/common';
 import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
+const {toBengaliWord, toBengaliNumber} = require('bengali-number');
 
 export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   const [incomeData, setIncomeData] = useState(0);
   const [expenseData, setExpenseData] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isVoucherReady] = useState(true);
-
-  console.log(
-    incomeData,
-    'incomeDataincomeDataincomeDataincomeDataincomeDataincomeDataincomeDataincomeDataincomeDataincomeData',
-  );
-  console.log(
-    expenseData,
-    'expenseDataexpenseDataexpenseDataexpenseDataexpenseDataexpenseDataexpenseDataexpenseData',
-  );
-
   const [toDate] = useState(new Date().toISOString().slice(0, 10));
 
   useEffect(() => {
     fetchIncomeData();
     fetchExpenseData();
   }, [toDate]);
+
+  useEffect(() => {
+    if (totalIncomeDate && totalExpenseDate) {
+      setIncomeData(totalIncomeDate);
+      setExpenseData(totalExpenseDate);
+    }
+  }, [totalIncomeDate, totalExpenseDate]);
 
   const fetchIncomeData = () => {
     const apiUrl = `${
@@ -83,8 +81,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
         (item) => `
     <tr>
       <td>${item?.name}</td>
-      <td>${item?.roshidNo}</td>
-      <td>${item?.total_amount}</td>
+      <td>${item?.myArrayField?.map((x) => x.additionaldescription)}</td>
+      <td>${toBengaliNumber(item?.total_amount)}/-</td>
     </tr>
   `,
       )
@@ -95,8 +93,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
         (item) => `
     <tr>
       <td>${item?.voucher_title}</td>
-      <td>${item?.voucherNo}</td>
-      <td>${item?.total_amount}</td>
+      <td>${item?.voucher_title}</td>
+      <td>${toBengaliNumber(item?.total_amount)}/-</td>
     </tr>
   `,
       )
@@ -123,8 +121,21 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
         </h6>
 
         <div style="display: flex; justify-content: space-between;">
-        <h2>Total Income: ${incomeData?.totalIncome}</h2>
-        <h2>Total Expense: ${expenseData?.totalExpense}</h2>
+        <div> 
+        <h2><b>মোট জমা :</b> ${toBengaliNumber(incomeData?.totalIncome)}/-</h2>
+        <h2><b>মোট জমা (কথায়) :</b> ${toBengaliWord(
+          incomeData?.totalIncome,
+        )}</h2>
+        </div>
+
+        <div> 
+        <h2><b>মোট খরচ : </b> ${toBengaliNumber(
+          expenseData?.totalExpense,
+        )}/-</h2>
+        <h2><b>মোট খরচ (কথায়):</b> ${toBengaliWord(
+          expenseData?.totalExpense,
+        )}</h2>
+        </div>
         </div>
 
          
@@ -134,8 +145,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
             <thead>
               <tr>
                 <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
-                <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
-                <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
+                <th style="border: 1px solid #000; padding: 5px;">খাত বিবরণ</th>
+                <th style="border: 1px solid #000; padding: 5px;">টাকা</th>
               </tr>
             </thead>
             <tbody id="incomeTableBody">
@@ -148,8 +159,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
             <thead>
               <tr>
                 <th style="border: 1px solid #000; padding: 5px;">ক্র: নং:</th>
-                <th style="border: 1px solid #000; padding: 5px;">বিবরণ</th>
-                <th style="border: 1px solid #000; padding: 5px;">টাকার পরিমাণ</th>
+                <th style="border: 1px solid #000; padding: 5px;">খাত বিবরণ</th>
+                <th style="border: 1px solid #000; padding: 5px;">টাকার</th>
               </tr>
             </thead>
             <tbody id="expenseTableBody">
@@ -220,9 +231,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                   {loading
                     ? 'Loading...'
                     : totalIncomeDate?.totalIncome
-                    ? totalIncomeDate.totalIncome -
-                      (totalExpenseDate?.totalExpense || 0) +
-                      ' টাকা'
+                    ? totalIncomeDate.totalIncome + ' টাকা'
                     : 'No Income'}
                 </Typography>
               </div>
