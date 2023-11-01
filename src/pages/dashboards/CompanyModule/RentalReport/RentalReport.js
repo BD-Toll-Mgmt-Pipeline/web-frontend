@@ -2,16 +2,15 @@ import React, {useState, useEffect} from 'react';
 import AppCard from '@crema/core/AppCard';
 import {Button, Typography} from '@mui/material';
 import {GrMoney} from 'react-icons/gr';
-// import axios from 'axios';
 import DailyCharts from './DailyIncomeExpenseCharts';
 import CompanyInExlist from './CompanyInExList';
 import CompanyExpenseList from './CompanyExpenseList';
 import DailyBar from './DailyInExBar';
 import PropTypes from 'prop-types';
-import makeAuthenticatedRequest from 'pages/common/common';
 import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
 const {toBengaliWord, toBengaliNumber} = require('bengali-number');
+import axios from 'axios';
 
 export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   const [incomeData, setIncomeData] = useState(0);
@@ -32,7 +31,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
     }
   }, [totalIncomeDate, totalExpenseDate]);
 
-  const fetchIncomeData = () => {
+  const fetchIncomeData = async () => {
     const apiUrl = `${
       process.env.REACT_APP_BASE_URL
     }/income-expense/total-income?fromDate=${new Date()
@@ -41,20 +40,17 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
 
     setLoading(true);
 
-    makeAuthenticatedRequest(
-      apiUrl,
-      (data) => {
-        setIncomeData(data);
-        setLoading(false);
-      },
-      (errorMessage) => {
-        console.error(errorMessage);
-        setLoading(false);
-      },
-    );
+    try {
+      const response = await axios.get(apiUrl);
+      setIncomeData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
   };
 
-  const fetchExpenseData = () => {
+  const fetchExpenseData = async () => {
     const apiUrl = `${
       process.env.REACT_APP_BASE_URL
     }/expense/total-expense?fromDate=${new Date()
@@ -62,19 +58,15 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
       .slice(0, 10)}&toDate=${new Date().toISOString().slice(0, 10)}`;
     setLoading(true);
 
-    makeAuthenticatedRequest(
-      apiUrl,
-      (data) => {
-        setExpenseData(data);
-        setLoading(false);
-      },
-      (errorMessage) => {
-        console.error(errorMessage);
-        setLoading(false);
-      },
-    );
+    try {
+      const response = await axios.get(apiUrl);
+      setExpenseData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
   };
-
   const generatePDFContent = async () => {
     const incomeTableRows = incomeData.individualIncome
       .map(
@@ -137,8 +129,6 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
         )}</h2>
         </div>
         </div>
-
-         
         <div style="display: flex; justify-content: space-between;">
         <div style="flex: 1; margin-right: 10px;">
           <table border="1" style="margin: 10px auto; text-align: center; width: 100%;">
