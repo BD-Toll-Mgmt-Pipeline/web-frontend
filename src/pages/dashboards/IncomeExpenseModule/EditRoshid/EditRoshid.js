@@ -16,6 +16,7 @@ import {useParams} from 'react-router-dom';
 import {stringify, parse} from 'flatted';
 const moment = require('moment');
 const {toBengaliWord, toBengaliNumber} = require('bengali-number');
+import formatNumber from 'pages/common/common';
 
 const IncomeVoucher = () => {
   const {roshidNoid} = useParams();
@@ -37,14 +38,6 @@ const IncomeVoucher = () => {
   const [showWarning, setShowWarning] = useState(false);
 
   const [isVoucherReady] = useState(true);
-
-  function formatNumber(number) {
-    const numberString = String(number);
-    const separators = [',', ',', ','];
-    const separator = separators[Math.floor((numberString.length - 1) / 3)];
-    const groups = numberString.split(/(?=(?:\d{3})+(?!\d))/);
-    return groups.join(separator);
-  }
 
   const searchMemberbyID = async (memberid) => {
     try {

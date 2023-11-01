@@ -17,11 +17,10 @@ const moment = require('moment');
 import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
 import {MdCreate} from 'react-icons/md';
-
 import {Link as RouterLink} from 'react-router-dom';
-// import formatNumber from '../../../common/common';
 const {toBengaliWord, toBengaliNumber} = require('bengali-number');
 import {BsCalendarDate} from 'react-icons/bs';
+import formatNumber from '../../../common/common';
 
 const IncomeVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -47,14 +46,6 @@ const IncomeVoucher = () => {
   const [voucherData, setVoucherData] = useState(null);
   const [showUntilSection, setShowUntilSection] = useState(false);
   const [showEditDate, setEditDate] = useState(false);
-
-  function formatNumber(number) {
-    const numberString = String(number);
-    const separators = [',', ',', ','];
-    const separator = separators[Math.floor((numberString.length - 1) / 3)];
-    const groups = numberString.split(/(?=(?:\d{3})+(?!\d))/);
-    return groups.join(separator);
-  }
 
   const getIncomeTypes = async () => {
     const response = await axios.get(

@@ -14,6 +14,7 @@ const moment = require('moment');
 import html2pdf from 'html2pdf.js';
 import {useParams} from 'react-router-dom';
 const {toBengaliWord, toBengaliNumber} = require('bengali-number');
+import formatNumber from 'pages/common/common';
 
 const PaymentVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -27,21 +28,6 @@ const PaymentVoucher = () => {
   const [voucher, setMemberVoucherSearch] = useState([]);
 
   const {id} = useParams();
-
-  function formatNumber(number) {
-    const numberString = String(number);
-    const separators = [',', ',', ','];
-    const separator = separators[Math.floor((numberString.length - 1) / 3)];
-    const groups = numberString.split(/(?=(?:\d{3})+(?!\d))/);
-    return groups.join(separator);
-  }
-
-  // const calculateTotalAmount = () => {
-  //   const sum = rows.reduce((total, row) => {
-  //     return total + parseFloat(row.amount || 0);
-  //   }, 0);
-  //   setTotalAmount(sum);
-  // };
 
   const searchMemberbyVowID = async () => {
     try {

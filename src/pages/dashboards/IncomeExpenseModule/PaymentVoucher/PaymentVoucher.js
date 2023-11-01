@@ -13,8 +13,7 @@ const moment = require('moment');
 import Autocomplete from '@mui/material/Autocomplete';
 import html2pdf from 'html2pdf.js';
 const {toBengaliWord, toBengaliNumber} = require('bengali-number');
-
-// toBengaliNumber
+import formatNumber from 'pages/common/common';
 
 const PaymentVoucher = () => {
   const [rows, setRows] = useState([{number: 1, description: '', amount: ''}]);
@@ -33,14 +32,6 @@ const PaymentVoucher = () => {
     }, 0);
     setTotalAmount(sum);
   };
-
-  function formatNumber(number) {
-    const numberString = String(number);
-    const separators = [',', ',', ','];
-    const separator = separators[Math.floor((numberString.length - 1) / 3)];
-    const groups = numberString.split(/(?=(?:\d{3})+(?!\d))/);
-    return groups.join(separator);
-  }
 
   const handleAddRow = () => {
     const nextNumber = rows.length + 1;
