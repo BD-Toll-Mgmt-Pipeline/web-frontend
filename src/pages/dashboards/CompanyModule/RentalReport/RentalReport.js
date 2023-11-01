@@ -11,6 +11,7 @@ import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
 const {toBengaliWord, toBengaliNumber} = require('bengali-number');
 import axios from 'axios';
+import formatNumber from 'pages/common/common';
 
 export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   const [incomeData, setIncomeData] = useState(0);
@@ -163,14 +164,11 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
 
     `;
 
-    // Create a temporary div to hold the content
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = staticContent;
 
-    // Append the temporary div to the body
     document.body.appendChild(tempDiv);
 
-    // Use html2pdf to generate the PDF
     await html2pdf(tempDiv, {
       margin: 10,
       filename: 'test',
@@ -185,7 +183,6 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
       },
     });
 
-    // Remove the temporary div from the body
     document.body.removeChild(tempDiv);
   };
 
@@ -220,8 +217,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
-                    : totalIncomeDate?.totalIncome
-                    ? totalIncomeDate.totalIncome + ' টাকা'
+                    : formatNumber(totalIncomeDate?.totalIncome)+"/-"
+                    ? formatNumber(totalIncomeDate.totalIncome)+"/-" + ' টাকা'
                     : 'No Income'}
                 </Typography>
               </div>
@@ -234,8 +231,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
-                    : incomeData?.totalIncome
-                    ? incomeData?.totalIncome + ' টাকা'
+                    : formatNumber(incomeData?.totalIncome)+"/-"
+                    ? formatNumber(incomeData?.totalIncome)+"/-" + ' টাকা'
                     : 'No Income'}
                 </Typography>
               </div>
@@ -251,8 +248,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
-                    : totalExpenseDate?.totalExpense
-                    ? totalExpenseDate?.totalExpense + ' টাকা'
+                    : formatNumber(totalExpenseDate?.totalExpense)+"/-"
+                    ? formatNumber(totalExpenseDate?.totalExpense)+"/-" + ' টাকা'
                     : 'No Expense'}
                 </Typography>
               </div>
@@ -265,8 +262,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
-                    : expenseData?.totalExpense
-                    ? expenseData?.totalExpense + ' টাকা'
+                    : formatNumber(expenseData?.totalExpense)+"/-"
+                    ? formatNumber(expenseData?.totalExpense)+"/-" + ' টাকা'
                     : 'No Expense'}
                 </Typography>
               </div>
