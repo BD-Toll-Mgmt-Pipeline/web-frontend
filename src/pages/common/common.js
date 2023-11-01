@@ -40,3 +40,4 @@ const formatNumber = (number) => {
 };
 
 export default formatNumber;
+

@@ -12,6 +12,7 @@ import html2pdf from 'html2pdf.js';
 const {toBengaliWord, toBengaliNumber} = require('bengali-number');
 import axios from 'axios';
 import formatNumber from 'pages/common/common';
+import Snack from 'pages/common/SuccessSnackbar';
 
 export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   const [incomeData, setIncomeData] = useState(0);
@@ -19,6 +20,9 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
   const [loading, setLoading] = useState(true);
   const [isVoucherReady] = useState(true);
   const [toDate] = useState(new Date().toISOString().slice(0, 10));
+  const [isopen, setIsSuccessSnackbarOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [severity, setseverity] = useState('');
 
   useEffect(() => {
     fetchIncomeData();
@@ -190,12 +194,15 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
     if (isVoucherReady) {
       const pdf = new jsPDF();
       await generatePDFContent(pdf, data);
+      setseverity('success');
+      setIsSuccessSnackbarOpen(true);
+      setSuccessMessage('সফল ভাবে ডাউনলোড হয়েছে');
     }
   };
 
   return (
     <>
-      <Button variant='contained' color='primary' onClick={handlePrint}>
+      <Button variant='outlined' color='primary' onClick={handlePrint}>
         Download Report
       </Button>
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -217,8 +224,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
-                    : formatNumber(totalIncomeDate?.totalIncome)+"/-"
-                    ? formatNumber(totalIncomeDate.totalIncome)+"/-" + ' টাকা'
+                    : formatNumber(totalIncomeDate?.totalIncome) + '/-'
+                    ? formatNumber(totalIncomeDate.totalIncome) + '/-' + ' টাকা'
                     : 'No Income'}
                 </Typography>
               </div>
@@ -231,8 +238,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
-                    : formatNumber(incomeData?.totalIncome)+"/-"
-                    ? formatNumber(incomeData?.totalIncome)+"/-" + ' টাকা'
+                    : formatNumber(incomeData?.totalIncome) + '/-'
+                    ? formatNumber(incomeData?.totalIncome) + '/-' + ' টাকা'
                     : 'No Income'}
                 </Typography>
               </div>
@@ -248,8 +255,10 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
-                    : formatNumber(totalExpenseDate?.totalExpense)+"/-"
-                    ? formatNumber(totalExpenseDate?.totalExpense)+"/-" + ' টাকা'
+                    : formatNumber(totalExpenseDate?.totalExpense) + '/-'
+                    ? formatNumber(totalExpenseDate?.totalExpense) +
+                      '/-' +
+                      ' টাকা'
                     : 'No Expense'}
                 </Typography>
               </div>
@@ -262,8 +271,8 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
                 <Typography variant='h3'>
                   {loading
                     ? 'Loading...'
-                    : formatNumber(expenseData?.totalExpense)+"/-"
-                    ? formatNumber(expenseData?.totalExpense)+"/-" + ' টাকা'
+                    : formatNumber(expenseData?.totalExpense) + '/-'
+                    ? formatNumber(expenseData?.totalExpense) + '/-' + ' টাকা'
                     : 'No Expense'}
                 </Typography>
               </div>
@@ -296,6 +305,12 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
         expense={
           totalExpenseDate?.totalExpense ? totalExpenseDate : expenseData
         }
+      />
+      <Snack
+        open={isopen}
+        message={successMessage}
+        onClose={() => setSuccessMessage(null)}
+        severity={severity}
       />
     </>
   );

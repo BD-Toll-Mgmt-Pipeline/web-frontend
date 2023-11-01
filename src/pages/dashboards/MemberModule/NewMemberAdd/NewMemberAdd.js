@@ -1,16 +1,9 @@
 import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
-import {
-  TextField,
-  Button,
-  Grid,
-  Paper,
-  Typography,
-  Snackbar,
-} from '@mui/material';
-import {Alert} from '@mui/material';
+import {TextField, Button, Grid, Paper, Typography} from '@mui/material';
 const axios = require('axios');
+import Snack from 'pages/common/SuccessSnackbar';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
@@ -47,26 +40,22 @@ const NewMemberAdd = () => {
         process.env.REACT_APP_BASE_URL + '/members',
         UpdatedValue,
       );
-      setSnackbarMessage('সদস্য সফলভাবে তৈরী হয়েছে ');
-      setSnackbarSeverity('success');
-      setSnackbarOpen(true);
+      setseverity('success');
+      setIsSuccessSnackbarOpen(true);
+      setSuccessMessage('সফল সদস্য তৈরী হয়েছে');
       resetForm();
     } catch (error) {
-      setSnackbarMessage('ব্যর্থ হয়েছে ');
-      setSnackbarSeverity('error');
-      setSnackbarOpen(true);
+      setseverity('error');
+      setIsSuccessSnackbarOpen(true);
+      setSuccessMessage('ব্যর্থ হয়েছে');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('');
+  const [isopen, setIsSuccessSnackbarOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [severity, setseverity] = useState('');
 
   return (
     <Grid container justifyContent='center'>
@@ -290,16 +279,12 @@ const NewMemberAdd = () => {
           </Formik>
         </Paper>
       </Grid>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-      >
-        <Alert severity={snackbarSeverity} onClose={handleSnackbarClose}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <Snack
+        open={isopen}
+        message={successMessage}
+        onClose={() => setSuccessMessage(null)}
+        severity={severity}
+      />
     </Grid>
   );
 };

@@ -1,26 +1,34 @@
 import React, {useState} from 'react';
-import {TextField, Button, Typography, Snackbar, Alert} from '@mui/material';
+import {TextField, Button, Typography} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
+import Snack from 'pages/common/SuccessSnackbar';
 
 const SearchBar = ({onSearch}) => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [isSuccessSnackbarOpen, setIsSuccessSnackbarOpen] = useState(false);
+  const [isopen, setIsSuccessSnackbarOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [severity, setseverity] = useState('');
 
   const handleSearch = async () => {
     if (!fromDate || !toDate || toDate < fromDate) {
-      console.error('Invalid date range');
+      setseverity('error');
+      setIsSuccessSnackbarOpen(true);
+      setSuccessMessage('ভুল তারিখ নির্বাচন করা হয়েছে ');
       return;
     }
 
     try {
       await onSearch({fromDate, toDate});
-
+      setseverity('success');
       setIsSuccessSnackbarOpen(true);
+      setSuccessMessage('সফলভাবে তথ্য পাওয়া গিয়েছে');
     } catch (error) {
-      console.error('API error:', error);
+      setseverity('error');
+      setIsSuccessSnackbarOpen(true);
+      setSuccessMessage('ব্যর্থ হয়েছে');
     }
   };
 
@@ -38,10 +46,6 @@ const SearchBar = ({onSearch}) => {
 
   const updateButtonDisabledState = (from, to) => {
     setIsButtonDisabled(!from || !to);
-  };
-
-  const handleSuccessSnackbarClose = () => {
-    setIsSuccessSnackbarOpen(false);
   };
 
   return (
@@ -86,15 +90,12 @@ const SearchBar = ({onSearch}) => {
           <SearchIcon /> অনুসন্ধান করুন
         </Button>
 
-        <Snackbar
-          open={isSuccessSnackbarOpen}
-          autoHideDuration={6000}
-          onClose={handleSuccessSnackbarClose}
-        >
-          <Alert onClose={handleSuccessSnackbarClose} severity='success'>
-            সফলভাবে তথ্য পাওয়া গিয়েছে
-          </Alert>
-        </Snackbar>
+        <Snack
+          open={isopen}
+          message={successMessage}
+          onClose={() => setSuccessMessage(null)}
+          severity={severity}
+        />
       </div>
     </div>
   );
