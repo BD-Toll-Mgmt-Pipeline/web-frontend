@@ -47,7 +47,7 @@ const AuthWrapper = ({children}) => {
             justifyContent: {sm: 'center'},
             flexDirection: {sm: 'column'},
             backgroundImage:
-              "url('https://www.tbsnews.net/sites/default/files/styles/big_3/public/images/2022/09/13/1.jpg')", // Provide the link to your image
+              "url('https://tfe-bd.sgp1.cdn.digitaloceanspaces.com/uploads/1608002874.jpg')", // Provide the link to your image
             backgroundSize: 'cover', // Optional: Adjust the background size
             backgroundPosition: 'center', // Optional: Adjust the background position
             color: (theme) => theme.palette.common.white,
@@ -80,7 +80,7 @@ const AuthWrapper = ({children}) => {
                 mb: 4,
               }}
             >
-              আনসারুল মুসলিমিন বহুমুখী সমবায় সমিতি লিমিটেড
+              Bangladesh Bridge Toll Fixation App
             </Typography>
             <Typography
               component='h5'
@@ -90,7 +90,7 @@ const AuthWrapper = ({children}) => {
                 mb: 4,
               }}
             >
-              Admin Dashboard App
+              {/* Admin Dashboard App */}
             </Typography>
             <Typography
               component='h5'
@@ -100,7 +100,7 @@ const AuthWrapper = ({children}) => {
                 mb: 4,
               }}
             >
-              Developed By - TechWave Limited
+              {/* Developed By - TechWave Limited */}
             </Typography>
           </Box>
         </Box>

@@ -8,6 +8,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import Link from '@mui/material/Link';
 import ActiveStatus from '@crema/common/ActiveStatus';
 import MemberAppMenuList from '../MemberAppMenuList/MemberAppMenuList';
+import moment from 'moment';
 
 const TableItem = ({data}) => (
   <>
@@ -41,7 +42,16 @@ const TableItem = ({data}) => (
             to={`/dashboard/member-details/${data.memberId}`}
             underline='none'
           >
-            {data?.memberId}
+            {data?.car_Full_NumberPlate?.substring(0, 14)}
+          </Link>
+        </TableCell>
+        <TableCell align='left' className='tableCell'>
+          <Link
+            component={RouterLink}
+            to={`/dashboard/member-details/${data.memberId}`}
+            underline='none'
+          >
+            {data?.car_Full_NumberPlate?.substring(14, 36)}
           </Link>
         </TableCell>
         <TableCell align='left' className='tableCell'>
@@ -55,18 +65,33 @@ const TableItem = ({data}) => (
               to={`/dashboard/member-details/${data.memberId}`}
               underline='none'
             >
-              {data.name}
+              {moment(data?.createdAt).format('DD-MM-YYYY')}
             </Link>
           </Box>
         </TableCell>
         <TableCell align='left' className='tableCell'>
-          {data.phone}
+          <Box
+            sx={{
+              fontWeight: Fonts.MEDIUM,
+            }}
+          >
+            <Link
+              component={RouterLink}
+              to={`/dashboard/member-details/${data.memberId}`}
+              underline='none'
+            >
+              {moment(data?.createdAt).format('HH:mm:ss')}
+            </Link>
+          </Box>
         </TableCell>
         <TableCell align='left' className='tableCell'>
-          {data.fatherName}
+          {data?.car_type}
         </TableCell>
         <TableCell align='left' className='tableCell'>
-          {data.identificationMemberName}
+          {data?.toll_fee}
+        </TableCell>
+        <TableCell align='left' className='tableCell'>
+          {data?.toll_fee}
         </TableCell>
         <TableCell align='left' className='tableCell'>
           <ActiveStatus

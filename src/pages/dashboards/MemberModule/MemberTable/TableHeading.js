@@ -20,13 +20,15 @@ const TableHeading = () => {
         },
       }}
     >
-      <TableCell>সদস্য নাম্বার</TableCell>
-      <TableCell>নাম</TableCell>
-      <TableCell>মোবাইল নাম্বার</TableCell>
-      <TableCell>পিতার নাম</TableCell>
-      <TableCell>সনাক্তকারি সদস্য</TableCell>
-      <TableCell>সচল স্টেটাস</TableCell>
-      <TableCell>ব্যবস্থা</TableCell>
+      <TableCell>Vehicle Class</TableCell>
+      <TableCell>Vehicle Number</TableCell>
+      <TableCell>Entry Date</TableCell>
+      <TableCell>Entry Time</TableCell>
+      <TableCell>Vehicle Type</TableCell>
+      <TableCell>Toll Fee</TableCell>
+      <TableCell>Pay Type</TableCell>
+      <TableCell>Pay Status</TableCell>
+      <TableCell>Settings</TableCell>
     </TableRow>
   );
 };

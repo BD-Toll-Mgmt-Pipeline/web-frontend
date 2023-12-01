@@ -14,4 +14,4 @@ export const defaultUser = {
   role: 'user',
   photoURL: '/assets/images/avatar/A11.jpg',
 };
-export const initialUrl = '/dashboards/company-module'; // this url will open after login
+export const initialUrl = '/dashboards/member-module'; // this url will open after login

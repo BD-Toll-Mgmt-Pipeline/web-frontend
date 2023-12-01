@@ -53,7 +53,7 @@ const AppSidebar = (props) => {
                   }}
                   component='h2'
                 >
-                  ANSARUL MUSLIMIN BAHUMUKHI SOMOBAY SOMOTI LTD.
+                  Bangladesh Bridge Toll Fixation App
                 </Typography>
               </Box>
               <AppScrollbar

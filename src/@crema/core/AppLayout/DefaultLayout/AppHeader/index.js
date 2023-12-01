@@ -73,7 +73,7 @@ const AppHeader = () => {
       </Hidden>
       <div>
         <Typography sx={{margin: '20px', fontWeight: 'bold', textAlign:'center'}}>
-          আনসারুল মুসলিমিন বহুমুখী সমবায় সমিতি লিমিটেড অ্যাডমিন এপ
+          Bangladesh Bridge Toll Fixation App
         </Typography>
       </div>
 
