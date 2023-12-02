@@ -21,7 +21,7 @@ const NewRentalTypeAdd = () => {
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_BASE_URL + '/rental/rental-types',
+        process.env.REACT_APP_BASE_URL + '/api/add-payment',
         values,
       );
       console.log('Rental created successfully');
@@ -54,7 +54,7 @@ const NewRentalTypeAdd = () => {
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
           <Typography variant='h5' mb={4}>
-            Add Rental Form
+            Add Vehicle Details
           </Typography>
           <Formik
             initialValues={{
@@ -69,7 +69,27 @@ const NewRentalTypeAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='নতুন ভাড়ার ধরণ'
+                      label='Vehicle Number'
+                      name='label'
+                      fullWidth
+                      error={!!errors.label}
+                      helperText={<ErrorMessage name='label' />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='Vehicle Class'
+                      name='label'
+                      fullWidth
+                      error={!!errors.label}
+                      helperText={<ErrorMessage name='label' />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='Vehicle Metro Name'
                       name='label'
                       fullWidth
                       error={!!errors.label}

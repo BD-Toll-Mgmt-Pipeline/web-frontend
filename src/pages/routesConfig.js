@@ -11,6 +11,10 @@ import // RiCustomerService2Line,
 import {BsPeopleFill} from 'react-icons/bs';
 // import {MdOutlineAnalytics} from 'react-icons/md';
 // import {AiFillProject} from 'react-icons/ai';
+import {FaHandshake} from 'react-icons/fa';
+import {
+  FaLeaf,
+} from 'react-icons/fa';
 
 const routesConfig = [
   {
@@ -35,14 +39,14 @@ const routesConfig = [
         icon: <BsPeopleFill />,
         url: '/dashboards/member-module',
       },
-      // {
-      //   id: 'rental_module',
-      //   title: 'ভাড়া ব্যবস্থাপনা',
-      //   messageId: 'ভাড়া ব্যবস্থাপনা',
-      //   type: 'item',
-      //   icon: <FaHandshake />,
-      //   url: '/dashboards/rental-module',
-      // },
+      {
+        id: 'rental_module',
+        title: 'Add Vehicle',
+        messageId: 'Add Vehicle',
+        type: 'item',
+        icon: <FaHandshake />,
+        url: '/dashboards/rental-module',
+      },
       // {
       //   id: 'project_module',
       //   title: 'প্রজেক্ট ব্যবস্থাপনা ',
@@ -67,14 +71,14 @@ const routesConfig = [
       //   icon: <FaHandHoldingUsd />,
       //   url: '/dashboards/loan-module',
       // },
-      // {
-      //   id: 'welfare',
-      //   title: 'কল্যান তহবিল ',
-      //   messageId: 'কল্যান তহবিল ',
-      //   type: 'item',
-      //   icon: <FaLeaf />,
-      //   url: '/dashboards/welfare',
-      // },
+      {
+        id: 'welfare',
+        title: 'Add Payment',
+        messageId: 'Add Payment',
+        type: 'item',
+        icon: <FaLeaf />,
+        url: '/dashboards/welfare',
+      },
       // {
       //   id: 'widgets',
       //   title: 'Widgets',

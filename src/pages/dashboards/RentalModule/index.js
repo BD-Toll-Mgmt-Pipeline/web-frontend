@@ -3,7 +3,7 @@ import {Button, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import RentalTable from './RentalTable';
 import {Link as RouterLink} from 'react-router-dom';
-import SearchBar from './SearchBar/SearchBar';
+// import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 import {MdCreate} from 'react-icons/md';
@@ -27,7 +27,7 @@ const Analytics = () => {
       const perPage = 10; // Provide the number of items per page
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
+        `${process.env.REACT_APP_BASE_URL}/api/get-payments`,
         {
           params: {
             query,
@@ -46,54 +46,39 @@ const Analytics = () => {
     }
   };
 
-  const onSearch = async (value) => {
-    try {
-      const query = value;
-      const page = 1;
-      const perPage = 10;
+  // const onSearch = async (value) => {
+  //   try {
+  //     const query = value;
+  //     const page = 1;
+  //     const perPage = 10;
 
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/rental`,
-        {
-          params: {
-            query,
-            page,
-            perPage,
-          },
-        },
-      );
+  //     const response = await axios.get(
+  //       `${process.env.REACT_APP_BASE_URL}/rental`,
+  //       {
+  //         params: {
+  //           query,
+  //           page,
+  //           perPage,
+  //         },
+  //       },
+  //     );
 
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
-      setTotalPages(totalPages);
-      setCurrentPage(1); // Reset the current page to 1 when performing a new search
-    } catch (error) {
-      console.error('Error:', error.message);
-    }
-  };
+  //     const {rentalName, totalPages} = response.data;
+  //     setRentals(rentalName);
+  //     setTotalPages(totalPages);
+  //     setCurrentPage(1); // Reset the current page to 1 when performing a new search
+  //   } catch (error) {
+  //     console.error('Error:', error.message);
+  //   }
+  // };
 
   return (
     <AppCard>
-      <Typography variant='h4'>Rental Module</Typography>
-      <div style={{marginTop: '30px'}}>
+      <Typography variant='h4'>Add Vehicle Information</Typography>
+      {/* <div style={{marginTop: '30px'}}>
         <SearchBar onSearch={onSearch} />
-      </div>
+      </div> */}
       <div style={{display: 'flex'}}>
-        <div>
-          <RouterLink
-            to={`/dashboards/rental-module/rental-module/add-new-rental`}
-            underline='none'
-          >
-            <Button
-              variant='outlined'
-              sx={{float: 'right', margin: '30px'}}
-              color='primary'
-            >
-              <MdCreate style={{margin: '5px'}} />
-              নতুন ভাড়াটিয়া সংযুক্তি
-            </Button>
-          </RouterLink>
-        </div>
         <div>
           <RouterLink
             to={`/dashboards/rental-module/add-new-rental-type`}
@@ -105,22 +90,7 @@ const Analytics = () => {
               color='primary'
             >
               <MdCreate style={{margin: '5px'}} />
-              নতুন ভাড়ার ধরণ সংযুক্তি
-            </Button>
-          </RouterLink>
-        </div>
-        <div>
-          <RouterLink
-            to={`/dashboards/rental-module/add-new-rental-property`}
-            underline='none'
-          >
-            <Button
-              variant='outlined'
-              sx={{float: 'right', margin: '30px'}}
-              color='primary'
-            >
-              <MdCreate style={{margin: '5px'}} />
-              নতুন ভাড়া-সম্পদ সংযুক্তি
+              Add Vehicle
             </Button>
           </RouterLink>
         </div>

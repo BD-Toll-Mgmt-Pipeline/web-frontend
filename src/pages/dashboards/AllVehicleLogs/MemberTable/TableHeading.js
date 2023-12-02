@@ -22,10 +22,12 @@ const TableHeading = () => {
     >
       <TableCell>Vehicle Class</TableCell>
       <TableCell>Vehicle Number</TableCell>
-      <TableCell>Payment Method</TableCell>
-      <TableCell>Total Usable Amount</TableCell>
-      <TableCell>Last Amount Used</TableCell>
-      <TableCell>Status</TableCell>
+      <TableCell>Entry Date</TableCell>
+      <TableCell>Entry Time</TableCell>
+      <TableCell>Vehicle Type</TableCell>
+      <TableCell>Toll Fee</TableCell>
+      <TableCell>Pay Type</TableCell>
+      <TableCell>Pay Status</TableCell>
       <TableCell>Settings</TableCell>
     </TableRow>
   );

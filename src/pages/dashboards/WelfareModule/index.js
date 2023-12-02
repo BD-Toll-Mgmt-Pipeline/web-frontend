@@ -2,7 +2,7 @@ import AppCard from '@crema/core/AppCard';
 import {Button, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {Link as RouterLink} from 'react-router-dom';
-import SearchBar from './SearchBar/SearchBar';
+// import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 import IncomeTable from './IncomeTable';
@@ -13,7 +13,7 @@ import TabList from '@mui/lab/TabList';
 import {MdCreate} from 'react-icons/md';
 
 const Welfare = () => {
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, ] = useState(1);
   const [transaction, setTransaction] = useState([]);
   const [expense, setExpense] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,38 +58,38 @@ const Welfare = () => {
     }
   };
 
-  const onSearch = async (value) => {
-    try {
-      const query = value;
-      const page = 1;
-      const perPage = 10;
+  // const onSearch = async (value) => {
+  //   try {
+  //     const query = value;
+  //     const page = 1;
+  //     const perPage = 10;
 
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/welfare`,
-        {
-          params: {
-            query,
-            page,
-            perPage,
-          },
-        },
-      );
+  //     const response = await axios.get(
+  //       `${process.env.REACT_APP_BASE_URL}/welfare`,
+  //       {
+  //         params: {
+  //           query,
+  //           page,
+  //           perPage,
+  //         },
+  //       },
+  //     );
 
-      const {allIncomeExpense, totalPages} = response.data;
-      setTransaction(allIncomeExpense);
-      setTotalPages(totalPages);
-      setCurrentPage(1);
-    } catch (error) {
-      console.error('Error:', error.message);
-    }
-  };
+  //     const {allIncomeExpense, totalPages} = response.data;
+  //     setTransaction(allIncomeExpense);
+  //     setTotalPages(totalPages);
+  //     setCurrentPage(1);
+  //   } catch (error) {
+  //     console.error('Error:', error.message);
+  //   }
+  // };
 
   return (
     <AppCard>
-      <Typography variant='h4'>Welfare Module</Typography>
-      <div style={{marginTop: '30px'}}>
+      <Typography variant='h4'>Add Payment</Typography>
+      {/* <div style={{marginTop: '30px'}}>
         <SearchBar onSearch={onSearch} />
-      </div>
+      </div> */}
       <div style={{display: 'flex'}}>
         <div>
           <RouterLink
@@ -102,36 +102,7 @@ const Welfare = () => {
               color='primary'
             >
               <MdCreate style={{margin: '5px'}} />
-              নতুন রশিদ তৈরী
-            </Button>
-          </RouterLink>
-        </div>
-        <div>
-          <RouterLink
-            to={`/dashboards/income-expense-module/add-receive-voucher`}
-            underline='none'
-          >
-            <Button
-              variant='outlined'
-              sx={{float: 'right', margin: '30px'}}
-              color='primary'
-            >
-              <MdCreate style={{margin: '5px'}} />
-              নতুন ভাউচার তৈরী
-            </Button>
-          </RouterLink>
-        </div>
-        <div>
-          <RouterLink
-            to={`/dashboards/welfare/welfare-report`}
-            underline='none'
-          >
-            <Button
-              variant='outlined'
-              sx={{float: 'right', margin: '30px'}}
-              color='primary'
-            >
-              কল্যান তহবিলের রিপোর্ট
+              Add Payment Information
             </Button>
           </RouterLink>
         </div>
