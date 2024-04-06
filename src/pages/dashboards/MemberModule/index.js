@@ -2,53 +2,38 @@ import AppCard from '@crema/core/AppCard';
 import { Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import MemberTable from './MemberTable';
-// import { Link as RouterLink } from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
-// import { MdCreate } from 'react-icons/md';
 
 const Crypto = () => {
   const [members, setMembers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const handlePageChange = (event, newPage) => {
-    setCurrentPage(newPage);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/process_ocr`
+      );
+
+      const { carLogs, totalPages } = response.data;
+      setMembers(carLogs);
+      setTotalPages(totalPages);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
   };
 
   useEffect(() => {
-    const getMembers = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/process_ocr`
-        );
+    const intervalId = setInterval(fetchData, 1000); // Fetch data every 1 second
 
-        const { carLogs, totalPages } = response.data;
-        setMembers(carLogs);
-        setTotalPages(totalPages);
-      } catch (error) {
-        console.error('Error:', error.message);
-      }
-    };
+    return () => clearInterval(intervalId); // Clear the interval on unmount
+  }, []);
 
-    getMembers(); // Fetch data on component mount
-
-    const eventSource = new EventSource(
-      `${process.env.REACT_APP_BASE_URL}/api/process_ocr`
-    );
-
-    eventSource.onmessage = (event) => {
-      const eventData = JSON.parse(event.data);
-
-      setMembers((prevMembers) => [eventData, ...prevMembers]);
-    };
-
-    // Close the EventSource connection when thefg component unmounts
-    return () => {
-      eventSource.close();
-    };
-  }, []); 
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
 
   const onSearch = async (value) => {
     try {
@@ -94,20 +79,6 @@ const Crypto = () => {
         <div style={{ marginTop: '30px' }}>
           <SearchBar onSearch={onSearch} />
         </div>
-        {/* <div>
-          <RouterLink
-            to={`/dashboards/member-module/add-new-member`}
-            underline='none'
-          >
-            <Button
-              variant='outlined'
-              sx={{ float: 'right', margin: '30px' }}
-              color='primary'
-            >
-              <MdCreate style={{ margin: '5px' }} /> নতুন সদস্য সংযোজন
-            </Button>
-          </RouterLink>
-        </div> */}
       </div>
       <MemberTable orderList={members} />
       <Pagination

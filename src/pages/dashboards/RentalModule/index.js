@@ -27,7 +27,7 @@ const Analytics = () => {
       const perPage = 10; // Provide the number of items per page
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/get-payments`,
+        `${process.env.REACT_APP_BASE_URL}/api/get-vehicle`,
         {
           params: {
             query,
@@ -36,10 +36,7 @@ const Analytics = () => {
           },
         },
       );
-      const {rentalName, totalPages} = response.data;
-      setRentals(rentalName);
-      console.log(rentalName, 'rentalName');
-
+      setRentals(response.data);
       setTotalPages(totalPages);
     } catch (error) {
       console.error('Error:', error.message);

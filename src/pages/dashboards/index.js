@@ -5,7 +5,6 @@ import MemberDetails from './MemberModule/MemberDetails/MemberDetails';
 import NewRentalTypeAdd from './RentalModule/NewRentalTypeAdd/NewRentalTypeAdd';
 import RentalDetails from './RentalModule/RentalDetails/RentalDetails';
 import RentalReport from './RentalModule/RentalReport/RentalReport';
-import IncomeVoucher from './IncomeExpenseModule/IncomeVoucher/IncomeVoucher';
 import PaymentVoucher from './IncomeExpenseModule/PaymentVoucher/PaymentVoucher';
 import EditRoshid from './IncomeExpenseModule/EditRoshid/EditRoshid';
 import AddNewIcomeType from './IncomeExpenseModule/AddnewIconeType/AddnewIncomeType';
@@ -19,6 +18,7 @@ import LoanDetails from './LoanModule/LoanDetails/LoanDetails';
 import WelfareReport from './WelfareModule/WelfareReport/WelfareReport';
 import EditPaymentVoucher from './IncomeExpenseModule/EditPaymentVoucher/EditPaymentVoucher';
 import NewRentalPropertyAdd from './RentalModule/NewRentalPropertyAdd /NewRentalPropertyAdd';
+import NewPayments from './RentalModule/NewPayments/NewPayments';
 
 const HealthCare = React.lazy(() => import('./ProjectModule'));
 const VoucherModule = React.lazy(() => import('./IncomeExpenseModule'));
@@ -97,7 +97,7 @@ export const dashBoardConfigs = [
   {
     permittedRole: RoutePermittedRole.user,
     path: '/dashboards/income-expense-module/add-payment-voucher',
-    element: <IncomeVoucher />,
+    element: <NewPayments />,
   },
   {
     permittedRole: RoutePermittedRole.user,

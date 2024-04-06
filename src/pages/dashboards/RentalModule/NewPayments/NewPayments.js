@@ -8,30 +8,35 @@ import {
   Paper,
   Typography,
   Snackbar,
+  MenuItem,
 } from '@mui/material';
 import {Alert} from '@mui/material';
 
 const axios = require('axios');
 
 const validationSchema = Yup.object().shape({
-  vehicle_metro: Yup.string().required('vehicle_metro is required'),
+  payment_type: Yup.string().required('Payment Type is required'),
+  card_number: Yup.string().required('Card Number is required'),
+  pin: Yup.string().required('PIN is required'),
 });
 
-const NewRentalTypeAdd = () => {
+const paymentTypes = ['bkash', 'nagad', 'visa', 'mastercard', 'amex'];
+
+const NewPayments = () => {
   const handleSubmit = async (values, {resetForm, setSubmitting}) => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_BASE_URL + '/api/add-vehicle',
+        process.env.REACT_APP_BASE_URL + '/api/add-payment',
         values,
       );
-      console.log('Rental created successfully');
+      console.log('Payment created successfully');
       console.log('Response:', response.data);
       setSnackbarMessage('সফলভাবে তৈরী হয়েছে ');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
       resetForm();
     } catch (error) {
-      console.error('Failed to create rental');
+      console.error('Failed to create payment');
       console.error('Error:', error.message);
       setSnackbarMessage('ব্যর্থ হয়েছে ');
       setSnackbarSeverity('error');
@@ -54,13 +59,13 @@ const NewRentalTypeAdd = () => {
       <Grid item xs={12} sm={8} md={6}>
         <Paper elevation={3} sx={{p: 4}}>
           <Typography variant='h5' mb={4}>
-            Add Vehicle Details
+            Add Payments Details
           </Typography>
           <Formik
             initialValues={{
-              vehicle_number: '',
-              vehicle_class: '',
-              vehicle_metro: '',
+              payment_type: '',
+              card_number: '',
+              pin: '',
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -71,31 +76,50 @@ const NewRentalTypeAdd = () => {
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
-                      label='Vehicle Number'
+                      select
+                      label='Payment Type'
+                      name='payment_type'
+                      fullWidth
+                      error={!!errors.payment_type}
+                      helperText={<ErrorMessage name='payment_type' />}
+                    >
+                      {paymentTypes.map((type) => (
+                        <MenuItem key={type} value={type}>
+                          {type}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='Card Number/Mobile Number'
+                      name='card_number'
+                      fullWidth
+                      error={!!errors.card_number}
+                      helperText={<ErrorMessage name='card_number' />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='PIN'
+                      name='pin'
+                      fullWidth
+                      type='password'
+                      error={!!errors.pin}
+                      helperText={<ErrorMessage name='pin' />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      as={TextField}
+                      label='Vehicle Number (Please Enter Exact)'
                       name='vehicle_number'
                       fullWidth
-                      error={!!errors.vehicle_class}
+                      error={!!errors.pin}
                       helperText={<ErrorMessage name='vehicle_number' />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='Vehicle Class'
-                      name='vehicle_class'
-                      fullWidth
-                      error={!!errors.vehicle_class}
-                      helperText={<ErrorMessage name='vehicle_class' />}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      label='Vehicle Metro Name'
-                      name='vehicle_metro'
-                      fullWidth
-                      error={!!errors.vehicle_metro}
-                      helperText={<ErrorMessage name='vehicle_metro' />}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -123,4 +147,4 @@ const NewRentalTypeAdd = () => {
   );
 };
 
-export default NewRentalTypeAdd;
+export default NewPayments;

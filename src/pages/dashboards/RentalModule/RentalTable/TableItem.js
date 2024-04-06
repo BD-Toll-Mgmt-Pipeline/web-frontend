@@ -33,10 +33,10 @@ const TableItem = ({data}) => {
       className='item-hover'
     >
       <TableCell align='left' className='tableCell'>
-        {data?.rentalproperty ? data?.rentalproperty : 'N/A'}
+        {data?.vehicle_class ? data?.vehicle_class : 'N/A'}
       </TableCell>
       <TableCell align='left' className='tableCell'>
-        {data.rentaltype}
+        {data?.vehicle_number ? data?.vehicle_number : 'N/A'}
       </TableCell>
 
       <TableCell align='left' className='tableCell'>

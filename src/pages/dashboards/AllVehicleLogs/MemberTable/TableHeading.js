@@ -20,8 +20,8 @@ const TableHeading = () => {
         },
       }}
     >
-      <TableCell>Vehicle Class</TableCell>
-      <TableCell>Vehicle Number</TableCell>
+      <TableCell>Vehidsadscldasdasse Class</TableCell>
+      <TableCell>Vehicle fdsfsdNumber</TableCell>
       <TableCell>Entry Date</TableCell>
       <TableCell>Entry Time</TableCell>
       <TableCell>Vehicle Type</TableCell>

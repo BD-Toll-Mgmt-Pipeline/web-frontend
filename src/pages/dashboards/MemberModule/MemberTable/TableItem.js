@@ -15,7 +15,7 @@ const TableItem = ({data}) => (
     {data.length == 0 ? (
       <TableRow>
         <TableCell colSpan={7} align='center'>
-          No member found.
+          No Log found.
         </TableCell>
       </TableRow>
     ) : (
@@ -42,10 +42,10 @@ const TableItem = ({data}) => (
             to={`/dashboard/member-details/${data.memberId}`}
             underline='none'
           >
-            {data?.car_Full_NumberPlate?.substring(0, 14)}
+            {data?.car_Full_NumberPlate?.substring(0, 5) + 'মেট্রো'}
           </Link>
         </TableCell>
-        <TableCell align='left' className='tableCell'>
+        <TableCell align='left' className='t  ableCell'>
           <Link
             component={RouterLink}
             to={`/dashboard/member-details/${data.memberId}`}
@@ -88,14 +88,14 @@ const TableItem = ({data}) => (
           {data?.car_type}
         </TableCell>
         <TableCell align='left' className='tableCell'>
-          {data?.toll_fee}
+          {data?.toll_fee + "tk"}
         </TableCell>
         <TableCell align='left' className='tableCell'>
-          {data?.toll_fee}
+          {data?.payType === null ? 'Unpaid' : data?.payType}
         </TableCell>
         <TableCell align='left' className='tableCell'>
           <ActiveStatus
-            status={data?.activeStatus === true ? 'active' : 'inactive'}
+            status={data?.payStatus}
           />
         </TableCell>
         <TableCell>

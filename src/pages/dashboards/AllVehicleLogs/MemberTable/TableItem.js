@@ -15,7 +15,7 @@ const TableItem = ({data}) => (
     {data.length == 0 ? (
       <TableRow>
         <TableCell colSpan={7} align='center'>
-          No member found.
+          No Vehicle found.
         </TableCell>
       </TableRow>
     ) : (
@@ -91,11 +91,12 @@ const TableItem = ({data}) => (
           {data?.toll_fee}
         </TableCell>
         <TableCell align='left' className='tableCell'>
-          {data?.toll_fee}
+          {data?.payType}
         </TableCell>
         <TableCell align='left' className='tableCell'>
           <ActiveStatus
-            status={data?.activeStatus === true ? 'active' : 'inactive'}
+            status={data?.payStatu}
+            // status={data?.payStatus === true ? 'active' : 'inactive'}
           />
         </TableCell>
         <TableCell>

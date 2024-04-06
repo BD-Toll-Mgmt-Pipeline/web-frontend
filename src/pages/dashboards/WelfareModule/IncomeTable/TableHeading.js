@@ -20,12 +20,10 @@ const TableHeading = () => {
         },
       }}
     >
-      <TableCell>তারিখ</TableCell>
-      <TableCell>নাম</TableCell>
-      <TableCell>সদস্য আইডি</TableCell>
-      <TableCell>রসিদ নং</TableCell>
-      <TableCell>মোট টাকা </TableCell>
-      <TableCell>ব্যবস্থা</TableCell>
+      <TableCell>Add Date</TableCell>
+      <TableCell>Payment Type</TableCell>
+      <TableCell>Card Number</TableCell>
+      <TableCell>Settings</TableCell>
     </TableRow>
   );
 };

@@ -4,7 +4,7 @@ import CustomChip from './CustomChipMUI';
 
 const ActiveStatus = ({status}) => {
   if (status === 'pending') {
-    return <CustomChip label={status} type={'error'} />;
+    return <CustomChip label={status} type={'warning'} />;
   }
 
   if (status === 'inactive') {
@@ -25,6 +25,10 @@ const ActiveStatus = ({status}) => {
 
   if (status === 'permitted') {
     return <CustomChip label={status} type={'warning'} />;
+  }
+
+  if (status === null || "") {
+    return <CustomChip label={status} type={'error'} />;
   }
 
   return <CustomChip label={status} />;

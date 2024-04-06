@@ -35,11 +35,10 @@ const Welfare = () => {
   const getIncome = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/income-expense/roshid-transactions?description=কল্যান তহবিল`,
+        `${process.env.REACT_APP_BASE_URL}/api/get-payments`,
       );
 
-      const {transactions} = response.data;
-      setTransaction(transactions);
+      setTransaction(response.data);
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -109,8 +108,8 @@ const Welfare = () => {
       </div>
       <TabContext value={selectedTab}>
         <TabList onChange={handleTabChange}>
-          <Tab label='রশিদ' value='income' />
-          <Tab label='ভাউচার' value='expense' />
+          <Tab label='Payment List' value='income' />
+          {/* <Tab label='ভাউচার' value='expense' /> */}
         </TabList>
         {selectedTab === 'income' ? (
           <IncomeTable orderList={transaction} />
