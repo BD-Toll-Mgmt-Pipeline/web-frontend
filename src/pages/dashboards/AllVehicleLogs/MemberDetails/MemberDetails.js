@@ -205,7 +205,7 @@ export default function MemberDetails() {
       <AppCard>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <Typography variant='h3' mb={5}>
-            Member Details : {member?.name}
+            Vehicle Details
           </Typography>
           {/* <Button
             variant='outlined'
@@ -235,7 +235,7 @@ export default function MemberDetails() {
               sx={{margin: '5px'}}
             >
               <GoHeart style={{color: 'lightblue', marginRight: '5px'}} />{' '}
-              {'সদস্য একটিভ'}
+              {'Active'}
             </Button>
           )}
         </div>
@@ -246,40 +246,6 @@ export default function MemberDetails() {
             <Skeleton variant='rectangular' width={700} height={800} />
           ) : (
             <>
-              <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                <div>
-                  <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                    সদস্য ছবি
-                  </Typography>
-                  {imageLoading ? (
-                    <Skeleton variant='rectangular' width={200} height={200} />
-                  ) : (
-                    profileImage && (
-                      <img
-                        src={profileImage}
-                        alt='Member'
-                        style={{width: 200, height: 200}}
-                      />
-                    )
-                  )}
-                </div>
-                <div>
-                  <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                    নোমিনীর ছবি
-                  </Typography>
-                  {nomineeImageLoading ? (
-                    <Skeleton variant='rectangular' width={200} height={200} />
-                  ) : (
-                    nomineeImage && (
-                      <img
-                        src={nomineeImage}
-                        alt='Nominee'
-                        style={{width: 200, height: 200}}
-                      />
-                    )
-                  )}
-                </div>
-              </div>
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
                   আবেদনকারীর নাম: {member.name}

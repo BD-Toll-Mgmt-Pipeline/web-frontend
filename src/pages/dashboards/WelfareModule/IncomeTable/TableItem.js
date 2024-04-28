@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 import RentalAppMenuList from '../RentalAppMenuList/RentalAppMenuList';
 // import moment from 'moment';
 // import CustomerStatus from 'common/statusChip/CustomerStatus';
+import {Link, Link as RouterLink} from 'react-router-dom';
+import moment from 'moment';
 
 const TableItem = ({data}) => {
   return (
@@ -33,13 +35,22 @@ const TableItem = ({data}) => {
       className='item-hover'
     >
       <TableCell align='left' className='tableCell'>
-        {data?.payment_type ? data?.payment_type : 'N/A'}
+        <Link
+          component={RouterLink}
+          to={`/dashboard/member-details/662b477fc2b865d1458eaa4c}`}
+          underline='none'
+        >
+          {data?.createdAt ? moment(data.createdAt).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'}
+        </Link>
       </TableCell>
       <TableCell align='left' className='tableCell'>
         {data?.payment_type ? data?.payment_type : 'N/A'}
       </TableCell>
       <TableCell align='left' className='tableCell'>
         {data?.card_number ? data?.card_number : 'N/A'}
+      </TableCell>
+      <TableCell align='left' className='tableCell'>
+        {data?.vehicle_number ? data?.vehicle_number : 'N/A'}
       </TableCell>
       <TableCell>
         <RentalAppMenuList id={data.memberId} />

@@ -117,7 +117,7 @@ const PaymentVoucher = () => {
             mb={4}
           >
             আনসারুল মুসলিমীন বহুমূখী সমবায় সমিতি লি: <br />
-            ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
+            Toll MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.
           </Typography>
           <Typography sx={{textAlign: 'center'}} mb={4}>
             ১-জি, ১/১, চিড়িয়াখানা রোড, মিরপুর-১, ঢাকা-১২১৬ <br />

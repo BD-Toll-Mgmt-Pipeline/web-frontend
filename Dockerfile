@@ -1,14 +1,16 @@
 # react-app/Dockerfile
-FROM node:14
+FROM node:18
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm install
+# Attempt to resolve the error by forcing installation
+RUN npm install --force
 
 RUN npm run build
 
-EXPOSE 8000
+EXPOSE 3000
 
 CMD ["npm", "start"]
+

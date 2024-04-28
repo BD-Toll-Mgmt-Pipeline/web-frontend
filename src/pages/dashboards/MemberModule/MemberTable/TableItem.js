@@ -39,7 +39,7 @@ const TableItem = ({data}) => (
         <TableCell align='left' className='tableCell'>
           <Link
             component={RouterLink}
-            to={`/dashboard/member-details/${data.memberId}`}
+            to={`/dashboard/member-details/662b477fc2b865d1458eaa4c}`}
             underline='none'
           >
             {data?.car_Full_NumberPlate?.substring(0, 5) + 'মেট্রো'}
@@ -48,7 +48,7 @@ const TableItem = ({data}) => (
         <TableCell align='left' className='t  ableCell'>
           <Link
             component={RouterLink}
-            to={`/dashboard/member-details/${data.memberId}`}
+            to={`/dashboard/member-details/${data._id.toString()}`}
             underline='none'
           >
             {data?.car_Full_NumberPlate?.substring(14, 36)}
@@ -62,7 +62,7 @@ const TableItem = ({data}) => (
           >
             <Link
               component={RouterLink}
-              to={`/dashboard/member-details/${data.memberId}`}
+              to={`/dashboard/member-details/662b477fc2b865d1458eaa4c`}
               underline='none'
             >
               {moment(data?.createdAt).format('DD-MM-YYYY')}
@@ -77,7 +77,7 @@ const TableItem = ({data}) => (
           >
             <Link
               component={RouterLink}
-              to={`/dashboard/member-details/${data.memberId}`}
+              to={`/dashboard/member-details/662b477fc2b865d1458eaa4c`}
               underline='none'
             >
               {moment(data?.createdAt).format('HH:mm:ss')}

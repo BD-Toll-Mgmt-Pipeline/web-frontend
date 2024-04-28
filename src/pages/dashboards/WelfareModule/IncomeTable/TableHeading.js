@@ -21,8 +21,9 @@ const TableHeading = () => {
       }}
     >
       <TableCell>Add Date</TableCell>
-      <TableCell>Payment Type</TableCell>
-      <TableCell>Card Number</TableCell>
+      <TableCell>Payment Method</TableCell>
+      <TableCell>Card/Acc Number</TableCell>
+      <TableCell>Vehicle No</TableCell>
       <TableCell>Settings</TableCell>
     </TableRow>
   );

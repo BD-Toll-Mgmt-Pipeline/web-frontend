@@ -1,30 +1,30 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
-import {Typography, Skeleton, Button} from '@mui/material';
-import ActiveStatus from '@crema/common/ActiveStatus';
+import {Typography, Skeleton} from '@mui/material';
+// import ActiveStatus from '@crema/common/ActiveStatus';
 import AppCard from '@crema/core/AppCard';
-import {GrStatusWarning} from 'react-icons/gr';
-import {GoHeart} from 'react-icons/go';
-import MemberPaymentList from '../MemberPaymentList';
+// import {GrStatusWarning} from 'react-icons/gr';
+// import {GoHeart} from 'react-icons/go';
+// import MemberPaymentList from '../MemberPaymentList';
 
 export default function MemberDetails() {
   const {id} = useParams();
   const [member, setMember] = useState({});
   const [memberLoanDetails, setMemberLoanDetails] = useState({});
-  const [totalAmount, setTotalAmount] = useState('');
+  const [, setTotalAmount] = useState('');
   const [loading, setLoading] = useState(true);
-  const [imageLoading, setImageLoading] = useState(true);
-  const [profileImage, setProfileImage] = useState(null);
-  const [nomineeImage, setNomineeImage] = useState(null);
-  const [nomineeImageLoading, setNomineeImageLoading] = useState(true);
-  const [members, setMembers] = useState([]);
+  const [, setImageLoading] = useState(true);
+  const [, setProfileImage] = useState(null);
+  const [, setNomineeImage] = useState(null);
+  const [, setNomineeImageLoading] = useState(true);
+  const [, setMembers] = useState([]);
 
   const getMember = async () => {
-    let memberid = id;
+    // let memberid = "662b3b552c4e034b60975139";
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/members/${memberid}`,
+        `${process.env.REACT_APP_BASE_URL}/api/get-payment/662b477fc2b865d1458eaa4c`,
       );
       setMember(response.data);
       setLoading(false);
@@ -61,25 +61,25 @@ export default function MemberDetails() {
   //   printWindow.close();
   // };
 
-  const handleUpdateMember = async () => {
-    let memberid = id;
-    try {
-      const response = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/members/${memberid}`,
-        member?.activeStatus === true
-          ? {
-              activeStatus: 'false',
-            }
-          : {
-              activeStatus: 'true',
-            },
-      );
-      window.location.reload();
-      console.log(response.data);
-    } catch (error) {
-      console.error('Failed to update member:', error);
-    }
-  };
+  // const handleUpdateMember = async () => {
+  //   let memberid = id;
+  //   try {
+  //     const response = await axios.put(
+  //       `${process.env.REACT_APP_BASE_URL}/api/get-payment/${memberid}`,
+  //       member?.activeStatus === true
+  //         ? {
+  //             activeStatus: 'false',
+  //           }
+  //         : {
+  //             activeStatus: 'true',
+  //           },
+  //     );
+  //     window.location.reload();
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error('Failed to update member:', error);
+  //   }
+  // };
 
   const getUserProfileImage = async () => {
     try {
@@ -205,7 +205,7 @@ export default function MemberDetails() {
       <AppCard>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <Typography variant='h3' mb={5}>
-            Member Details : {member?.name}
+            Payment Details
           </Typography>
           {/* <Button
             variant='outlined'
@@ -215,29 +215,6 @@ export default function MemberDetails() {
           >
             Print Member Details
           </Button> */}
-          {member?.activeStatus == true ? (
-            <Button
-              variant='outlined'
-              color='primary'
-              onClick={handleUpdateMember}
-              sx={{margin: '5px'}}
-            >
-              <GrStatusWarning
-                style={{color: 'lightblue', marginRight: '5px'}}
-              />{' '}
-              {'সদস্য বাতিল'}
-            </Button>
-          ) : (
-            <Button
-              variant='outlined'
-              color='primary'
-              onClick={handleUpdateMember}
-              sx={{margin: '5px'}}
-            >
-              <GoHeart style={{color: 'lightblue', marginRight: '5px'}} />{' '}
-              {'সদস্য একটিভ'}
-            </Button>
-          )}
         </div>
 
         <hr />
@@ -246,159 +223,34 @@ export default function MemberDetails() {
             <Skeleton variant='rectangular' width={700} height={800} />
           ) : (
             <>
-              <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                <div>
-                  <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                    সদস্য ছবি
-                  </Typography>
-                  {imageLoading ? (
-                    <Skeleton variant='rectangular' width={200} height={200} />
-                  ) : (
-                    profileImage && (
-                      <img
-                        src={profileImage}
-                        alt='Member'
-                        style={{width: 200, height: 200}}
-                      />
-                    )
-                  )}
-                </div>
-                <div>
-                  <Typography variant='h5' mb={2} style={{textAlign: 'center'}}>
-                    নোমিনীর ছবি
-                  </Typography>
-                  {nomineeImageLoading ? (
-                    <Skeleton variant='rectangular' width={200} height={200} />
-                  ) : (
-                    nomineeImage && (
-                      <img
-                        src={nomineeImage}
-                        alt='Nominee'
-                        style={{width: 200, height: 200}}
-                      />
-                    )
-                  )}
-                </div>
-              </div>
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
-                  আবেদনকারীর নাম: {member.name}
+                  Payment Method: {member.payment_type}
                 </Typography>
               </div>
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
-                  সদস্য নম্বার: {member.memberId}
+                Card Number/Acc Number : {member.card_number}
                 </Typography>
               </div>
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
-                  জাতীয় পরিচয়পত্র নম্বর (NID): {member.voterId}
+                  Avialable Balance: {member.balance + " Tk"} 
                 </Typography>
               </div>
               <div style={{marginTop: '10px'}}>
                 <Typography variant='h4'>
-                  জন্ম: {member.date_of_birth}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  মোবাইল নাম্বার: {member.phone}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  সঞ্চিত টাকার (আমানত) পরিমান : {totalAmount ? totalAmount : 0}{' '}
-                  টাকা
-                </Typography>
-              </div>
-              {memberLoanDetails?.status == 'permitted' ? (
-                <div style={{marginTop: '10px'}}>
-                  <Typography variant='h4'>
-                    কর্জে হাসনা কৃত টাকার পরিমান : {memberLoanDetails?.reqMoney}{' '}
-                    টাকা
-                  </Typography>
-                </div>
-              ) : (
-                ''
-              )}
-
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  সদস্য স্টেটাস :{' '}
-                  <ActiveStatus
-                    status={
-                      member?.activeStatus === true ? 'active' : 'inactive'
-                    }
-                  />
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  পিতার নাম: {member.fatherName}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  মাতার নাম: {member.motherName}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  স্থায়ী ঠিকানা: {member.permanentAddress}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  বর্তমান ঠিকানা: {} {member.currentAddress}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>বয়স: {member.age}</Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  শিক্ষাগত যোগ্যতা: {member.education}
-                </Typography>
-              </div>
-
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  অভিভাবক নাম: {member.guardianName}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  অভিভাবক সম্পর্ক: {member.relationship}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  নমিনির নাম: {member.nomineeName}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  নমিনির ঠিকানা: {member.nomineeAddress}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  সনাক্তকারি সদস্যর নাম: {member.identificationMemberName}
-                </Typography>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Typography variant='h4'>
-                  সনাক্তকারি সদস্য নম্বার: {member.identificationMemberAddress}
+                  Vehicle Number: {member.vehicle_number}
                 </Typography>
               </div>
             </>
           )}
         </div>
       </AppCard>
-
+{/* 
       <AppCard style={{marginTop: '20px'}}>
         <MemberPaymentList customerDetails={members} />
-      </AppCard>
+      </AppCard> */}
     </div>
   );
 }

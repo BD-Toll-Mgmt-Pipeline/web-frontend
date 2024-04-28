@@ -107,7 +107,7 @@ export default function RentalReport({totalIncomeDate, totalExpenseDate}) {
         </h2>
 
         <h5 style="text-align: center; margin: 10px;">
-          <b>ANSARUL MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.</b>
+          <b>Toll MUSLIMIN BAHUMUKHI SAMABAY SAMITY LTD.</b>
         </h5>
         
         <h6 style="margin-bottom: 4px; text-align: center; margin: 10px;">

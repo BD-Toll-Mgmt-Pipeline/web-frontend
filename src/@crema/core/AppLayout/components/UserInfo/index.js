@@ -118,7 +118,7 @@ const UserInfo = ({color}) => {
               color: 'inherit',
             }}
           >
-            ADMIN
+            USER
           </Box>
         </Box>
       </Box>

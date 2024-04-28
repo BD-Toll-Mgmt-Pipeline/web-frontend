@@ -123,7 +123,7 @@ const UserInfo = () => {
                 color: (theme) => theme.palette.text.secondary,
               }}
             >
-              ADMIN
+              USER
             </Box>
           </Box>
         </MenuItem>
